@@ -1,12 +1,16 @@
-.. _more_unix:
+.. _unix-advanced1:
 
-############################
-Slightly advanced Unix usage
-############################
+########################
+More advanced Unix usage
+########################
+
+The material in this chapter is not really advanced usage (my Unix "foo" is not really that great), but it builds on the first two chapters.
 
 **diff**
 
-A really great utility on Unix is ``diff``, which shows the differences between two text files (like edits).  There are tricks to use it with binary, but it's meant for text.  ``diff`` can be very useful in deciding which file is the version you want to keep, or if there are differences between similar files from two different projects.
+A really great utility on Unix is ``diff``, which shows the differences between two text files (like edits).  There are tricks to use it with binary, but it's meant for text.  ``diff`` can be very useful in deciding which file is the version you want to keep, or if there are differences between similar files from two different projects.  ``diff`` is a very good reason to use plaintext, or failing that restructured text like this document, or failing even that ``.rtf`` "rich text format".
+
+(This ``.rtf`` is not a component of ``RTFM``, and this document is intended to provide a partial alternative to the latter, rather belligerent advice).
 
 My example for ``diff`` starts with ``echo`` from the previous chapter, and shows some interesting and slightly unexpected behavior.  Recall that ``\n`` is a Unix newline.
 
@@ -17,14 +21,16 @@ My example for ``diff`` starts with ``echo`` from the previous chapter, and show
     > echo "a\nb" > x.txt
     > cat x.txt
     a\nb
-    > echo "a\nb" | wc
-           1       1       5
+    > echo "a\nb" | wc -l
+           1
     > echo "a\nb" | hexdump -C 
     00000000  61 5c 6e 62 0a                                    |a\nb.|
     00000005
     >
 
-What's going on here is that the ``\n`` that we've typed is not being interpreted by the shell as a newline, but rather as two characters, and ordinary ``\`` and an ``n``.  Without getting into details, the solution to this problem is to use a different utility that is designed for fancier input:  ``printf``.  One way that ``printf`` differs from ``echo`` is it interprets the ``\n`` as we wanted
+What's going on here is that the ``\n`` that we've typed is not being interpreted by the shell as a newline, but rather as two characters, and ordinary ``\`` and an ``n``.  For example, we see the bytes ``5c 6e`` and the characters ``\n`` in the output from ``hexdump``, and we get 1 as the result when we ask ``wc -l`` to count lines.
+
+Without getting into details, the solution to this problem is to use a different utility that is designed for fancier input:  ``printf``.  One way that ``printf`` differs from ``echo`` is it interprets the ``\n`` as we wanted
 
 .. sourcecode:: bash
 
@@ -33,15 +39,15 @@ What's going on here is that the ``\n`` that we've typed is not being interprete
     b> printf "a\nb\n"
     a
     b
-    > printf "a\nb\n" | wc
-           2       2       4
+    > printf "a\nb\n" | wc -l
+           2
     > 
     > printf "a\nb\n" | hexdump -C
     00000000  61 0a 62 0a                                       |a.b.|
     00000004
     >
 
-``printf`` allows "string interpolation"
+``printf`` also allows "string interpolation"
 
 .. sourcecode:: bash
 
@@ -51,7 +57,7 @@ What's going on here is that the ``\n`` that we've typed is not being interprete
 
 but that's getting ahead of ourselves.
     
-On to our example.  We want to construct two files with a little difference, e.g.
+On to our example.  We want to construct two files with a small difference, e.g.
 
 .. sourcecode:: bash
 
@@ -77,6 +83,8 @@ On to our example.  We want to construct two files with a little difference, e.g
 
 ``diff`` shows the differences.  The second line in the first file ``x.txt`` has ``b`` for an extra line.  The fourth and the third line are also compared for differences (because they come after the identical line ``c``), with ``f`` in ``x.txt`` and ``d`` in ``y.txt``.
 
+``diff`` is great for verifying in a second whether two textfiles contain any differences, and what they are.
+
 If we capture this output in a file
 
 .. sourcecode:: bash
@@ -85,6 +93,7 @@ If we capture this output in a file
     >
 
 Textmate will color the output in a nice way.
+
 [Images are not working, however]
 
 If you want to check the calendar, there is always ``cal``
@@ -125,6 +134,7 @@ Often I combine it with ``grep``, so let's talk about that first.  ``grep`` is u
 
 .. sourcecode:: bash
 
+    > printf "a\nb\nc\nf\n" > x.txt
     > grep "b" x.txt
     b
     >
@@ -159,7 +169,7 @@ Looks like there are 129 such songs.  Write a file containing the names of all t
     /Users/telliott_admin/Music/iTunes/iTunes Media/Music/10,000 Maniacs/In My Tribe/02 Hey Jack Kerouac.m4a
     ..
 
-This is not quite right, because we wanted only song files, not directories and such.  We could do a second ``grep`` for ``.m4a`` filetype, or we can look at the manual for find and restrict it to showing only files
+This is not quite right, because we wanted only song files, not directories and such.  We could do a second ``grep`` for ``.m4a`` filetype, or we can look at the manual for ``find`` and restrict it to showing only files with ``-type f``
 
 .. sourcecode:: bash
 
@@ -169,7 +179,9 @@ This is not quite right, because we wanted only song files, not directories and 
     /Users/telliott_admin/Music/iTunes/iTunes Media/Music/10,000 Maniacs/In My Tribe/02 Hey Jack Kerouac.m4a
     ..
 
-That's a little better, but we still have the hidden file ``.DS_Store``.  (Notice that ``-type f`` breaks the rule of using ``--`` for multi-letter flags).  I am still working on this.  
+That's a little better, but we still have the hidden file ``.DS_Store``.  I am still working on this.  
+
+(Notice that ``-type f`` breaks the rule of using ``--`` for multi-letter flags).
 
 It seems like it would be worth it to print out the man page for ``find`` or ``grep`` and study it.
 
@@ -181,4 +193,3 @@ It seems like it would be worth it to print out the man page for ``find`` or ``g
     >
 
 583 lines!
-

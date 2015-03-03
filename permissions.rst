@@ -1,7 +1,7 @@
 .. _permissions:
 
 #####################
-Paths and Permissions
+Permissions and Paths
 #####################
 
 **Permissions**
@@ -13,9 +13,9 @@ Paths and Permissions
     -rw-r--r--  1 telliott_admin  staff  0 Mar  3 08:07 x.txt
     >
 
-Our brand new file has permissions ``rw-r--r--``.  Permissions are shown in three groups of three activities.  The three groups are for the user, his/her group and the "world".  The three activities are read-write-execute.
+Our brand new file has permissions ``rw-r--r--``.  Permissions are shown in three groups of three activities.  The three groups are for the user, his/her "group" and the "world".  The three activities are read-write-execute.
 
-Another way to specify one group of activities and their permissions is by use of a "bit mask", which is specified as an integer in the range [1-7].  Think of this in binary.
+Another way to specify one group of activities and their permissions is by use of a "bit mask", which is specified as an integer in the range [1..7].  Think of this in binary.
 
 .. sourcecode:: bash
 
@@ -43,7 +43,7 @@ So the default permissions for ``x.txt`` are ``rw-r--r--`` which is also ``644``
 
 By doing ``chmod 755 <filename>``, we add the ability to execute the file, which is useful if it encodes a program in binary.  Not so useful for a text file.
 
-Another shorthand is to specify the particular permission to be altered.  The command ``chmod u+x <filename>`` leaves all other permission the same but upgrades ``u`` (the user) to have ``x`` (execute) priveleges.  We can also downgrade permission with ``-`` (minus).
+Another shorthand is to specify the particular permission to be altered.  The command ``chmod u+x <filename>`` leaves all other permission the same but upgrades ``u`` (the user) to have ``x`` (execute) priveleges.  We can also downgrade permission(s) with ``-`` (minus).
 
 .. sourcecode:: bash
 
@@ -52,8 +52,6 @@ Another shorthand is to specify the particular permission to be altered.  The co
     -rwxr--r--  1 telliott_admin  staff  0 Mar  3 09:58 x.txt
     >
     
-[ This did not work as I expected!!]
-
 Let's take a look at the ``/bin`` directory.
 
 .. sourcecode:: bash
@@ -68,7 +66,7 @@ Let's take a look at the ``/bin`` directory.
     -rwxr-xr-x   1 root  wheel    30112 Sep  9 18:50 chmod
     ..
 
-This is where the standard Unix utilities live.  Notice that their user is "root" and root's group is "wheel".  Therefore the available permissions for us are those of the "world" because we are not part of the "wheel" group (we are part of the "admin" group, however).
+This is where the standard Unix utilities live.  Notice that their user is "root" and root's group is "wheel".  Therefore the available permissions for us are those of the "world" because we are not part of the "wheel" group (we are in the "admin" group, however).
 
 I looked around and found a file for which we do not have read permission:
 
@@ -95,11 +93,11 @@ For more on root (superuser), see
 
 http://en.wikipedia.org/wiki/Superuser
 
-Root can do anything, go anywhere or read anything on a Unix machine.  Root can delete your account.  Don't run as root.
+Root can do anything, go anywhere or read anything on a Unix machine.  Root can delete your account.  Don't run as root, it can be dangerous.
 
 **$PATH**
 
-When we enter a command like ``cat``, the operating system looks through a fixed series of directories called the PATH to find a file matching this name, and then tries to execute it.  In the case of ``cat``, it is
+When we enter a command like ``cat``, the operating system looks through a fixed series of directories called the PATH to find a file matching this name, and then tries to execute it.  In the case of ``cat``, we can see which file was determined to match with ``which``:
 
 .. sourcecode:: bash
 
@@ -116,7 +114,7 @@ When we enter a command like ``cat``, the operating system looks through a fixed
     Toms-MacBook-Air:Desktop telliott_admin$ echo $PATH
     /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 
-The default $PATH variable consists of five paths (separated by `:`).  They are specified here:
+The default ``$PATH`` variable consists of five paths (separated by ``:``).  They are specified in ``/private/etc/paths``:
 
 .. sourcecode:: bash
 
@@ -128,15 +126,15 @@ The default $PATH variable consists of five paths (separated by `:`).  They are 
     /sbin
     >
 
- Something else has happened as well.  Rather than make a new account, I moved a file that I have in my home directory that dictates some things about my shell account.  So before I did the above I did:
+Something else has happened as well.  Rather than make a new account, I moved a file called ``.bash_profile`` that I have in my home directory that dictates some things about my shell.  
+
+So before I did the above I did to simulate starting the shell in a fresh user account.  Now revert that change:
 
 .. sourcecode:: bash
 
     > mv ~/.bash_profile ~/Desktop/x.txt
 
-and then re-started Terminal.
-
-The hidden file ``.bash_profile`` contains some instructions to customize my shell.  After moving it back where it belongs, we restart Terminal again, and then we take a look:
+The hidden file ``.bash_profile`` contains instructions to customize my shell.  After moving it back where it belongs, we restart Terminal again, and then we take a look:
 
 .. sourcecode:: bash
 
@@ -150,21 +148,23 @@ The hidden file ``.bash_profile`` contains some instructions to customize my she
     alias ts='python typeset/scripts/script.py'
     >
     
-The default command line prompt is long and ugly and I don't like it:
+As we saw the default command line prompt is long.  I think it's ugly and I don't like it:
 
 .. sourcecode:: bash
 
     Toms-MacBook-Air:Desktop telliott_admin$ 
+    
+There is a reason behind it however.  A power user might be logged into multiple machines.  Knowing which one a particular shell is on, and the current directory and the username, can be very helpful.
 
-I fixed that by doing ``PS1="> "``.  That ``>`` (with a space after) is my new prompt.
+I fixed my ugly prompt problem by doing ``PS1="> "``.  After that ``>`` (with a space after) is my new prompt.
 
-What this line
+What this line does
 
 .. sourcecode:: bash
 
     export PATH=/usr/local/bin:$HOME/bin:$HOME/Software/go/bin:$PATH
 
-does is to re-define the $PATH variable to be the default $PATH with several new directories added in front of the default ones:
+is to re-define the ``$PATH``` variable to be the default ``$PATH`` with several new directories added in front:
 
 .. sourcecode:: bash
 
@@ -172,9 +172,15 @@ does is to re-define the $PATH variable to be the default $PATH with several new
     $HOME/bin
     $HOME/Software/go/bin
 
-After the redefinition, we have to ``export`` the variable by using the given syntax---no ``$`` for the export part.  $HOME is Unix shorthand for the home directory.
+After the redefinition, we have to ``export`` the variable by using the given syntax---no ``$`` for the export part.  We could also do
 
-The above explanation simplifies something.  When I got rid of ``.bash_profile`` and did ``echo $PATH``, what I actually got was:
+.. sourcecode:: bash
+
+    PATH=/usr/local/bin:$HOME/bin:$HOME/Software/go/bin:$PATH;  export PATH
+
+``$HOME`` is Unix shorthand for the home directory.  The semicolon ``;`` can be used to put two separate statements or commands on one line.  Also, for commands that might be saved in a file, the symbol ``#`` indicates a comment, anything following the symbol to the end of the line is ignore by the shell.
+
+The above explanation about ``.bash_profile`` conceals something.  When I got rid of ``.bash_profile`` and did ``echo $PATH``, what I actually got was:
 
 .. sourcecode:: bash
 
@@ -186,7 +192,7 @@ In other words, I do not have a "stock install" or fresh account here.  Two prog
 
 http://tex.stackexchange.com/questions/29744/where-is-path-modified-to-include-usr-texbin
 
-To see the values of all the environmental variables do
+To see the values of all the environmental variables you can do
 
 .. sourcecode:: bash
 
@@ -214,8 +220,8 @@ To see the values of all the environmental variables do
     RDP_JAR_PATH=/Users/telliott_admin/Software/rdp_classifier/rdp_classifier-2.0.jar
     _=/usr/bin/env
     >
-    
-The last two were set using these lines in ``~/.bash_profile``
+
+Most of the them are not very interesting to me, but the last two were set using these lines in ``~/.bash_profile``
 
 .. sourcecode:: bash
 
@@ -228,7 +234,9 @@ Read more about setting environmental variables here:
 
 http://stackoverflow.com/questions/135688/setting-environment-variables-in-os-x
 
-Why talk so much about ``$PATH``.  For one thing, it can be the source of a lot of failures when you install software from the command line.  Also, modifying $PATH helps to keep things organized.  The default ``$PATH``
+Why talk so much about ``$PATH``?
+
+For one thing, a poorly formed ``$PATH`` can be the source of headaches and failures when you install software from the command line.  Also, modifying $PATH helps to keep things organized.  The default ``$PATH``
  
 .. sourcecode:: bash
 
@@ -240,7 +248,7 @@ does not include anything in my home directory or sub-directory.  The purpose of
 
     $HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
     
-is so that I can make a new directory ``~/bin`` and put my own programs there.  
+is so that I can make a new directory ``~/bin`` and put my own programs there (recall that ``~`` is shorthand for the home directory).  
 
 Let's do something with Python, since it comes with OS X.  Here is a simple Python script:
 
@@ -250,7 +258,7 @@ Let's do something with Python, since it comes with OS X.  Here is a simple Pyth
 
     print "Hello, world!"
 
-The filename is ``hello.py`` and it's on my Desktop.  I can do this from the Desktop directory:
+The filename is ``hello.py`` and it's on my Desktop.  I can do this from the ``Desktop`` directory:
 
 .. sourcecode:: bash
 
@@ -266,7 +274,9 @@ The way this works is that the command ``python`` starts Python.  It is in ``/us
     /usr/local/bin/python
     >
 
-and then Python searches a $PATH which includes the directory where the shell is when Python starts, thus allowing it find my script.  Now, in principle I can add another line to the script
+and then Python searches a $PATH which includes the directory where the shell is when Python starts, thus allowing it find my script.  
+
+Now, I can add another line to the script
 
 ``hello.py``
 
@@ -274,8 +284,10 @@ and then Python searches a $PATH which includes the directory where the shell is
 
     #! /usr/local/bin/python
     print "Hello, world!"
+    
+The ``#!`` is a special instruction that tells the shell to dial up Python and then execute what comes next.
 
-And I'll be able to execute this program by first making it executable with ``chmod`` and then entering the name of the program
+I'll be able to execute this program if I first making it executable with ``chmod`` and then just enter the name of the program
 
 .. sourcecode:: bash
 
@@ -284,11 +296,14 @@ And I'll be able to execute this program by first making it executable with ``ch
     > chmod 755 hello.py
     > hello.py
     -bash: hello.py: command not found
+    
+Well, there is one more wrinkle!  It seems to be a security issue not to allow invocation of a program name by itself from the current directory.  So what we told the shell was to go to the current directory with ``.``, and then come back down to find ``/hello.py``.
+
+.. sourcecode:: bash
+
     > ./hello.py
     Hello, world!
     >
-
-Well, there is one more wrinkle!  It seems to be a security issue not to allow invocation of a program name by itself from the current directory.  So what we told the shell was to go to the current directory with ``.``, and then come back down to find ``/hello.py``.
 
 Now, I don't want a bunch of scripts littering my Desktop.  So I make a directory to hold them, and move this new one there:
 
@@ -300,7 +315,7 @@ Now, I don't want a bunch of scripts littering my Desktop.  So I make a director
     Hello, world!
     >
 
-I won't actually demonstrate this, but I didn't have ``$HOME:bin`` (that is ``telliott_admin/bin``) on my ``$PATH``, this would not work.  The operating system wouldn't know where to look for ``hello.py``.  At worst, it might find another file with the same name written at another time or even by someone else!
+I won't actually demonstrate this, if but I didn't have ``$HOME:bin`` (that is ``telliott_admin/bin``) on my ``$PATH``, this would not work.  The operating system wouldn't know where to look for ``hello.py``.  At worst, it might find another file with the same name written at another time or even by someone else!
 
 One last topic:  aliases.  Look again at ``.bash_profile``, and particularly at the last 3 lines:
 
@@ -310,6 +325,6 @@ One last topic:  aliases.  Look again at ``.bash_profile``, and particularly at 
     alias oh='open -a Safari _build/html/index.html'
     alias ts='python typeset/scripts/script.py'
 
-These mean that I can type a shorthand version for the long commands on the right-hand side.  You can do this for basically any command (try to make sure that the alias doesn't have some other meaning before you define it).
+These mean that I can type a shorthand version for the long commands on the right-hand side.  You can do this for basically any command or series of commands (try to make sure that the alias doesn't already have a meaning before you define it).
 
-For example, every time I ``make`` the html for this book, after that I do ``oh`` and it launches the browser so I can my results immediately.
+For example, every time I ``make`` the html for this book, after that I do ``oh`` and it launches the browser so I can my results immediately.  That's pretty cool.  I do ``make`` frequently so I can visualize the effect of the changes on the page in the browser.

@@ -13,9 +13,11 @@ Contents:
 
    navigation
    file_manip
-   more_unix
+   unix-advanced1
    permissions
-   software
+   installs
+   brew
+   python
 
 
 Indices and tables
