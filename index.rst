@@ -15,6 +15,7 @@ Contents:
    file_manip
    more_unix
    permissions
+   software
 
 
 Indices and tables

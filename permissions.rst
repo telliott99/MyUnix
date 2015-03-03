@@ -244,9 +244,9 @@ is so that I can make a new directory ``~/bin`` and put my own programs there.
 
 Let's do something with Python, since it comes with OS X.  Here is a simple Python script:
 
-.. sourcecode:: bash
-
 ``hello.py``
+
+.. sourcecode:: python
 
     print "Hello, world!"
 
