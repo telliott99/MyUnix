@@ -1,0 +1,42 @@
+xxd is sorta like hexdump
+
+> echo "abcde" > x.txt
+> hexdump -C x.txt
+00000000  61 62 63 64 65 0a                                 |abcde.|
+00000006
+> xxd x.txt
+0000000: 6162 6364 650a                           abcde.
+>
+-----------------------------------------------
+Use of the -p flag gives just the hex:
+
+> xxd -p x.txt
+61626364650a
+>
+
+> xxd -p x.txt > x.hex
+> cat x.hex
+61626364650a
+>
+-----------------------------------------------
+The -r flag isn't much good by itself (at least so far)
+but with -p we get:
+
+> xxd -r x.hex
+> xxd -r -p x.hex
+abcde
+> echo "abcde" | xxd -p | xxd -r -p
+abcde
+>
+-----------------------------------------------
+So using -r we can go from hex to binary
+and solve the problem I had with crypto prob #1
+
+> echo \
+"49276d206b696c6c696e6720796f757220627261696e206c\
+696b65206120706f69736f6e6f7573206d757368726f6f6d"\
+ | xxd -r -p | openssl enc -base64
+SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t
+>
+
+

@@ -1,0 +1,20 @@
+> cd Desktop/
+> find .
+.
+./.DS_Store
+./xargs.txt
+> find . -type f -print
+./.DS_Store
+./xargs.txt
+> find . -type d -print
+.
+> find . -type d -print | xargs ls -al
+total 16
+drwxr-xr-x@  4 telliott_admin  staff   136 Feb 22 08:48 .
+drwxr-xr-x+ 47 telliott_admin  staff  1598 Feb 17 08:34 ..
+-rw-r--r--@  1 telliott_admin  staff  6148 Feb 22 08:48 .DS_Store
+-rw-r--r--@  1 telliott_admin  staff     0 Feb 22 08:48 xargs.txt
+> find . -type f -print | xargs ls -al
+-rw-r--r--@ 1 telliott_admin  staff  6148 Feb 22 08:48 ./.DS_Store
+-rw-r--r--@ 1 telliott_admin  staff     0 Feb 22 08:48 ./xargs.txt
+>
