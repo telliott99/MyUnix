@@ -21,6 +21,7 @@ Contents:
    unix-advanced2
    git_setup
    git_usage
+   latex
 
 
 Indices and tables

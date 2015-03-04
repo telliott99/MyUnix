@@ -10,7 +10,7 @@ Working on examples for git, I found it useful to setup (and destroy) the same p
 
 ``git.sh``:
 
-.. literalinclude:: /_static/crypto.py
+.. literalinclude:: /_static/git.sh
 
 To execute it, just put the file ``git.sh`` on the Desktop and do:
 

@@ -18,7 +18,7 @@ Latex was based in part on an earlier typesetting system called TeX, which was i
 
 http://en.wikipedia.org/wiki/TeX
 
-I have used LateX to typeset numerous writeups on mathematics, and I have used as the last stage in a workflow that randomizes questions for exams and then typesets them as pdf documents.  I have found that it works very well for me.
+I have used LateX to typeset numerous writeups on mathematics, and also used it as the last stage in a workflow that randomizes questions for exams and then typesets them as pdf documents.  I have found that it works very well for me.
 
 **TeXShop**
 
@@ -26,11 +26,11 @@ In my Applications directory I have a GUI application called TeXShop which I use
 
 http://pages.uoregon.edu/koch/texshop/
 
-Yesterday, when I removed the ``/usr/local`` directory to demonstrate how to get Homebrew, I knew that I was also losing some of the necessary tools for LateX.  We are going to have to find out what's required for a minimal installation.
+Yesterday, when I removed the ``/usr/local`` directory to demonstrate how to get Homebrew, I knew that I was also losing some of the necessary tools for LateX.  We are going to have to find out what's required for a minimal installation.  Don't be afraid to make experiments like this!  Any problem can eventually be solved, and it's the only way to really learn.  (Of course, you might be more cautious and simply move the old directory out of the way, but sometimes having the old stuff still around can make you think you understand what's required when you really don't).
 
-I know that LateX is not working because an attempt to typeset one of my standard documents from TeXShop (directions for an exam, in ``directions.tex``) fails with this:  ``/usr/texbin/pdflatex`` not found.
+I know that LateX is not working at present because an attempt to typeset one of my standard documents from TeXShop (directions for an exam, in ``directions.tex``) fails with this:  ``/usr/texbin/pdflatex`` not found.
 
-``/usr/texbin/pdflatex`` is a directory external to ``/usr/local``.  However, I believe that I probably also deleted ``/usr/texbin/..`` at the same time that I deleted ``/usr/local``.  I have been irritated in the past because I suspected that my LateX install altered permissions (or users and groups) on ``/usr/local`` and caused trouble.  This is an opportunity to solve that problem.
+``/usr/texbin/pdflatex`` is a directory external to ``/usr/local``.  However, I believe that I also deleted ``/usr/texbin/..`` at the same time that I deleted ``/usr/local``.  I have been irritated in the past because I suspected that my LateX install altered permissions (or users and groups) on ``/usr/local`` and caused trouble.  This is an opportunity to solve that problem.
 
 **Basic TeX Distribution**
 
@@ -115,15 +115,21 @@ I was in a hurry so I just did this, later I looked it up and found that the ``-
 
 But it still doesn't work.  Yet another answer mentions:
 
+.. sourcecode:: bash
+
     /usr/local/texlive/2009/texmf
     /usr/local/texlive/2009/texmf-dist
     /usr/local/texlive/texmf-local
 
 which is like where I was above:  
 
+.. sourcecode:: bash
+
     /usr/local/texlive/2014basic/texmf-dist/tex/latex/amsmath/
 
 I think ``~/Library/..`` should work.  It's where things *should go* on OS X, but it doesn't seem to.  Poking around in those directories:
+
+.. sourcecode:: bash
 
     > sudo cp simplemargins.sty /usr/local/texlive/2014basic/texmf-dist/tex/latex
     > kpsewhich simplemargins.sty
@@ -146,6 +152,7 @@ Note:  I needed ``sudo`` but I shouldn't!  They have screwed with my permissions
 
     https://www.ctan.org/tex-archive/macros/latex/contrib/enumitem
 
+.. sourcecode:: bash
 
     > sudo cp enumitem.sty /usr/local/texlive/2014basic/texmf-dist/tex/latex
     > sudo texhash /usr/local/texlive/2014basic/texmf/tex/latex
@@ -165,6 +172,8 @@ One embarrassing point:  I did ``kpsewhich filename.sty`` several times, while c
 
 One last thing:  I need to fix the permissions, etc on ``/usr/local``.  I can do that pretty easily:
 
+.. sourcecode:: bash
+
     > sudo chown -R `whoami` /usr/local
     > sudo chgrp -R admin /usr/local
     > sudo chmod -R 755 /usr/local
@@ -176,5 +185,25 @@ One last thing:  I need to fix the permissions, etc on ``/usr/local``.  I can do
     >
 
 That should do it.
+
+Now is the time to use the alias I define in ``~/.bash_profile``:
+
+* ``alias ts='python typeset/scripts/script.py'``
+
+It doesn't work.  The log file is saying it can't find the file ``scantron4.png``, which is missing, sure enough.  I am a little puzzled as to how and when it went missing, but when I look at the source I see:
+
+.. sourcecode:: bash
+
+    \graphicspath{{/Users/telliott_admin/Dropbox/Exams/png/}}
+
+and I recall that I moved the ``Exams`` subdirectory recently!  I'd forgotten that I stashed some images there.  So now I just need to edit my source to give the right path, which is
+
+.. sourcecode:: bash
+
+    \graphicspath{{/Users/telliott_admin/Dropbox/Teaching/Exams/png/}}
+    
+And it works!
+
+Every problem can be solved.  Go forth and conquer.
 
 
