@@ -1,4 +1,4 @@
-.. _unix-advanced1:
+.. _unix-advanced-1:
 
 ########################
 More advanced Unix usage
@@ -214,3 +214,14 @@ It seems like it would be worth it to print out the man page for ``find`` or ``g
     >
 
 583 lines!
+
+Also, if you do this, you'll find that ``man`` stutters:
+
+.. sourcecode:: bash
+
+    FIND(1)                   BSD General Commands Manual                  FIND(1)
+
+    NNAAMMEE
+         ffiinndd -- walk a file hierarchy
+
+I *did* know how to fix this, but I've forgotten, and Google has failed me at the moment.

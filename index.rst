@@ -13,12 +13,12 @@ Contents:
 
    navigation
    file_manip
-   unix-advanced1
+   unix-advanced-1
    permissions
    installs
    brew
    python
-   unix-advanced2
+   unix-advanced-2
    git_setup
    git_usage
    latex
