@@ -23,43 +23,9 @@ Followed suggestions here but it's not working
 
 http://stackoverflow.com/questions/17524234/stop-homebrew-pip-putting-virtualenv-in-usr-local-share
 
-.. sourcecode:: bash
+It looks like we are fine and then Python 2.7.9 tries to remove a file from the System Python.  That's a bug.  Maybe we can back up to Python 2.7.8, which I had before.
 
-    > pip install --upgrade virtualenv
-    Collecting virtualenv from https://pypi.python.org/packages/py2.py3/v/virtualenv/virtualenv-12.0.7-py2.py3-none-any.whl#md5=e03d314ea40c2f96375882aceaa0b87f
-      Using cached virtualenv-12.0.7-py2.py3-none-any.whl
-    Installing collected packages: virtualenv
-      Found existing installation: virtualenv 1.11.5
-        Uninstalling virtualenv-1.11.5:
-          Exception:
-          Traceback (most recent call last):
-            File "/usr/local/lib/python2.7/site-packages/pip-6.0.8-py2.7.egg/pip/basecommand.py", line 232, in main
-              status = self.run(options, args)
-            File "/usr/local/lib/python2.7/site-packages/pip-6.0.8-py2.7.egg/pip/commands/install.py", line 347, in run
-              root=options.root_path,
-            File "/usr/local/lib/python2.7/site-packages/pip-6.0.8-py2.7.egg/pip/req/req_set.py", line 543, in install
-              requirement.uninstall(auto_confirm=True)
-            File "/usr/local/lib/python2.7/site-packages/pip-6.0.8-py2.7.egg/pip/req/req_install.py", line 667, in uninstall
-              paths_to_remove.remove(auto_confirm)
-            File "/usr/local/lib/python2.7/site-packages/pip-6.0.8-py2.7.egg/pip/req/req_uninstall.py", line 126, in remove
-              renames(path, new_path)
-            File "/usr/local/lib/python2.7/site-packages/pip-6.0.8-py2.7.egg/pip/utils/__init__.py", line 316, in renames
-              shutil.move(old, new)
-            File "/usr/local/Cellar/python/2.7.9/Frameworks/Python.framework/Versions/2.7/lib/python2.7/shutil.py", line 300, in move
-              rmtree(src)
-            File "/usr/local/Cellar/python/2.7.9/Frameworks/Python.framework/Versions/2.7/lib/python2.7/shutil.py", line 252, in rmtree
-              onerror(os.remove, fullname, sys.exc_info())
-            File "/usr/local/Cellar/python/2.7.9/Frameworks/Python.framework/Versions/2.7/lib/python2.7/shutil.py", line 250, in rmtree
-              os.remove(fullname)
-          OSError: [Errno 13] Permission denied: '/Library/Python/2.7/site-packages/virtualenv-1.11.5-py2.7.egg-info/dependency_links.txt'
-
-    >
-
-It looks like we are fine and then Python 2.7.9 tries to remove a file from the System Python.  That's a bug.
-
-Maybe we can back up to Python 2.7.8, which I had before.
-
-I couldn't figure out how to do this!  Finally, I decide to use the System Python.
+In the end, I couldn't figure out how to do this!  I'll solve that problem another day.  Finally, I decide to use the System Python.
 
 .. sourcecode:: bash
 
@@ -123,7 +89,7 @@ A quick test:
 Looks good to me.
 
 .. image:: /figs/example.png
-   :scale: 50 %
+   :scale: 40 %
 
 .. sourcecode:: bash
 

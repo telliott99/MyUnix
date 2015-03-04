@@ -94,7 +94,10 @@ If we capture this output in a file
 
 Textmate will color the output in a nice way.
 
-[Images are not working, however]
+.. image:: /figs/xy_diff.png
+   :scale: 50 %
+
+Perhaps it's a little garish, but OK.
 
 If you want to check the calendar, there is always ``cal``
 

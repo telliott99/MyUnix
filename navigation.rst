@@ -310,6 +310,8 @@ A pair of commands that can help sometimes when navigating around to deeply nest
 
 For example, suppose we do:
 
+.. sourcecode:: bash
+
     > cd /usr/local/lib/python2.7/site-packages
     > pushd /Library/Python/2.7/site-packages
     /Library/Python/2.7/site-packages /usr/local/lib/python2.7/site-packages

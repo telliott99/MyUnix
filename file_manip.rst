@@ -362,14 +362,7 @@ I used a standard text editor (Textmate) rather than a Terminal-based editor lik
 .. sourcecode:: bash
 
     > open -a Textmate .gitignore
-    
 
-This doesn't work at present (used to).
-Gives an error:  "no content permitted"  ???
-
-.. sourcecode:: bash
-
-    .. image:: /figs/gitignore_window.png
-       :scale: 50 %``
-
+.. image:: /figs/gitignore_window.png
+   :scale: 50 %
 
