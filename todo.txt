@@ -1,0 +1,26 @@
+
+Latex
+
+
+Sphinx
+http://sphinx-doc.org
+
+> sudo easy_install -U Sphinx
+Password:
+Searching for Sphinx
+
+..
+
+cogent
+
+make
+
+ln -s progname linkname
+
+brew edit python
+curl -O https://dl.dropboxusercontent.com/u/3534458/example.zip
+md5 example.zip
+
+Notes:
+hashes and crypto
+

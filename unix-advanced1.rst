@@ -124,6 +124,24 @@ Notice anything?
 
 http://en.wikipedia.org/wiki/1752
 
+**Another way to make a texfile**
+
+Here is another approach to place alongside ``echo`` and ``printf``
+
+.. sourcecode:: bash
+
+    > cat > x.txt << EOF
+    > x
+    > y
+    > EOF
+    > 
+    > hexdump -C x.txt
+    00000000  78 0a 79 0a                                       |x.y.|
+    00000004
+    >
+    
+It's kind of inscrutable, but here goes.  What the first line says is "put all the text that will follow on subsequent lines" into a file named ``x.txt``.  The marker ``EOF`` (end-of-file) will signal where to stop.  (It doesn't have to be ``EOF``, you can use ``ABC`` if you want, but the first token makes more sense).
+
 **find and grep**
 
 OS X has powerful search capacities in Spotlight, but you may want to generate a list of filenames to pipe into some other program.

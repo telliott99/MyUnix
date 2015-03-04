@@ -4,7 +4,7 @@
 Installing software:  basics
 ############################
 
-**Overview**
+**Interpreted programs:  Python**
 
 Modern programs are written so that they may be read easily by humans.  There is much more to it than that, of course, but a program might be something like what we had in the previous chapter.
 
@@ -46,7 +46,15 @@ We mentioned also that if the script has a hash-bang ``#!`` line, we can do a ``
     Hello, world!
     >
 
+**Compiled programs:  C**
+
 For another class of programs, each one is "compiled".  Without worrying about the details, writing a new or revised version of a compiled program usually needs two explicit actions by the programmer:  compilation and execution.
+
+To obtain a compiler, the best approach is to get what are called the "Developer's Tools" or "Command Line Tools".  These are available from Apple, but you need to register
+
+https://developer.apple.com/downloads/index.action#
+
+Note:  you don't need Xcode.
 
 The classic compiler for the C and C++ languages was ``GCC``, which is usually invoked with ``gcc``, but these days on OS X ``gcc`` is a newfangled thing called ``clang``.  It doesn't matter for our purposes.  It *looks* like ``gcc`` is present
 
@@ -88,7 +96,6 @@ Compile and execute, on two lines:
     > wc -c hello
         8496 hello
     >
-
 
 The ``-o`` flag gives a name for the output file, which beats the default ``a.out``.
 

@@ -18,6 +18,8 @@ Contents:
    installs
    brew
    python
+   unix-advanced2
+   git_setup
 
 
 Indices and tables
