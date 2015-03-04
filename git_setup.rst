@@ -6,7 +6,9 @@ Git:  init
 
 **Version control**
 
-TO WRITE
+Why version control:
+
+
 
 Entire books have been written about **git**.
 
@@ -18,20 +20,20 @@ This chapter and the next will just summarize the basic ways that I use it.  Thi
 
 **Using git**
 
-We obtained git on OS X by using Homebrew.  
+We obtained git on OS X by using Homebrew.  It actually comes with OS X, but this is an upgrade.
 
 .. sourcecode:: bash
 
     > brew list
-    gdbm		libpng		readline	youtube-dl
-    git		openssl		sqlite
+    gdbm     libpng     readline      youtube-dl
+    git      openssl    sqlite
     > git --version
     git version 2.3.1
     >
 
 **Basic example**
 
-We make a new directory with a single file.  Run ``git init`` to initialize a repository.  Do ``git add < filename >`` to track files.  Do ``git status`` to check, and ``git commit -m < "message" >`` to *commit* to the new repository.
+We'll make a new directory containing a single file.  Run ``git init`` to initialize a repository.  Do ``git add < filename >`` to track files.  Do ``git status`` to check, and ``git commit -m < "message" >`` to *commit* to the new repository.
 
 .. sourcecode:: bash
 
@@ -99,7 +101,19 @@ Commonly, one may have files present in a project that you don't want to have tr
     **/.DS_Store
     >
 
-This instructs git not to track any ``.pyc`` files in this ____ and not to track the special OS X file ``.DS_Store``.
+This instructs git not to track any ``.pyc`` files and not to track the special OS X file ``.DS_Store``.
+
+* the ** matches all directories
+
+Chacon on glob patterns
+
+    Glob patterns are like simplified regular expressions that shells use. An asterisk (*) matches zero or more characters; [abc] matches any character inside the brackets (in this case a, b, or c); a question mark (?) matches a single character; and brackets enclosing characters separated by a hyphen ([0–9]) matches any character between them (in this case, 0 through 9).
+
+* ``# comment``
+* ``*.a``        # no .a files
+* ``!lib.a``     # ! negates so do track lib.a
+* ``/filename``  # only ignore top-level
+* ``build/``     # ignore all files in build dir
 
 **Pull from a repository**
 
@@ -120,9 +134,9 @@ I have several projects up on github.  From the Desktop
 
 git can be configured at a *global* level, on a *user* basis, or a *project* basis.  config files for these will be in:
 
-* /etc/gitconfig
-* ~/.gitconfig
-* myproject/.gitconfig
+* ``/etc/gitconfig``
+* ``~/.gitconfig``
+* ``myproject/.gitconfig``
 
 .. sourcecode:: bash
 
@@ -171,7 +185,7 @@ https://help.github.com/articles/create-a-repo/
 
 Do the copy using the website.  Click the ``+`` at the top-right corner (on the github page, next to your username).  Set up a public repository, following the directions
 
-I will do one for this project, which I just started yesterday, and isn't on github yet.  I'm calling it **MyUnix**.
+I will do one for this project, which I just started yesterday, so it isn't on github yet.  I'm calling it **MyUnix**.
 
 After that, I should be able to ``cd`` into the  ``MyUnix`` project directory and do:
 
@@ -291,7 +305,7 @@ Explanation of the different methods.
 
 https://help.github.com/articles/which-remote-url-should-i-use/
 
+You can tell at a glance which method we're using:  the ``git://`` protocol is shown, that is SSH.  Otherwise, we might have something like
 
-
-
+* ``https://github.com/username/myproject.git``
 

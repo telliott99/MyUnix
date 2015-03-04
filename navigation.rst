@@ -4,6 +4,14 @@
 Navigating from the command line
 ################################
 
+This "book" is a brief review of the most common things I do from the command line on OS X.  I call it *MyUnix* because it really is (almost) Unix at this level, and because my other projects on github are named like *MyX*.  This originally started as a reaction to various tools at my workplace, like the MyTime interface, which is emphatically not my time, because I'm working for the man.
+
+For other material on Unix and the command line, see:
+
+http://cli.learncodethehardway.org/book/
+
+**Starting out**
+
 When you first run the Terminal application, or obtain a command line environment, you will be greeted with a prompt.  I like mine as simple as possible, so I have modified my shell to show only this:
 
 .. sourcecode:: bash

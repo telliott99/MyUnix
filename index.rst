@@ -20,6 +20,7 @@ Contents:
    python
    unix-advanced2
    git_setup
+   git_usage
 
 
 Indices and tables
