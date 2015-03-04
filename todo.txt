@@ -1,7 +1,4 @@
-
-
-Latex
-
+network stuff
 
 Sphinx
 http://sphinx-doc.org
