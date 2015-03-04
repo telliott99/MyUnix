@@ -1,4 +1,4 @@
-.. _git_setup:
+.. _git1-setup:
 
 ##########
 Git:  init

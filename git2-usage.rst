@@ -1,4 +1,4 @@
-.. _git_usage:
+.. _git2-usage:
 
 ###########
 Git:  usage

@@ -135,7 +135,11 @@ Recall the problem that we had.
     ..
     OSError: [Errno 13] Permission denied: '/Library/Python/2.7/site-packages/virtualenv-1.11.5-py2.7.egg-info/dependency_links.txt'
     
-We are getting the right ``pip`` and the right ``python``, but the "stack trace" shows that in a deeply nested function, we are working in ``/usr/local``, working in ``/usr/local`` and then try to remove a file in ``/Library/Python/2.7/site-packages//Library/Python/2.7/site-packages/``.
+We are getting the right ``pip`` and the right ``python``, but the "stack trace" shows that in a deeply nested function, we are working in ``/usr/local``, working in ``/usr/local`` and then try to remove a file in
+
+.. sourcecode:: bash
+
+    /Library/Python/2.7/site-packages//Library/Python/2.7/site-packages/
 
 Luckily, we are not using ``sudo``.  People suggested using ``sudo`` on StackOverflow and then they can't understand why inside their virtual environment they are getting the System Python!
 
@@ -219,6 +223,8 @@ So now, having obtained ``virtualenv`` that will work with my upgraded Python, w
     (mpl2)>
     
 Looks good.
+
+.. sourcecode:: bash
 
     (mpl2)> pip install numpy
     ..

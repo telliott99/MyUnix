@@ -1,4 +1,4 @@
-.. _file_manip:
+.. _unix2-files:
 
 ##############################################
 Files and Directories, Moving and Copying Data

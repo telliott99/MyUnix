@@ -1,4 +1,4 @@
-.. _unix-advanced-1:
+.. _unix-advanced1:
 
 ########################
 More advanced Unix usage

@@ -1,4 +1,4 @@
-.. _unix-advanced-2:
+.. _unix-advanced2:
 
 ########################
 More advanced Unix usage
@@ -106,6 +106,8 @@ A second, more interesting example:
 
 Spaces in filenames can be a pain.  Use ``-print0`` with find and ``-0`` with ls and grep and so on ..
 
+.. sourcecode:: bash
+
     > ls
     find.txt	x y.txt		xargs.txt
     > find . -name "*.txt" -print0 | xargs -0 ls -al
@@ -113,6 +115,8 @@ Spaces in filenames can be a pain.  Use ``-print0`` with find and ``-0`` with ls
     -rw-r--r--  1 telliott_admin  staff      0 Mar  4 13:28 ./x y.txt
     ..
     >
+
+.. sourcecode:: bash
 
     > find . -name "*.txt" -print0 | xargs grep "y.txt"
     grep: y.txt: No such file or directory

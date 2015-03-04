@@ -11,16 +11,16 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   navigation
-   file_manip
-   unix-advanced-1
-   permissions
+   unix1-navigation
+   unix2-files
+   unix3-permissions
+   unix-advanced1
    installs
    brew
    python
-   unix-advanced-2
-   git_setup
-   git_usage
+   unix-advanced2
+   git1-setup
+   git2-usage
    latex
 
 
