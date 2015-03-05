@@ -4,13 +4,13 @@
 Navigating from the command line
 ################################
 
-This "book" is a brief review of the most common things I do from the command line on OS X.  I call it *MyUnix* because it really is (almost) Unix at this level, and because my other projects on github are named like *MyX*.  This originally started as a reaction to various tools at my workplace, like the MyTime interface, which is emphatically not my time, because I'm working for the man.
+Starting with this chapter, we are going to learn about Unix.
 
 For other material on Unix and the command line, see:
 
 http://cli.learncodethehardway.org/book/
 
-**Starting out**
+**To begin at the beginning**
 
 When you first run the Terminal application, or obtain a command line environment, you will be greeted with a prompt.  I like mine as simple as possible, so I have modified my shell to show only this:
 
@@ -148,6 +148,22 @@ Many commands have options.  Even ``pwd`` has options, though they are too advan
     >
 
 The plain ``ls`` command just shows the file I made (plus the directory MyUnix which contains this project).  Adding the ``-a`` and ``-l`` "flags" (which may be combined as ``-al``) shows (``-a``) all files, even hidden ones whose names start with a ``.``   For example here we see that the directory contains a reference to itself (the single ``.``), a reference to its parent directory ``..``, and a special hidden OS X file ``.DS_Store``, in addition.
+
+The ``-d`` flag lists a directory rather than its contents:
+
+.. sourcecode:: bash
+
+    > ls -ald MyUnix
+    drwxr-xr-x@ 29 telliott_admin  staff  986 Mar  5 04:02 MyUnix
+    > ls -al MyUnix/
+    total 424
+    drwxr-xr-x@ 29 telliott_admin  staff    986 Mar  5 04:02 .
+    drwxr-xr-x@ 13 telliott_admin  staff    442 Mar  5 03:59 ..
+    -rw-r--r--@  1 telliott_admin  staff   6148 Mar  5 04:02 .DS_Store
+    drwxr-xr-x@ 13 telliott_admin  staff    442 Mar  5 03:55 .git
+    ..
+    > 
+    
 
 The ``-l`` flag modifies how the metadata for the files is displayed.  We get a 10- or 11-character group like ``drwxr-xr-x`` for ``MyUnix``.  The ``d`` stands for directory, and the equivalent position in the output for the file ``x.txt`` is just `-`.  Then there are some three-character sets of "permissions".  The three Permissions refer to the ability to ``r`` read, ``w`` write, or `x` execute files or programs.  If a permission is allowed, then the letter is shown, and if not, a ``-`` is shown.  For example ``rw-`` means "read and write, but not execute".
 

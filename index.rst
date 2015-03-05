@@ -11,6 +11,7 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   sphinx
    unix1-navigation
    unix2-files
    unix3-permissions

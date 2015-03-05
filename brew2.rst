@@ -142,7 +142,7 @@ Simple.
 
 **Homebrew:  cask**
 
-Homebrew **cask** is for 
+Homebrew **cask** is for GUI applications.  [ Work on this ]
 
 https://github.com/caskroom/homebrew-cask
 
@@ -212,9 +212,11 @@ Let's look at one of them, perhaps ``libpng.rb`` that we use for ``matplotlib``:
     end
     >
 
-While we (or at least I) could not write one of these things, I can sort of puzzle it out.
+While we (or at least I) could not write one of these things without more understanding, I can sort of puzzle it out.
 
-The script is the definition of a class, an object that has both data and code, which can be utilized by the machinery of Homebrew (defined in some other place).  I can't make out that much of how this works, but there is a URL for the source (and a digest to check authenticity), as well digests for the "bottles" which are pre-built versions of the software that differ as OS X has changed recently.
+The script is the definition of a class, an object that has both data and code, which can be utilized by the machinery of Homebrew (defined in some other place).  There is a URL for the source (and an ``sha1`` digest to check authenticity), as well digests for the "bottles" which are pre-built versions of the software that differ as OS X has changed recently.
 
-There is a ``test`` which looks like a program that does ``#include <png.h>`` and then uses two functions from it (``png_create_write_struct`` and ``png_destroy_write_struct``).  The last part includes values for all settings need to build the program.  Above it is ``install`` which presumably is the instructions to install the library.
+There is a ``test`` which looks like a program that does ``#include <png.h>`` and then uses two functions from it (``png_create_write_struct`` and ``png_destroy_write_struct``), which presumably is built and run to test that the library works properly.  
+
+The last part includes values for all settings need to build the program.  Above it is ``install`` which presumably is the instructions to install the library.
     
