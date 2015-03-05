@@ -147,7 +147,49 @@ Notice that in the last step grep is going through the files line by line lookin
     curl: (23) Failed writing body (0 != 9972)
     >
 
-More examples:
+This is kind of fun:  The following command shares all the files in the current folder over HTTP (but you have to be able to get to localhost, which outsiders can't do):
+
+.. sourcecode:: bash
+
+    > echo "abc" > x.txt
+    > python -m SimpleHTTPServer 8080
+
+So do that from the Desktop, and then open a new tab in Terminal and do:
+
+.. sourcecode:: bash
+
+    Last login: Thu Mar  5 04:40:50 on ttys000
+    > cd Desktop
+    -bash: cd: Desktop: No such file or directory
+    > curl http://localhost:8080
+    <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"><html>
+    <title>Directory listing for /</title>
+    <body>
+    <h2>Directory listing for /</h2>
+    <hr>
+    <ul>
+    <li><a href=".DS_Store">.DS_Store</a>
+    <li><a href="Crypto101.pdf">Crypto101.pdf</a>
+    <li><a href="MyUnix/">MyUnix/</a>
+    <li><a href="network.txt">network.txt</a>
+    <li><a href="pkg-config%20notes.txt">pkg-config notes.txt</a>
+    <li><a href="ProblemSolvingwithAlgorithmsandDataStructures.pdf">ProblemSolvingwithAlgorithmsandDataStructures.pdf</a>
+    <li><a href="pth%20notes.txt">pth notes.txt</a>
+    <li><a href="sphinx-rst2pdf.pdf">sphinx-rst2pdf.pdf</a>
+    <li><a href="todo.txt">todo.txt</a>
+    <li><a href="unixtut.tar.gz">unixtut.tar.gz</a>
+    <li><a href="use%20virtualenv.txt">use virtualenv.txt</a>
+    <li><a href="x.txt">x.txt</a>
+    </ul>
+    <hr>
+    </body>
+    </html>
+    > 
+    > curl http://localhost:8080/x.txt
+    abc
+    >
+
+More curl examples:
 
 http://www.thegeekstuff.com/2012/04/curl-examples/
 

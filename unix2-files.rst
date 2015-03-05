@@ -240,6 +240,26 @@ We get line numbers.  The concatenation aspect comes in handy also.  Suppose we 
 
 ``cat`` concatenates the contents of one or more files (even many files) and sends the output to the screen, or to a file by using ``>`` redirect.
 
+It can also append to files by using ``>>``:
+
+.. sourcecode:: bash
+
+    > echo "abc" > x.txt
+    > echo "def" >> x.txt
+    > cat x.txt
+    abc
+    def
+    >
+
+The ``>>`` is also called redirection operator.  In fact there are more:
+
+* < filename : Read standard input from file.
+* > filename : Sends standard output to file.
+* 2> filename : Sends standard error to file.
+* >> filename : Appends standard output to file.
+
+I will explain about the first and third of these later on.
+
 **more or less**
 
 I don't actually have ``more`` on my system.  Typing ``man more`` gives me the man page for ``less``
