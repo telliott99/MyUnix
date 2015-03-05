@@ -2,6 +2,9 @@ Making a formula is easy. Just brew create URL and then brew install $FORMULA (p
 
 
 
+vim and emacs
+
+
 
 Unix make
 

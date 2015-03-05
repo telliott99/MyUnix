@@ -1,26 +1,45 @@
 .. _git1-setup:
 
-##########
-Git:  init
-##########
+###########
+Git:  Setup
+###########
 
 **Version control**
 
 Why version control:
 
-
+http://git-scm.com/book/en/v2/Getting-Started-About-Version-Control
 
 Entire books have been written about **git**.
 
 http://git-scm.com/book/en/v2
 
-Great, free and online.
+Great, free and online.  In the past, other systems (cvs, mercurial) have been popular, but today, git is it.
 
-This chapter and the next will just summarize the basic ways that I use it.  This chapter is about setup.
+I am not a power user or anything.  These chapters will just summarize the basic ways that I use it.  The first issue is about setup.
 
-**Using git**
+**git init**
 
-We obtained git on OS X by using Homebrew.  It actually comes with OS X, but this is an upgrade.
+git comes with OS X, 
+
+.. sourcecode:: bash
+
+    > ls -al /usr/bin/gi*
+    -rwxr-xr-x  1 root  wheel  14160 Sep 29 01:38 /usr/bin/git
+    -rwxr-xr-x  1 root  wheel  14176 Sep 29 01:38 /usr/bin/git-cvsserver
+    -rwxr-xr-x  1 root  wheel  14192 Sep 29 01:38 /usr/bin/git-receive-pack
+    -rwxr-xr-x  1 root  wheel  14160 Sep 29 01:38 /usr/bin/git-shell
+    -rwxr-xr-x  1 root  wheel  14192 Sep 29 01:38 /usr/bin/git-upload-archive
+    -rwxr-xr-x  1 root  wheel  14192 Sep 29 01:38 /usr/bin/git-upload-pack
+    >
+
+but I upgraded it by using Homebrew.
+
+.. sourcecode:: bash
+
+    > which git
+    /usr/local/bin/git
+    > 
 
 .. sourcecode:: bash
 
@@ -31,15 +50,22 @@ We obtained git on OS X by using Homebrew.  It actually comes with OS X, but thi
     git version 2.3.1
     >
 
+In fact Homebrew makes extensive use of git.
+
 **Basic example**
 
-We'll make a new directory containing a single file.  Run ``git init`` to initialize a repository.  Do ``git add < filename >`` to track files.  Do ``git status`` to check, and ``git commit -m < "message" >`` to *commit* to the new repository.
+Make a new directory containing a single file, and then
+
+* ``git init`` to initialize a repository
+* ``git add < filename >`` to track files
+* ``git status`` to check
+* ``git commit -m < "message" >`` to *commit* to the new repository.
 
 .. sourcecode:: bash
 
     > mkdir tmp
-    > touch tmp/x.txt
     > cd tmp
+    > touch x.txt
     > git init
     Initialized empty Git repository in /Users/telliott_admin/Desktop/tmp/.git/
     > git status
@@ -54,7 +80,6 @@ We'll make a new directory containing a single file.  Run ``git init`` to initia
 
     nothing added to commit but untracked files present (use "git add" to track)
     > git add x.txt
-    > git add .   # or do this
     > git status
     On branch master
 
@@ -66,18 +91,29 @@ We'll make a new directory containing a single file.  Run ``git init`` to initia
     	new file:   x.txt
 
     > git commit -m "initial commit"
-    [master (root-commit) 79d3e4a] initial commit
+    [master (root-commit) b3a7a88] initial commit
      1 file changed, 0 insertions(+), 0 deletions(-)
      create mode 100644 x.txt
+    > 
+
+Various commands to check things out.
+
+* ``git log``
+* ``git log --pretty=oneline``
+
+.. sourcecode:: bash
+
      > git log
-     commit 79d3e4aa9dd3c0d4a90f84d760246aad966f2feb
+     commit b3a7a8890da7b8008c3ba8b2e368105b49daa60f
      Author: Tom Elliott <telliott@hsc.wvu.edu>
-     Date:   Wed Mar 4 02:26:19 2015 -0500
+     Date:   Thu Mar 5 17:39:50 2015 -0500
 
          initial commit
-     >
+     > git log --pretty=oneline
+     b3a7a8890da7b8008c3ba8b2e368105b49daa60f initial commit
+     > 
      
-One can skip the ``add`` step by using the ``-a`` flag with ``git commit``:
+The book says one can skip the ``add`` step by using the ``-a`` flag with ``git commit``:
 
 .. sourcecode:: bash
 
@@ -88,21 +124,39 @@ One can skip the ``add`` step by using the ``-a`` flag with ``git commit``:
          but new files you have not told Git about
          are not affected.
 
-(I was confused about this.  I've been using ``-a`` for ``--amend``!)
+but it doesn't work for me:
 
 .. sourcecode:: bash
 
-    > git commit -m 'initial commit' 
-    > git add forgotten_file 
-    > git commit --amend
-    
+    > git status
+    On branch master
+    nothing to commit, working directory clean
+    > echo "abc" >> x.txt
+    > git status
+    On branch master
+    Changes not staged for commit:
+      (use "git add <file>..." to update what will be committed)
+      (use "git checkout -- <file>..." to discard changes in working directory)
+
+    	modified:   x.txt
+
+    no changes added to commit (use "git add" and/or "git commit -a")
+    > git commit -a "no message"
+    fatal: Paths with -a does not make sense.
+    > git commit -a x.txt
+    fatal: Paths with -a does not make sense.
+    >
+
+
 [ Todo:  difference between ``rm`` and ``rm --cached``]
 
-The above doesn't see to work in practice.  Instead, rather than cycle through all the files you've changed, add them all at once with
+Rather than cycle through all the files you've changed, you can add them all at once with
 
 .. sourcecode:: bash
 
     > git add .
+
+**gitignore**
 
 Commonly, one may have files present in a project that you don't want to have tracked by git.  Use ``.gitignore`` for this.  For example
 
@@ -159,7 +213,7 @@ I have several projects up on github.  From the Desktop
 
 **Configuration**
 
-git can be configured at a *global* level, on a *user* basis, or a *project* basis.  config files for these will be in:
+git may be configured at a *global* level, at the level of the individual *user*, or a *project* basis.  config files for these will be in (respectively):
 
 * ``/etc/gitconfig``
 * ``~/.gitconfig``
@@ -204,13 +258,15 @@ and can be checked by doing:
 
 **Adding an existing project to github**
 
-Situation:  you already have a github account, and want to put a new project up there.  Login to github.  
+Situation:  you already have a github account, and want to put a new project up there.  Let's say I have already done ``git init`` and have an initial commit.
+
+Next:  login to github.  
 
 The instructions are here:
 
 https://help.github.com/articles/create-a-repo/
 
-Do the copy using the website.  Click the ``+`` at the top-right corner (on the github page, next to your username).  Set up a public repository, following the directions
+On the website, click the ``+`` at the top-right corner (on the github page, next to your username).  Set up a public repository, following the directions
 
 I will do one for this project, which I just started yesterday, so it isn't on github yet.  I'm calling it **MyUnix**.
 
@@ -230,7 +286,7 @@ After that, I should be able to ``cd`` into the  ``MyUnix`` project directory an
     Branch master set up to track remote branch master from origin.
     >
 
-Since I am set up to use SSH to connect, it just works.  No password prompt.
+Since I am already set up to use SSH to connect, it just works.  No password prompt.
 
 We can check it:
 
@@ -245,7 +301,7 @@ We can check it:
 
 These are my notes on setting up SSH for github.  I decided not to mess with my existing setup right now to check it.
 
-Here is the github webpage about how to do it:
+Here is the github webpage about it:
 
 https://help.github.com/articles/generating-ssh-keys/
 
@@ -255,14 +311,14 @@ https://help.github.com/articles/generating-ssh-keys/
 
     > ls -al ~/.ssh
 
-* make sure it's the OS X version of ``ssh-keygen``
+* make sure you invoke the OS X version of ``ssh-keygen``
 
 .. sourcecode:: bash
 
     > which ssh-keygen
     /usr/bin/ssh-keygen
 
-* generate a new key pair if necessary
+* generate a new key pair --- only if necessary
 
 .. sourcecode:: bash
 
@@ -280,7 +336,7 @@ https://en.wikipedia.org/wiki/Ssh-agent
 
     ssh-agent is a program that, used together with OpenSSH or similar SSH programs, provides a secure way of storing the private key. For private keys that require a passphrase, ssh-agent allows the user to connect multiple times without having to repeatedly type the passphrase.
 
-* use ``ssh-agent`` to add the key pair to my keychain:
+* use ``ssh-agent`` to add the key pair to my "keychain":
 
 .. sourcecode:: bash
 
@@ -290,7 +346,7 @@ Note:  I actually did
 
     > ssh-add -K ~/.ssh/id_rsa
     
-The ``-K`` flag adds my passphrase to the keychain.  Which is a good thing since I believe I have forgotten my passphrase:
+The ``-K`` flag also adds my passphrase to the keychain.  Which is a good thing since I believe I have forgotten my passphrase:
 
 .. sourcecode:: bash
 
@@ -308,14 +364,14 @@ The ``-K`` flag adds my passphrase to the keychain.  Which is a good thing since
 
 * Using the website, paste the public key to my github account.
 
-Go (as we did above):
+No do (as we did above):
 
 .. sourcecode:: bash
 
     > git remote add origin git@github.com:telliott99/MyUnix.git
     > git push -u origin master
 
-On the website, under settings, fingerprints are listed for two SSH keys associated with the account.  One is for the Air and one for the Mac mini
+On the website, under settings, fingerprints are listed for two SSH keys associated with the account.  One is for my MacBook Air and one for the Mac mini
 
 * 15:6e:84:e4:3d:7d:30:c7:af:11:f6:a8:35:b2:bb:57
 * 76:b1:63:48:b1:55:7d:98:ef:bc:21:bd:fb:36:dc:43
@@ -332,7 +388,7 @@ Explanation of the different methods.
 
 https://help.github.com/articles/which-remote-url-should-i-use/
 
-You can tell at a glance which method we're using:  the ``git://`` protocol is shown, that is SSH.  Otherwise, we might have something like
+You can tell at a glance which method we're using:  if the ``git://`` protocol is shown, that is SSH.  Otherwise, we might have something like
 
 * ``https://github.com/username/myproject.git``
 

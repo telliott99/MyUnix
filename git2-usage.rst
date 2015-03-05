@@ -131,7 +131,7 @@ rollback after commit and merge (lose information)
 
 * ``> git reset --hard d0dfe1924e391859894033a78d50190d45d6c0e4``
 
-**Simple branching example**
+**Simple branching example from ProGit**
 
 .. sourcecode:: bash
 
@@ -231,6 +231,8 @@ After the reset, ``z.txt`` is gone.  But it is still possible to get it back!
     >
 
 **hotfix example**
+
+This example comes from the Scott Chacon book.  Read about it there (I've put the code below just to document what happened when I worked through the example).
 
 http://git-scm.com/book/en/Git-Branching-Basic-Branching-and-Merging
 
@@ -348,3 +350,227 @@ Now, go back to what we were doing:
     7fb8678 - Tom Elliott, 2 hours ago : initial project version
     > 
 
+**reset --hard:  local and remote**
+
+.. sourcecode:: bash
+
+    > git clone git@github.com:telliott99/demo.git
+    Cloning into 'demo'...
+    remote: Counting objects: 28, done.
+    remote: Compressing objects: 100% (21/21), done.
+    remote: Total 28 (delta 8), reused 22 (delta 2), pack-reused 0
+    Receiving objects: 100% (28/28), done.
+    Resolving deltas: 100% (8/8), done.
+    Checking connectivity... done.
+    > cd demo
+    > git log --pretty=oneline
+    1e32a6422878f58423910a97686489d06ea959fd add f
+    d10d4522d2e6a6c42554324bfef9d5bec50c3e08 g
+    d3c1d9a7e8f1ddc4da1f4900f5740a0f0ef37812 f
+    cb0e64f4a9a0be5f1f61a460c66c95039c3d4c86 revert
+    f60e8851b72b8dfeb8fa07a7ec6af86e2be74bd5 add a
+    8bd1d2c3e7e076c8affd6797f7672620b9cc27d0 revert to xyz
+    1885145469510057befc921d5545cd85a2f6bf8c c
+    845cbad6fd43b3dde44f464248d1a2b5c460ef72 b
+    cd0b0c1c7789011d135aeb5529d246c8951a5251 add a.txt
+    d3f7469d70b337726692b0fe276323e613b09de6 add z.txt
+    1c402334f2ed748bef73249886d72d2a25fa2de8 changed x.txt
+    36a3cf6cd6cfb906af88650d1556c11de719665c adding y.txt to project
+    ec7b4104005d0985d3de421595fc922ed17698f6 initial project version
+    > git reset --hard cd0b0c1c7789011d135aeb5529d246c8951a5251
+    HEAD is now at cd0b0c1 add a.txt
+
+The branches ahead of ``HEAD`` are gone, locally.
+
+.. sourcecode:: bash
+
+    > git branch -d 1e32a6422878f58423910a97686489d06ea959fd
+    error: branch '1e32a6422878f58423910a97686489d06ea959fd' not found.
+    > git log --pretty=oneline
+    cd0b0c1c7789011d135aeb5529d246c8951a5251 add a.txt
+    d3f7469d70b337726692b0fe276323e613b09de6 add z.txt
+    1c402334f2ed748bef73249886d72d2a25fa2de8 changed x.txt
+    36a3cf6cd6cfb906af88650d1556c11de719665c adding y.txt to project
+    ec7b4104005d0985d3de421595fc922ed17698f6 initial project version
+
+But we can't push because of the conflict:
+
+.. sourcecode:: bash
+
+    > git push -u origin master
+    To git@github.com:telliott99/demo.git
+     ! [rejected]        master -> master (non-fast-forward)
+    error: failed to push some refs to 'git@github.com:telliott99/demo.git'
+    hint: Updates were rejected because the tip of your current branch is behind
+    hint: its remote counterpart. Integrate the remote changes (e.g.
+    hint: 'git pull ...') before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+The solution is 
+
+* ``git push -f origin master``:
+
+.. sourcecode:: bash
+
+    > git push -f origin master
+    Total 0 (delta 0), reused 0 (delta 0)
+    To git@github.com:telliott99/demo.git
+     + 1e32a64...cd0b0c1 master -> master (forced update)
+    >
+
+Check for diffs with the local repo
+
+.. sourcecode:: bash
+
+    > git diff origin/master
+    
+We can check the log for the remote.  All of these are useful to remember:
+
+* ``git log origin/master``
+* ``git remote show origin``
+* ``git ls-remote git@github.com:telliott99/demo.git``
+
+especially the last one, which shows where ``HEAD`` is in the remote.
+
+.. sourcecode:: bash
+
+    > git log origin/master
+    commit cd0b0c1c7789011d135aeb5529d246c8951a5251
+    Author: Tom Elliott <telliott@hsc.wvu.edu>
+    Date:   Thu Mar 5 10:18:18 2015 -0500
+
+        add a.txt
+
+    commit d3f7469d70b337726692b0fe276323e613b09de6
+    Author: Tom Elliott <telliott@hsc.wvu.edu>
+    Date:   Thu Mar 5 10:08:03 2015 -0500
+
+        add z.txt
+    ..
+    > git remote show origin
+    * remote origin
+      Fetch URL: git@github.com:telliott99/demo.git
+      Push  URL: git@github.com:telliott99/demo.git
+      HEAD branch: master
+      Remote branch:
+        master tracked
+      Local branch configured for 'git pull':
+        master merges with remote master
+      Local ref configured for 'git push':
+        master pushes to master (up to date)
+    > git ls-remote git@github.com:telliott99/demo.git
+    cd0b0c1c7789011d135aeb5529d246c8951a5251	HEAD
+    cd0b0c1c7789011d135aeb5529d246c8951a5251	refs/heads/master
+    >
+
+Looks correct.
+
+**New local repository**
+
+Here is an example of creating a local repository (analogous to what github is) but on disk.  It might make sense to reduce clutter.  For example, I could add the html folder of MyUnix to a .gitignore, make a repo in my Dropbox folder, then ``push`` and ``clone`` when I want to work.
+
+Note:  here the repo ``/usr/local/remoteGit`` is a *single* project.
+
+Make a project in the usual way:
+
+.. sourcecode:: bash
+
+    > mkdir tmp
+    > cd tmp
+    > echo "abc" > x.txt
+    > git add .
+    fatal: Not a git repository (or any of the parent directories): .git
+    > git init
+    Initialized empty Git repository in /Users/telliott_admin/Desktop/tmp/.git/
+    > git add .
+    > git commit -m "initial commit"
+    [master (root-commit) 4dfaebe] initial commit
+     1 file changed, 1 insertion(+)
+     create mode 100644 x.txt
+    > cd ..
+    >
+
+.. sourcecode:: bash
+
+    > mkdir /usr/local/remoteGit
+    > cd /usr/local/remoteGit
+    > git init --bare    # empty repo
+    Initialized empty Git repository in /usr/local/remoteGit/
+    >
+    
+    > cd ~/Desktop/tmp
+    > git remote add origin /usr/local/remoteGit
+    > git push origin master
+    Counting objects: 3, done.
+    Writing objects: 100% (3/3), 215 bytes | 0 bytes/s, done.
+    Total 3 (delta 0), reused 0 (delta 0)
+    To /usr/local/remoteGit
+     * [new branch]      master -> master
+    > ls
+    x.txt
+    > ls /usr/local/remoteGit
+    HEAD		description	info		refs
+    config		hooks		objects
+    >
+
+.. sourcecode:: bash
+
+    > mkdir tmp2
+    > cd tmp2
+    > touch y.txt
+    > git init
+    > git add .
+    > git commit -m "initial commit"
+    > git remote add origin /usr/local/remoteGit
+    > git push origin master
+    To /usr/local/remoteGit
+     ! [rejected]        master -> master (fetch first)
+    error: failed to push some refs to '/usr/local/remoteGit'
+    hint: Updates were rejected because the remote contains work that you do
+    hint: not have locally. This is usually caused by another repository pushing
+    hint: to the same ref. You may want to first integrate the remote changes
+    hint: (e.g., 'git pull ...') before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    > 
+    
+.. sourcecode:: bash
+
+    > git pull
+    warning: no common commits
+    remote: Counting objects: 3, done.
+    remote: Total 3 (delta 0), reused 0 (delta 0)
+    Unpacking objects: 100% (3/3), done.
+    From /usr/local/remoteGit
+     * [new branch]      master     -> origin/master
+    There is no tracking information for the current branch.
+    Please specify which branch you want to merge with.
+    See git-pull(1) for details
+
+        git pull <remote> <branch>
+
+    If you wish to set tracking information for this branch you can do so with:
+
+        git branch --set-upstream-to=origin/<branch> master
+
+We need to specify /usr/local/remoteGit  
+
+.. sourcecode:: bash
+
+    > git pull /usr/local/remoteGit
+    From /usr/local/remoteGit
+     * branch            HEAD       -> FETCH_HEAD
+    error: cannot run TextMate: No such file or directory
+    error: unable to start editor 'TextMate'
+    Not committing merge; use 'git commit' to complete the merge.
+    > git commit
+    error: cannot run TextMate: No such file or directory
+    error: unable to start editor 'TextMate'
+    Please supply the message using either -m or -F option.
+    > git commit -m "no message"
+    [master c2e1432] no message
+    > git log --pretty=oneline
+    c2e14325a1d41402d7d13040d317c926bb5e2b52 no message
+    846ca8eb2a922b32c7ab7a127d1e7998c1aac6f7 initial commit
+    4dfaebea4062a969511f82df2489084fff02c60e initial commit
+    > 
+    

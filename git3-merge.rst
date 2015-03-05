@@ -55,9 +55,31 @@ Well, of course, there is no "other repository".  Looking at the website, there 
 
 15 minutes!  How much can get lost in 15 minutes?
 
-Possibly what happened is that I did not follow my usual routine with Dropbox.  I usually do ``make clean`` to remove the html (since each ``make html`` build changes the timestamps on the files, if the html goes to Dropbox it churns for a while).  Then I move the ``MyUnix`` folder to my Dropbox folder.  If I do copy (OPT-drag), Dropbox asks about "merging" and I don't like merging.  I like the version that's on my Desktop.  So I move to Dropbox, and then move back to the Desktop when I'm ready to work again.  Maybe somehow I messed this up, and took an old copy from Dropbox after a ``push``.  
+Possibly what happened is that I did not follow my usual routine with Dropbox.  I usually do ``make clean`` to remove the html (since each ``make html`` build changes the timestamps on the files, if the html goes to Dropbox it churns for a while).  Then I move the ``MyUnix`` folder to my Dropbox folder.  If I do copy (OPT-drag), Dropbox asks about "merging" and I don't like merging.  I like the version that's on my Desktop.  So I move to Dropbox, and then move back to the Desktop when I'm ready to work again.  Maybe somehow I messed this up, and took an old copy from Dropbox after a ``push``.
 
-Anyway, somehow I have to merge these changes.  One thing I tried is certainly wrong, and pretty aggressive.  I saved a few files, but trashed the repo on my Desktop, and then ``git clone git://github.com/telliott99/MyUnix.git`` to start fresh.  (I know).  This leads to a second problem:
+**A better approach**
+
+Rather than physically copying the ``MyUnix`` folder back and forth, what I am going to try going forward is to clone it:
+
+.. sourcecode:: bash
+
+    > git clone ~/Dropbox/MyX/MyUnix/
+    Cloning into 'MyUnix'...
+    done.
+    .. do some work ..
+    .. make html ..
+    > git push -u ~/Dropbox/MyX/MyUnix master
+    Branch master set up to track remote branch master from /Users/telliott_admin/Dropbox/MyX/MyUnix.
+    Everything up-to-date
+    > 
+
+This shows that the ``.gitignore`` is working properly.  Even though there are a bunch of html files after the ``make html``, they are not being tracked and are not pushed to Dropbox.
+
+[ There is a problem however ]
+
+**Merging changes**
+
+Anyway, somehow I have to merge these changes in the situation described above.  One thing I tried is certainly wrong, and pretty aggressive.  I saved a few files, but trashed the repo on my Desktop, and then ``git clone git://github.com/telliott99/MyUnix.git`` to start fresh.  (I know).  This leads to a second problem:
 
 .. sourcecode:: bash
 
