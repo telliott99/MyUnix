@@ -241,18 +241,21 @@ Looks good.
     Python 2.7.9 (default, Feb 10 2015, 03:28:08) 
     [GCC 4.2.1 Compatible Apple LLVM 6.0 (clang-600.0.56)] on darwin
     Type "help", "copyright", "credits" or "license" for more information.
-    >>> from scipy import stats
-    >>> from scipy.stats import norm
-    >>> norm.cdf(2)
-    0.97724986805182079
-    >>> norm.cdf(0)
-    0.5
-    >>> import matplotlib.pyplot as plt
-    >>> Y = [1,4,9,16]
-    >>> plt.scatter(range(len(Y)),Y,s=250,color='r')
-    <matplotlib.collections.PathCollection object at 0x10b227690>
-    >>> plt.savefig('example.png')
-    >>> 
+    
+>>> from scipy import stats
+>>> from scipy.stats import norm
+>>> norm.cdf(2)
+0.97724986805182079
+>>> norm.cdf(0)
+0.5
+>>> import matplotlib.pyplot as plt
+>>> Y = [1,4,9,16]
+>>> plt.scatter(range(len(Y)),Y,s=250,color='r')
+<matplotlib.collections.PathCollection object at 0x10b227690>
+>>> plt.savefig('example.png')
+
+.. sourcecode:: bash
+
     [4]+  Stopped                 python
     (mpl2)> ls
     bin			lib

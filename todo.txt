@@ -1,24 +1,45 @@
-network stuff
+Unix make
 
-Sphinx
-http://sphinx-doc.org
 
-> sudo easy_install -U Sphinx
-Password:
-Searching for Sphinx
+tar -zxf git-1.6.0.5.tar.gz 
+$ cd git-1.6.0.5 
+$ make prefix=/usr/local all 
+$ sudo make prefix=/usr/local install
 
-..
 
-cogent
+bowtie bowtie2
 
-make
+uclust
 
-ln -s progname linkname
 
-brew edit python
-curl -O https://dl.dropboxusercontent.com/u/3534458/example.zip
-md5 example.zip
+Last login: Thu Mar  5 06:12:14 on ttys000
+> cd Desktop
+> rcs
+rcs: no input file
+rcs usage: rcs -{ae}logins -Afile -{blu}[rev] -cstring -{iILqTU} -ksubst -mrev:msg -{nN}name[:[rev]] -orange -sstate[:rev] -t[text] -Vn -xsuff -zzone file ...
+rcs aborted
+> 
 
-Notes:
-hashes and crypto
+stdin
+
+<< and >>
+
+dealing with problems in git
+
+symbolic links and hard links
+
+command line R
+
+Phylip as a process
+
+
+http://unix.stackexchange.com/questions/131766/why-does-my-shell-script-choke-on-whitespace-or-other-special-characters
+
+
+how about mrbayes?
+
+blogger stuff
+recover posts
+
+http://stackoverflow.com/questions/7134780/formatting-python-code-for-the-web
 

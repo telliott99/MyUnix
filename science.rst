@@ -90,8 +90,6 @@ There are only six of them.  Easy enough to do it "by hand" in Python interprete
 ...     FH.write(ef.read() + '\n')
 ... 
 >>> FH.close()
->>> 
->>> 
 
 And now we have
 
@@ -250,7 +248,7 @@ ImportError: cannot import name LoadTRee
                    |          /-AJ278451.1
                     \0.949---|
                               \-DQ450530.1
->>> 
+
 
 That's a good example of running scientific software from the command line.  There are many more examples in my Python book.
 

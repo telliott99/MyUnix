@@ -201,8 +201,6 @@ and I recall that I moved the ``Exams`` subdirectory recently!  I'd forgotten th
 .. sourcecode:: bash
 
     \graphicspath{{/Users/telliott_admin/Dropbox/Teaching/Exams/png/}}
-    
-And it works!
 
 Every problem can be solved.  Go forth and conquer.
 

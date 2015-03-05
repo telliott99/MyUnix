@@ -107,18 +107,144 @@ It says "up to date" because I don't have this problem at the moment.
 To get the data from github, I should do
 
     > git fetch origin
+    
 
 And now I just need to merge it.
 
 [ Read about merging and come back ]
 
-check if we're on master..
+**Simulate problem**
 
-git checkout master   # if not
-git merge ______      # the github commit I don't have
-git branch -d _____   # no longer need that data
+Use our shell script:
 
-That should do it, for the next time I have this problem.
+    ./git.sh    # make new repo named demo
+    
+On GitHub, create a new repository ``demo``.  
+
+.. image:: /figs/new_repo.png
+   :scale: 50 %
+
+From inside ``demo``
+
+.. sourcecode:: bash
+
+    > git remote add origin git@github.com:telliott99/demo.git
+    > git push -u origin master
+    ..
+    > cd ..  # put this copy in the Trash
+
+Simulate the problem:
+
+.. sourcecode:: bash
+
+    > git clone git@github.com:telliott99/demo.git
+    Cloning into 'demo'...
+    ..
+    > cd demo
+    > touch z.txt
+    > git add z.txt
+    > git commit -m "add z.txt"
+    [master d3f7469] add z.txt
+     1 file changed, 0 insertions(+), 0 deletions(-)
+     create mode 100644 z.txt
+    > git push -u origin master
+    Counting objects: 3, done.
+    ..
+
+.. sourcecode:: bash
+
+    > cd .. 
+    > cp -r demo demo.old
+    > cd demo
+    > touch a.txt
+    > git add a.txt
+    > git commit -m "add a.txt"
+    > git push -u origin master
+    > git push -u origin master
+    ..
+    To git@github.com:telliott99/demo.git
+       d3f7469..cd0b0c1  master -> master
+    Branch master set up to track remote branch master from origin.
+    >
+
+Now, rename the copy on the Desktop
+
+.. sourcecode:: bash
+
+    > mv demo demo.git
+    > mv demo.old demo
+
+So, when we go to push ``demo``, GitHub will complain:
+
+.. sourcecode:: bash
+
+    > cd demo
+    > git push -u origin master
+    To git@github.com:telliott99/demo.git
+     ! [rejected]        master -> master (fetch first)
+    error: failed to push some refs to 'git@github.com:telliott99/demo.git'
+    hint: Updates were rejected because the remote contains work that you do
+    hint: not have locally. This is usually caused by another repository pushing
+    hint: to the same ref. You may want to first integrate the remote changes
+    hint: (e.g., 'git pull ...') before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    >
+
+And the solution should be:
+
+.. sourcecode:: bash
+
+    > git fetch origin
+    remote: Counting objects: 2, done.
+    remote: Compressing objects: 100% (2/2), done.
+    remote: Total 2 (delta 0), reused 2 (delta 0), pack-reused 
+    Unpacking objects: 100% (2/2), done.
+    From github.com:telliott99/demo
+       d3f7469..cd0b0c1  master     -> origin/master
+    > git status
+    On branch master
+    Your branch is behind 'origin/master' by 1 commit, and can be fast-forwarded.
+     (use "git pull" to update your local branch)
+    nothing to commit, working directory clean
+    >
+    
+.. sourcecode:: bash
+    
+    > git pull
+    Updating d3f7469..cd0b0c1
+    Fast-forward
+     a.txt | 0
+     1 file changed, 0 insertions(+), 0 deletions(-)
+     create mode 100644 a.txt
+    > git log --pretty=oneline
+    cd0b0c1c7789011d135aeb5529d246c8951a5251 add a.txt
+    d3f7469d70b337726692b0fe276323e613b09de6 add z.txt
+    1c402334f2ed748bef73249886d72d2a25fa2de8 changed x.txt
+    36a3cf6cd6cfb906af88650d1556c11de719665c adding y.txt to project
+    ec7b4104005d0985d3de421595fc922ed17698f6 initial project version
+    >
+
+.. sourcecode:: bash
+
+    > git show HEAD
+    commit cd0b0c1c7789011d135aeb5529d246c8951a5251
+    Author: Tom Elliott <telliott@hsc.wvu.edu>
+    Date:   Thu Mar 5 10:18:18 2015 -0500
+
+        add a.txt
+
+    diff --git a/a.txt b/a.txt
+    new file mode 100644
+    index 0000000..e69de29
+    > git merge
+    Already up-to-date.
+    > git push -u origin master
+    Branch master set up to track remote branch master from origin.
+    Everything up-to-date
+    >
+
+Need to try this again.  We successfully added a commit from the remote to the local repo.  But I should have done some work in the meantime to simulate the problem more accurately.
+
 
 
 

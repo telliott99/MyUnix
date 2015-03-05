@@ -76,6 +76,25 @@ We'll make a new directory containing a single file.  Run ``git init`` to initia
 
          initial commit
      >
+     
+One can skip the ``add`` step by using the ``-a`` flag with ``git commit``:
+
+.. sourcecode:: bash
+
+    > man git-commit
+    -a, --all
+         Tell the command to automatically stage
+         files that have been modified and deleted,
+         but new files you have not told Git about
+         are not affected.
+
+(I was confused about this.  I've been using ``-a`` for ``--amend``!)
+
+    > git commit -m 'initial commit' 
+    > git add forgotten_file 
+    > git commit --amend
+    
+[ Todo:  difference between ``rm`` and ``rm --cached``]
 
 Commonly, one may have files present in a project that you don't want to have tracked by git.  Use ``.gitignore`` for this.  For example
 
