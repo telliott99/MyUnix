@@ -23,13 +23,13 @@ Since I already have Homebrew installed, I've used it to add a bunch of software
 .. sourcecode:: bash
 
     > brew list
-    cloog		go		pkg-config
-    fasttree	isl		python
-    freetype	libmpc		python3
-    gdbm		libpng		readline
-    gfortran	mpfr		sqlite
-    git		muscle		xz
-    gmp		openssl		youtube-dl
+    cloog	go	pkg-config
+    fasttree	isl	python
+    freetype	libmpc	python3
+    gdbm	libpng	readline
+    gfortran	mpfr	sqlite
+    git	muscle	xz
+    gmp	openssl	youtube-dl
     >
 
 It is hard for me to demonstrate Homebrew since I already have it installed.  So I think what I'm going to do is to remove it and all the programs that I have installed using it, and try doing it all again.  Wish me luck!
@@ -46,7 +46,15 @@ What this means is that, if I delete ``/usr/local``, Homebrew and everything els
 
 and it hung!  That should not have happened.  (The ``-f`` option means don't prompt to ask if I really want to do this for each file.  What's probably happening is a permissions problem that leads to an error, which is silenced).
 
-When I moved into ``/usr/local`` and started deleting subdirectories one-by-one, it became apparent what had happened.  The ``MacGPG2`` files were installed with altered permissions and altered owners.  Bad bad bad boys.  I just used ``sudo`` on that one.  Part of the deal with ``/usr/local`` is it should not have restricted access.
+When I moved into ``/usr/local`` and started deleting subdirectories one-by-one, it became apparent what had happened.  The ``MacGPG2`` files were installed with altered permissions and altered owners.  Bad bad bad boys.  
+
+I just used ``sudo`` on that one.  It's part of the contract with ``/usr/local`` is it should not have restricted access.
+
+Some discussion:
+
+http://rkulla.blogspot.com/2014/03/the-path-to-homebrew.html
+
+http://superuser.com/questions/655113/understanding-homebrew-no-sudo-philosophy-and-questioning-faq
 
 Now to start over:
 
@@ -65,7 +73,7 @@ What's going on?  Permission is being denied because of something about ``/usr``
     drwxr-xr-x@   13 root  wheel    442 Mar  3 11:04 .
     drwxr-xr-x    34 root  wheel   1224 Mar  3 08:29 ..
 
-So the problem is that ``/usr/`` is owned by "root".  As part of "world" in this context, I don't have write permissions for this directory.  That's OK, just use ``sudo`` again.
+So the problem is that ``/usr/`` is owned by "root".  As part of "world" in this context, I don't have write permissions for this directory.  That's OK, just use ``sudo``, but never again in this context, I hope.
 
 .. sourcecode:: bash
 
@@ -83,7 +91,7 @@ Now, I don't want these owner/group designations etc. on ``/usr/local``.  See, f
 
 http://apple.stackexchange.com/questions/1393/are-my-permissions-for-usr-local-correct
 
-So, time for a little ``sudo`` juice:
+So, time for a little ``sudo`` juice (I guess I spoke too soon):
 
 .. sourcecode:: bash
 
@@ -267,16 +275,16 @@ These are all pre-built for my OS X version (Yosemite), so it only takes a minut
 .. sourcecode:: bash
 
     > brew list
-    cloog		go		pkg-config
-    fasttree	isl		python
-    freetype	libmpc		python3
-    gdbm		libpng		readline
-    gfortran	mpfr		sqlite
-    git		muscle		xz
-    gmp		openssl		youtube-dl
+    cloog	go	pkg-config
+    fasttree	isl	python
+    freetype	libmpc	python3
+    gdbm	libpng	readline
+    gfortran	mpfr	sqlite
+    git	muscle	xz
+    gmp	openssl	youtube-dl
     >
 
-I should not need ``gfortran`` (I think read something about clang or llvm having it?).  I *will* need ``libpng`` for ``matplotlib``, and ``youtube-dl`` is useful.
+I should not need ``gfortran`` (I think I read something about ``clang`` or ``llvm`` having it?).  I *will* need ``libpng`` for ``matplotlib``, and ``youtube-dl`` is useful.
 
 .. sourcecode:: bash
 
@@ -329,4 +337,34 @@ The prefix ``/usr/local`` tells me this is the ``pip`` we want.
     >
 
 Guess it was already there.  So now, we are ready to set up Python.  I will do that in the next chapter.
+
+Oh, one last thing.  Since we can get ``youtube-dl``, let's do that, and then do a quick demo
+
+.. sourcecode:: bash
+
+    > brew install youtube-dl
+
+Now suppose we have a link to a youtube video.  Say:
+
+https://www.youtube.com/watch?v=Adw772km7PQ
+
+According to the docs:
+
+http://rg3.github.io/youtube-dl/
+
+we just do
+
+.. sourcecode:: bash
+
+    > youtube-dl https://www.youtube.com/watch?v=Adw772km7PQ
+    [youtube] Adw772km7PQ: Downloading webpage
+    [youtube] Adw772km7PQ: Extracting video information
+    [youtube] Adw772km7PQ: Downloading js player en_US-vflTbHYa9
+    [youtube] Adw772km7PQ: Downloading DASH manifest
+    [download] Destination: Steve Winwood - Back In The High Life Again-Adw772km7PQ.mp4
+    [download]   0.0% of 12.86MiB at Unknown speed ETA Unknown E[download] 100% of 12.86MiB in 00:07
+    > open -a Quicktime\ Player Steve\ Winwood\ -\ Back\ In\ The\ High\ Life\ Again-Adw772km7PQ.mp4 
+    > 
+
+And it works!
 

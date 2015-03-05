@@ -22,6 +22,8 @@ Contents:
    git1-setup
    git2-usage
    latex
+   science
+   brew2
 
 
 Indices and tables

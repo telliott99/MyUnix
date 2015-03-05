@@ -129,9 +129,111 @@ Notice that in the last step grep is going through the files line by line lookin
 
 **curl and its flags**
 
+``curl`` stands for "copy URL".  It is designed to request data from a server on the web by any of a number of protocols, including secure ones, with or without cookies, and more.  It has a number of flags, but the one you always see is:
+
+* ``-O`` write to local file named like the remote one
+* ``-#`` use a progress bar rather than the usual meter
+
+.. sourcecode:: bash
+
+    > curl http://en.wikipedia.org/wiki/Main_Page | head -n 5
+      % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                     Dload  Upload   Total   Spent    Left  Speed
+      0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0<!DOCTYPE html>
+    <html lang="en" dir="ltr" class="client-nojs">
+    <head>
+    <meta charset="UTF-8" />
+    <title>Wikipedia, the free encyclopedia</title>
+    curl: (23) Failed writing body (0 != 9972)
+    >
+
+More examples:
+
+http://www.thegeekstuff.com/2012/04/curl-examples/
+
 **processes and ps**
 
+Finding and killing a process
+
+The ``ps`` command by itself yields
+
+.. sourcecode:: bash
+
+    > ps
+      PID TTY           TIME CMD
+      809 ttys000    0:00.01 -bash
+    >
+
+A number of its flags select processes to display:
+
+* ``-A`` other peoples process
+* ``-a`` others plus mine
+* ``-G`` process for group G
+* ``-g`` group "leader" g
+* ``-p`` process ID
+* ``-T`` standard input
+* ``-t`` terminal device
+* ``-U`` user ID
+* ``-u`` username
+
+These flags may be combined and the processes will be combined too.  
+
+Processes can also be sorted (default is process ID) by 
+
+* ``-m`` memory usage
+* ``-r`` cpu usage
+
+* ``-o`` select info for display
+* ``-v`` certain info for display
+
+
+**aux**
+
+* a = show processes for all users
+* u = display the process's user/owner
+* x = also show processes not attached to a terminal
+
+.. sourcecode:: bash
+
+    > ps aux -r | head -n 4
+    USER              PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+    telliott_admin    890   1.3  0.6  3678932  46272   ??  S     4:14PM   0:02.45 /Applications/Safari.app/Contents/MacOS/Safari
+    _windowserver     117   1.1  0.7  3614568  58988   ??  Ss    1:52PM   2:08.38 /System/Library/Frameworks/ApplicationServices.framework/Frameworks/CoreGraphics.framework/Resources/WindowServer -daemon
+    telliott_admin    806   1.0  0.4  2581004  33304   ??  R     3:59PM   0:09.72 /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
+    > 
+
+**user**
+
+.. sourcecode:: bash
+
+    > ps -f -u `whoami` | head -n 5
+      UID   PID  PPID   C STIME   TTY           TIME CMD
+      501   200     1   0  1:52PM ??         0:00.84 /usr/libexec/UserEventAgent (Aqua)
+      501   202     1   0  1:52PM ??         0:01.65 /usr/sbin/distnoted agent
+      501   204     1   0  1:52PM ??         0:01.50 /usr/sbin/cfprefsd agent
+      501   207     1   0  1:52PM ??         0:12.42 /System/Library/CoreServices/Dock.app/Contents/MacOS/Dock
+    > 
+
+**name or pid**
+
+.. sourcecode:: bash
+
+    > ps aux | grep "bash" 
+    telliott_admin    809   0.0  0.0  2461020   1316 s000  S     3:59PM   0:00.04 -bash
+    telliott_admin    950   0.0  0.0  2441988    652 s000  R+    4:20PM   0:00.00 grep bash
+    > ps -C 809
+      PID TTY           TIME CMD
+      809 ttys000    0:00.05 -bash
+    >
+
+[ Lots more to say ]
+
+Reference:
+
+http://www.binarytides.com/linux-ps-command/
+
 **cron**
+
 
 
 **xxd**
@@ -177,6 +279,8 @@ The ``xxd`` ``-r`` flag, when combined with ``-p`` we get:
 Using ``-p`` we can go from hex to binary, and using ``-r`` we can go back again.
     
 This solves the problem I had with crypto prob #1
+
+.. sourcecode:: bash
 
     > echo \
     "49276d206b696c6c696e6720796f757220627261696e206c\
