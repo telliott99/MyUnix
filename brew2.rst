@@ -12,7 +12,7 @@ http://dghubble.com/blog/posts/homebrew-os-x-package-management/
 
 Homebrew packages are called **kegs**.  All kegs are installed isolated from one another inside their own auto-created directories in **Cellar** ``/usr/local/Cellar``. 
 
-Homebrew places symbolic links to package executables inside a bin directory ``/usr/local/bin``.  The package definition is called a formula and the standard ones are in ``usr/local/Library/Formula/`` as ``usr/local/Library/Formula/foo.rb``.  Technically, a key is something like ``/usr/local/Cellar/foo/0.1``.
+Homebrew places symbolic links to package executables inside a bin directory ``/usr/local/bin``.  The package definition is called a formula and the standard ones are in ``usr/local/Library/Formula/`` as ``usr/local/Library/Formula/foo.rb``.  Technically, a keg is something like ``/usr/local/Cellar/foo/0.1``.
 
 A Homebrew **Bottle** is a pre-built binary Key that can be unpacked.
     

@@ -1,3 +1,8 @@
+Making a formula is easy. Just brew create URL and then brew install $FORMULA (perhaps with --debug --verbose). Basically, a formula is a Ruby file. You can place it anywhere you want (local or remote) and install it by pointing to the file or URL.
+
+
+
+
 Unix make
 
 

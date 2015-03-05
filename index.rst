@@ -22,7 +22,7 @@ Contents:
    unix-advanced2
    git1-setup
    git2-usage
-   git3-problems
+   git3-merge
    latex
    science
    brew2

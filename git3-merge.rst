@@ -1,8 +1,8 @@
-.. _git2-problems:
+.. _git2-merge:
 
-##########
-Git:  more
-##########
+###########################
+Git:  Conflicts and mergins
+###########################
 
 **A problem**
 
@@ -253,7 +253,6 @@ Need to try this again.  We successfully added a commit from the remote to the l
     > git add g.txt
     > git commit -m "g"
     > git push -u origin master # push should fail
-    > git push -u origin master
     To git@github.com:telliott99/demo.git
      ! [rejected]        master -> master (fetch first)
     error: failed to push some refs to 'git@github.com:telliott99/demo.git'
