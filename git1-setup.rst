@@ -90,11 +90,19 @@ One can skip the ``add`` step by using the ``-a`` flag with ``git commit``:
 
 (I was confused about this.  I've been using ``-a`` for ``--amend``!)
 
+.. sourcecode:: bash
+
     > git commit -m 'initial commit' 
     > git add forgotten_file 
     > git commit --amend
     
 [ Todo:  difference between ``rm`` and ``rm --cached``]
+
+The above doesn't see to work in practice.  Instead, rather than cycle through all the files you've changed, add them all at once with
+
+.. sourcecode:: bash
+
+    > git add .
 
 Commonly, one may have files present in a project that you don't want to have tracked by git.  Use ``.gitignore`` for this.  For example
 
