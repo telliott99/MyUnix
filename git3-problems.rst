@@ -12,10 +12,12 @@ However, I do run into occasional problems that need to be solved.  Here is one 
 
 Normally I finish a section of work and do the usual
 
-* ``git status``
-* ``git add < filename > ``
-* ``git remove --cached < filename >``
-* ``commit -m "no message"
+.. sourcecode:: bash
+
+    > git status
+    > git add < filename >
+    > git remove --cached < filename >
+    > commit -m "no message"
 
 Now I ``push`` my changes up to github with
 
@@ -55,7 +57,7 @@ Well, of course, there is no "other repository".  Looking at the website, there 
 
 Possibly what happened is that I did not follow my usual routine with Dropbox.  I usually do ``make clean`` to remove the html (since each ``make html`` build changes the timestamps on the files, if the html goes to Dropbox it churns for a while).  Then I move the ``MyUnix`` folder to my Dropbox folder.  If I do copy (OPT-drag), Dropbox asks about "merging" and I don't like merging.  I like the version that's on my Desktop.  So I move to Dropbox, and then move back to the Desktop when I'm ready to work again.  Maybe somehow I messed this up, and took an old copy from Dropbox after a ``push``.  
 
-Anyway, somehow I have to merge these things.  One thing I tried is certainly wrong, and pretty aggressive.  I saved a few files, but trashed the repo on my Desktop, and then ``git clone git://github.com/telliott99/MyUnix.git`` to start fresh.  (I know).  This leads to a second problem:
+Anyway, somehow I have to merge these changes.  One thing I tried is certainly wrong, and pretty aggressive.  I saved a few files, but trashed the repo on my Desktop, and then ``git clone git://github.com/telliott99/MyUnix.git`` to start fresh.  (I know).  This leads to a second problem:
 
 .. sourcecode:: bash
 
@@ -76,7 +78,7 @@ Anyway, I know there is a correct approach here.  I have a folder on my Desktop 
 
 http://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes
 
-Keep in mind that the github repo is called "origin";  it is set up that way if I do ``git clone ..``, at least.  The one in the folder on my Desktop is called "master".
+Keep in mind that the github repo is called "origin";  it is set up that way if I do ``git clone ..``, at least.  The one in the folder on my Desktop is called "master" and it refers to the github repo by the name "origin".
 
 .. sourcecode:: bash
 
@@ -106,6 +108,8 @@ It says "up to date" because I don't have this problem at the moment.
 
 To get the data from github, I should do
 
+.. sourcecode:: bash
+
     > git fetch origin
     
 
@@ -117,6 +121,8 @@ And now I just need to merge it.
 
 Use our shell script:
 
+.. sourcecode:: bash
+
     ./git.sh    # make new repo named demo
     
 On GitHub, create a new repository ``demo``.  
@@ -124,32 +130,12 @@ On GitHub, create a new repository ``demo``.
 .. image:: /figs/new_repo.png
    :scale: 50 %
 
-From inside ``demo``
+From inside the ``demo`` directory on the Desktop
 
 .. sourcecode:: bash
 
     > git remote add origin git@github.com:telliott99/demo.git
     > git push -u origin master
-    ..
-    > cd ..  # put this copy in the Trash
-
-Simulate the problem:
-
-.. sourcecode:: bash
-
-    > git clone git@github.com:telliott99/demo.git
-    Cloning into 'demo'...
-    ..
-    > cd demo
-    > touch z.txt
-    > git add z.txt
-    > git commit -m "add z.txt"
-    [master d3f7469] add z.txt
-     1 file changed, 0 insertions(+), 0 deletions(-)
-     create mode 100644 z.txt
-    > git push -u origin master
-    Counting objects: 3, done.
-    ..
 
 .. sourcecode:: bash
 
@@ -160,14 +146,13 @@ Simulate the problem:
     > git add a.txt
     > git commit -m "add a.txt"
     > git push -u origin master
-    > git push -u origin master
     ..
     To git@github.com:telliott99/demo.git
        d3f7469..cd0b0c1  master -> master
     Branch master set up to track remote branch master from origin.
     >
 
-Now, rename the copy on the Desktop
+Simulate the problem:  rename the copy on the Desktop
 
 .. sourcecode:: bash
 
@@ -245,6 +230,86 @@ And the solution should be:
 
 Need to try this again.  We successfully added a commit from the remote to the local repo.  But I should have done some work in the meantime to simulate the problem more accurately.
 
+.. sourcecode:: bash
 
+    > git clone git@github.com:telliott99/demo.git
+    > cd demo/
+    > rm a.txt                  # clean up a bit
+    > git rm --cached a.txt
+    > git commit -m "revert"    # commit base
+    > cd ..
+    > cp -r demo base           # save a copy of base
+    > cd demo
+    > touch f.txt               # add file f
+    > git add f.txt
+    > git commit -m "f"
+    > git push -u origin master # push to github
+    > cd ..
+    > cp -r demo git_repo       # save a copy of git version
+    > rm -rf demo
+    > cp -r base demo           # back to base
+    > cd demo
+    > touch g.txt               # do some work
+    > git add g.txt
+    > git commit -m "g"
+    > git push -u origin master # push should fail
+    > git push -u origin master
+    To git@github.com:telliott99/demo.git
+     ! [rejected]        master -> master (fetch first)
+    error: failed to push some refs to 'git@github.com:telliott99/demo.git'
+    hint: Updates were rejected because the remote contains work that you do
+    hint: not have locally. This is usually caused by another repository pushing
+    hint: to the same ref. You may want to first integrate the remote changes
+    hint: (e.g., 'git pull ...') before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    >
 
+Solution 
 
+.. sourcecode:: bash
+
+    > ls
+    g.txt	x.txt	y.txt
+    > git pull
+    remote: Counting objects: 3, done.
+    remote: Compressing objects: 100% (2/2), done.
+    remote: Total 3 (delta 0), reused 3 (delta 0), pack-reused 
+    Unpacking objects: 100% (3/3), done.
+    From github.com:telliott99/demo
+       f60e885..d3c1d9a  master     -> origin/master
+    error: cannot run TextMate: No such file or directory
+    error: unable to start editor 'TextMate'
+    Not committing merge; use 'git commit' to complete the merge.
+    > git status
+    On branch master
+    Your branch and 'origin/master' have diverged,
+    and have 1 and 1 different commit each, respectively.
+      (use "git pull" to merge the remote branch into yours)
+    All conflicts fixed but you are still merging.
+      (use "git commit" to conclude merge)
+
+    Changes to be committed:
+
+    	new file:   f.txt
+
+    > git commit -m "add f"
+    [master 1e32a64] add f
+    > git status
+    On branch master
+    Your branch is ahead of 'origin/master' by 2 commits.
+      (use "git push" to publish your local commits)
+    nothing to commit, working directory clean
+    > git push -u origin master
+    Counting objects: 4, done.
+    Delta compression using up to 4 threads.
+    Compressing objects: 100% (4/4), done.
+    Writing objects: 100% (4/4), 495 bytes | 0 bytes/s, done.
+    Total 4 (delta 1), reused 0 (delta 0)
+    To git@github.com:telliott99/demo.git
+       d3c1d9a..1e32a64  master -> master
+    Branch master set up to track remote branch master from origin.
+    > 
+
+So that's it.  Just ``git pull`` and ``git commit``, provided it can be fixed easily.  Have to figure out why git couldn't find TextMate.
+    
+        
