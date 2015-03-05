@@ -74,7 +74,51 @@ github is complaining that I am not set up for SSH.
 
 Anyway, I know there is a correct approach here.  I have a folder on my Desktop with the project in it.  There is a commit that is on github which I don't have locally.  I need to get that stuff off github and merge it somehow.
 
+http://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes
+
+Keep in mind that the github repo is called "origin";  it is set up that way if I do ``git clone ..``, at least.  The one in the folder on my Desktop is called "master".
+
+.. sourcecode:: bash
+
+    > git remote -v
+    origin	git@github.com:telliott99/MyUnix.git (fetch)
+    origin	git@github.com:telliott99/MyUnix.git (push)
+    >
+
+You can look at what's up there with
+
+.. sourcecode:: bash
+
+    > git remote show origin
+    * remote origin
+      Fetch URL: git@github.com:telliott99/MyUnix.git
+      Push  URL: git@github.com:telliott99/MyUnix.git
+      HEAD branch: master
+      Remote branch:
+        master tracked
+      Local branch configured for 'git pull':
+        master merges with remote master
+      Local ref configured for 'git push':
+        master pushes to master (up to date)
+    >
+
+It says "up to date" because I don't have this problem at the moment. 
+
+To get the data from github, I should do
+
+    > git fetch origin
+
+And now I just need to merge it.
+
 [ Read about merging and come back ]
+
+check if we're on master..
+
+git checkout master   # if not
+git merge ______      # the github commit I don't have
+git branch -d _____   # no longer need that data
+
+That should do it, for the next time I have this problem.
 
 
 
