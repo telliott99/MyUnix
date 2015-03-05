@@ -4,9 +4,13 @@
 Homebrew
 ########
 
-Homebrew is a "package manager" for OS X.  I have used it happily for several years.  Homebrew was not the first one available:  it was fink and then Macports, but I prefer Homebrew.  Do not even try fink, it is aptly named, and will mess up your machine.
+Homebrew is a "package manager" for OS X.  I have used it happily for several years.  Homebrew was not the first one available:  it was fink and then Macports, but I prefer Homebrew.
 
-The home page for Homebrew is here:
+The wiki for Homebrew is here:
+
+https://github.com/Homebrew/homebrew/tree/master/share/doc/homebrew#readme
+
+And the home page for Homebrew is here:
 
 http://brew.sh
 
