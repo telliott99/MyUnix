@@ -6,13 +6,13 @@ Git:  usage
 
 **Shell scripts**
 
-Working on examples for git, I found it useful to setup (and destroy) the same project multiple times.  To automate this, I wrote the following shell script:
+Working on examples for git, I found it useful to setup (and destroy) the same project multiple times.  To automate this, I wrote the following shell script.  It works similarly to the Python script we saw previously.  Just do ``chmod u+x git.sh`` on  it first.
 
 ``git.sh``:
 
 .. literalinclude:: /_static/git.sh
 
-To execute it, just put the file ``git.sh`` on the Desktop and do:
+To execute it, put the file ``git.sh`` on the Desktop and do:
 
 .. sourcecode:: bash
 
@@ -57,7 +57,7 @@ So we added ``x.txt`` to the project, then ``y.txt`` and then edited ``x.txt`` t
     nothing to commit, working directory clean
     >
     
-From the log output above, we see there are three commits, with messages.
+From the log output above, we see there are three commits, with the following hashes (signatures).
 
 * ``commit 7bb90f3368deb457e7af52772fa03d25362ef00a``
 * ``commit 72e19d2187287fb5accbb4c367d1738c7890cbd6``
@@ -65,7 +65,11 @@ From the log output above, we see there are three commits, with messages.
 
 **git log**
 
-``git log`` takes various arguments
+``git log`` may take various arguments:
+
+* ``git log --pretty=format:"%h %s"``
+* ``git log --pretty=oneline``
+* ``git log -p -2`` # see the last two commits 
 
 .. sourcecode:: bash
 
@@ -101,8 +105,6 @@ From the log output above, we see there are three commits, with messages.
 
     >
 
-shows the ``diff`` for each of the last two commits.
-
 .. sourcecode:: bash
 
     > git log --pretty=format:"%h - %an, %ar : %s"
@@ -113,13 +115,13 @@ shows the ``diff`` for each of the last two commits.
     > 
     
 
-**Undo**
+**Undoing things**
 
-rollback edited but not staged
+File edited but not staged and you wish to do a rollback
 
 * ``git checkout x.txt``
 
-rollback staged
+rollback staged edit
 
 * ``git reset HEAD x.txt``
 
@@ -132,6 +134,8 @@ rollback after commit and merge (lose information)
 * ``> git reset --hard d0dfe1924e391859894033a78d50190d45d6c0e4``
 
 **Simple branching example from ProGit**
+
+To start working on a new part of the project, just "check out" a new branch:  ``git checkout -b < branch >``.
 
 .. sourcecode:: bash
 
@@ -158,7 +162,7 @@ Note:  ``git checkout -b newbranch`` is short for
     > git branch newbranch
     > git checkout newbranch
 
-Now, go back to ``master`` and merge in our work on ``newbranch``:
+Work a while.  Now, switch back to ``master`` and "merge" in our work on ``newbranch``:
 
 .. sourcecode:: bash
 
@@ -185,7 +189,7 @@ Suppose that, after the merge, we decide we've made a mistake.  How to revert th
 
 .. sourcecode:: bash
     
-    > git reset --soft HEAD
+    > git reset --soft HEAD^
     > git ls-files
     x.txt
     y.txt
@@ -230,9 +234,11 @@ After the reset, ``z.txt`` is gone.  But it is still possible to get it back!
     7fb86780e7f117cae27c76dec1c7080eb1ee8814 initial project version
     >
 
+It is actually very hard to lose information from a repository.  That's why accidentally publishing sensitive items there (SSH keys, for example) is generally not a recoverable error.
+
 **hotfix example**
 
-This example comes from the Scott Chacon book.  Read about it there (I've put the code below just to document what happened when I worked through the example).
+This second example also comes from the Scott Chacon book.  You should probably just read about it there (I've put the code below to document what happened when I work through the example).
 
 http://git-scm.com/book/en/Git-Branching-Basic-Branching-and-Merging
 
@@ -240,10 +246,10 @@ http://git-scm.com/book/en/Git-Branching-Basic-Branching-and-Merging
 * Create a branch for a new story you’re working on.
 * Do some work in that branch.
 
-At this stage, you’ll receive a call that another issue is critical and you need a hotfix. You’ll do the following:
+At this stage, you’ll receive a call that another issue is critical and you need a hotfix. Without doing anything about your story branch, you’ll do the following:
 
 * Revert back to your production branch.
-* Create a branch to add the hotfix.
+* Create a branch to add the hotfix, starting from there.
 * After it’s tested, merge the hotfix branch, and push to production.
 * Switch back to your original story and continue working.
 
@@ -284,7 +290,7 @@ To do this:
      7fb8678 - Tom Elliott, 2 hours ago : initial project version
      >
 
-Want working directory clean before switching 
+Want working directory clean (no unstaged, uncommitted work) before switching 
 
 .. sourcecode:: bash
 
@@ -306,7 +312,7 @@ Want working directory clean before switching
      create mode 100644 p.txt
     >
 
-To merge:
+To merge hotfix with the master (and delete hotfix after the merge):
 
 .. sourcecode:: bash
 
@@ -323,8 +329,14 @@ To merge:
     > git branch -d hotfix
     Deleted branch hotfix (was bac0f7a).
     > 
+    
+A picture of where we are at this moment
 
-Now, go back to what we were doing:
+.. image:: /figs/git_merge.png
+   :scale: 30 %
+
+
+Now, go back to what we were doing, finish up and merge.
 
 .. sourcecode:: bash
 
@@ -350,9 +362,15 @@ Now, go back to what we were doing:
     7fb8678 - Tom Elliott, 2 hours ago : initial project version
     > 
 
+**merge conflicts**
+
+TODO
+
 **reset --hard:  local and remote**
 
 .. sourcecode:: bash
+
+We can do a hard reset to delete some branches.
 
     > git clone git@github.com:telliott99/demo.git
     Cloning into 'demo'...
@@ -380,7 +398,7 @@ Now, go back to what we were doing:
     > git reset --hard cd0b0c1c7789011d135aeb5529d246c8951a5251
     HEAD is now at cd0b0c1 add a.txt
 
-The branches ahead of ``HEAD`` are gone, locally.
+The branches ahead of ``HEAD`` are gone, but only locally.
 
 .. sourcecode:: bash
 
@@ -393,7 +411,7 @@ The branches ahead of ``HEAD`` are gone, locally.
     36a3cf6cd6cfb906af88650d1556c11de719665c adding y.txt to project
     ec7b4104005d0985d3de421595fc922ed17698f6 initial project version
 
-But we can't push because of the conflict:
+We can't push to the remote because of the conflict:
 
 .. sourcecode:: bash
 
@@ -406,9 +424,11 @@ But we can't push because of the conflict:
     hint: 'git pull ...') before pushing again.
     hint: See the 'Note about fast-forwards' in 'git push --help' for details.
 
-The solution is 
+The solution to this problem is
 
-* ``git push -f origin master``:
+* ``git push -f origin master``
+
+This says, we do really want to "force" the push.
 
 .. sourcecode:: bash
 
@@ -418,7 +438,7 @@ The solution is
      + 1e32a64...cd0b0c1 master -> master (forced update)
     >
 
-Check for diffs with the local repo
+Check for diffs between the remote and the local repo
 
 .. sourcecode:: bash
 
@@ -463,7 +483,7 @@ especially the last one, which shows where ``HEAD`` is in the remote.
     cd0b0c1c7789011d135aeb5529d246c8951a5251	refs/heads/master
     >
 
-Looks correct.
+Looks correct.  Actually, this last could use ``origin``, I think.
 
 **New local repository**
 
@@ -478,8 +498,6 @@ Make a project in the usual way:
     > mkdir tmp
     > cd tmp
     > echo "abc" > x.txt
-    > git add .
-    fatal: Not a git repository (or any of the parent directories): .git
     > git init
     Initialized empty Git repository in /Users/telliott_admin/Desktop/tmp/.git/
     > git add .
@@ -490,6 +508,8 @@ Make a project in the usual way:
     > cd ..
     >
 
+Use ``git init --bare``
+
 .. sourcecode:: bash
 
     > mkdir /usr/local/remoteGit
@@ -497,7 +517,11 @@ Make a project in the usual way:
     > git init --bare    # empty repo
     Initialized empty Git repository in /usr/local/remoteGit/
     >
-    
+
+Go back to the Desktop and push to ``/usr/local/remoteGit``
+
+.. sourcecode:: bash
+   
     > cd ~/Desktop/tmp
     > git remote add origin /usr/local/remoteGit
     > git push origin master
