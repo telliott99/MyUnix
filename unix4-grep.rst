@@ -3,7 +3,7 @@
 ####
 grep
 ####
-``grep`` is used like this:
+``grep`` is used on files like this:
 
 .. sourcecode:: bash
 
@@ -12,7 +12,7 @@ grep
     b
     >
 
-or this
+or with a redirect like this
 
 .. sourcecode:: bash
 
@@ -21,7 +21,7 @@ or this
     b
     >
 
-or even this
+or even on a stream of data like this
 
 .. sourcecode:: bash
 
@@ -37,9 +37,9 @@ but ``grep`` is *not* used like this
     grep: b: No such file or directory
     >
 
-Order matters.
+because the order matters:  ``grep < pattern > < target >``.
 
-One can pipe data to grep and also get the line number of the match:
+One can get the line number of the match:
 
 .. sourcecode:: bash
 
@@ -64,9 +64,22 @@ Some other useful flags for ``grep`` include
 * ``-n`` print line numbers for matches
 * ``-r`` recursive (also ``-R``)
 
-The patterns that grep searches for are regular expressions, or regex.  regex define a language for describing search patterns that are not necessarily exact matches.
+.. sourcecode:: bash
 
-Some simple regex patterns are:
+    > cd Desktop
+    > printf "a\nb\nc\nf\n" | grep -A 1 "b"
+    b
+    c
+    > printf "a\nb\nc\nf\n" | grep -A 2 "b"
+    b
+    c
+    f
+    >
+
+
+The patterns that grep searches for are called regular expressions, or regex for short.  regex is a language defining descriptions of search patterns that are not necessarily exact matches.
+
+Some simple regex symbols and patterns are:
 
 * ``*`` wildcard
 * ``\d`` matches a digit [0-9]
@@ -89,6 +102,10 @@ Some simple regex patterns are:
     2:b
     3:fb
     >
+    > printf "abc\nb\nfb" | grep [af]
+    abc
+    fb
+    >
 
 .. _find-grep:
 
@@ -100,7 +117,7 @@ Now suppose I want to know how many  ``.mp3`` songs are in my music collection?
          129
      >
 
-Looks like there are 129 such songs.
+Looks like there are 129 such songs, many more songs are the standard ``m4a`` format:
 
 .. sourcecode:: bash
 
@@ -108,7 +125,7 @@ Looks like there are 129 such songs.
          3115
      >
 
-Write a file containing the names of all the songs by "10,000 Maniacs":
+Write to a file the names of all the songs by "10,000 Maniacs":
 
 .. sourcecode:: bash
 
@@ -132,9 +149,27 @@ This is not quite right, because we wanted only song files, not directories and 
     /Users/telliott_admin/Music/iTunes/iTunes Media/Music/10,000 Maniacs/In My Tribe/02 Hey Jack Kerouac.m4a
     ..
 
-That's a little better, but we still have the hidden file ``.DS_Store``.  I will work on this.  
+That's a little better, but we still have the hidden file ``.DS_Store``.  I'm having trouble with the example because of the space in the directory name, but we can try this:  ``-not -path '*/\.*'``.  
 
-(Notice that ``-type f`` breaks the rule of using ``--`` for multi-letter flags).
+http://askubuntu.com/questions/266179/how-to-exclude-ignore-hidden-files-and-directories-in-a-wildcard-embedded-find
+
+What this does is define a regular expression that matches anything ("*") followed by "/", then ".", then anything, and it tells ``find`` not to search there if the path contains that regex.
+
+.. sourcecode:: bash
+
+    > find . -type f -not -path '*/\.*' | head -n 3
+    ./MyUnix/_build/doctrees/brew.doctree
+    ./MyUnix/_build/doctrees/brew2.doctree
+    ./MyUnix/_build/doctrees/environment.pickle
+    > find . -type f | head -n 3
+    ./.DS_Store
+    ./MyUnix/.DS_Store
+    ./MyUnix/.git/COMMIT_EDITMSG
+    >
+
+Looks like it works.
+
+(Notice that ``find`` flag ``-type f`` breaks the rule of using ``--`` for multi-letter flags).
 
 It seems like it would be worth it to print out the man page for ``find`` or ``grep`` and study it.
 

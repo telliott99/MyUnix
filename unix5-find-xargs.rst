@@ -59,19 +59,19 @@ Types include:
 
 
     All primaries which take a numeric argument allow the number to be pre-
-         ceded by a plus sign (``+'') or a minus sign (``-'').  A preceding plus
-         sign means ``more than n'', a preceding minus sign means ``less than n''
-         and neither means ``exactly n''.
+    ceded by a plus sign ("+") or a minus sign ("-").  A preceding plus
+    sign means "more than n", a preceding minus sign means "less than n"
+    and neither means "exactly n".
 
-**find files modified within time limit**
+**time limits**
+
+.. sourcecode:: bash
 
     find /usr -type f -mtime -1 | wc
 
 or even ``find /``.  The ``-mtime -1`` flag means modified within the last 1 day.  
 
-To use min, substitute ``-mmin``.
-
-Alternatively use ``-mtime n[smhdw]``, e.g. ``-mtime -2m``.
+To use min, you can substitute the ``-mmin`` flag, or better, use ``-mtime n[smhdw]``, e.g. ``-mtime -2m``.
 
 .. sourcecode:: bash
 
@@ -81,6 +81,8 @@ Alternatively use ``-mtime n[smhdw]``, e.g. ``-mtime -2m``.
     > 
 
 ``atime`` is access time, file just needs to have been read, not necessarily modified:
+
+.. sourcecode:: bash
 
     > find ~/Desktop -atime -1m
 
@@ -159,6 +161,8 @@ Spaces in filenames can be a pain.  Use ``-print0`` with find and ``-0`` with ls
 
 Notice that in the last step grep is going through the files line by line looking for the match, and it will go through the directory tree recursively.
 
-find ~/Dropbox/MyX/MyUnix | xargs ls -al
+.. sourcecode:: bash
+
+    > find ~/Dropbox/MyX/MyUnix | xargs ls -al
 
 explain what happens
