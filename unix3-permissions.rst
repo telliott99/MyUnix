@@ -327,4 +327,4 @@ One last topic:  aliases.  Look again at ``.bash_profile``, and particularly at 
 
 These mean that I can type a shorthand version for the long commands on the right-hand side.  You can do this for basically any command or series of commands (try to make sure that the alias doesn't already have a meaning before you define it).
 
-For example, every time I ``make`` the html for this book, after that I do ``oh`` and it launches the browser so I can my results immediately.  That's pretty cool.  I do ``make`` frequently so I can visualize the effect of the changes on the page in the browser.
+For example, every time I ``make`` the html for this book, after that I do ``oh`` and it launches the browser so I can see my results immediately.  That's pretty cool.  I do ``make`` frequently so I can visualize the effect of the changes on the page in the browser.

@@ -1,8 +1,8 @@
 .. _unix5-find-xargs:
 
-####
-find
-####
+##############
+find and xargs
+##############
 
 OS X has powerful search capacities in Spotlight, but you might want to generate a list of filenames to pipe into some other program.
 
@@ -26,17 +26,19 @@ Syntax for the ``find`` command:
 
 For example:
 
-* ``find / -name foo`` search / for foo,  display pathname
+* ``find / -name foo`` search ``/`` for ``foo``,  display whole path
 
 ``find /`` can produce a lot of error messages trying to read directories where you don't have permission to read.  Suppress this with
 
 * ``find / -name foo 2>/dev/null``
 
+[ Todo:  link to an explanation of this ]
+
 Useful flags include
 
 * ``-type f`` files
 * ``-mtime -7`` modified within the last 7 days
-* ``-mmin -7`` modified within the last 7 minutes
+* ``-mmin -3`` modified within the last 3 minutes
 
 Types include:
 
@@ -55,7 +57,7 @@ Types include:
 	     s	     socket
     
 
-``-mtime`` is called a primary:
+``-mtime`` is called a "primary":
 
 
     All primaries which take a numeric argument allow the number to be pre-
@@ -68,19 +70,19 @@ Types include:
 .. sourcecode:: bash
 
     find /usr -type f -mtime -1 | wc
+    
+The ``-mtime -1`` flag means modified within the last 1 day.  We could try ``find /``, but that would take a while.  I haven't found it so useful for that reason.  Even in my home directory a search takes a while. 
 
-or even ``find /``.  The ``-mtime -1`` flag means modified within the last 1 day.  
-
-To use min, you can substitute the ``-mmin`` flag, or better, use ``-mtime n[smhdw]``, e.g. ``-mtime -2m``.
+To use the time in minutes, you can substitute the ``-mmin`` flag, or even better, use ``-mtime n[smhdw]``, e.g. ``-mtime -2m``.
 
 .. sourcecode:: bash
 
     > touch x.txt
-    > find . -mmin -1 -type f
+    > find . -mtime -2m -type f
     ./x.txt
     > 
 
-``atime`` is access time, file just needs to have been read, not necessarily modified:
+``atime`` is access time, this filters for files tht have been read, it is not necessary that they have been modified:
 
 .. sourcecode:: bash
 
@@ -90,7 +92,9 @@ To use min, you can substitute the ``-mmin`` flag, or better, use ``-mtime n[smh
 
 ``find . -path ./misc -prune -o -name '*.txt' -print``
 
-more than one:
+implement this example
+
+more than one exclude directory:
 
 http://stackoverflow.com/questions/4210042/exclude-directory-from-find-command
 

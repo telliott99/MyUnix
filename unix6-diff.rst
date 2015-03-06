@@ -24,9 +24,11 @@ My example for ``diff`` starts with ``echo`` from the previous chapter, and show
     00000005
     >
 
-What's going on here is that the ``\n`` that we've typed is not being interpreted by the shell as a newline, but rather as two characters, and ordinary ``\`` and an ``n``.  For example, we see the bytes ``5c 6e`` and the characters ``\n`` in the output from ``hexdump``, and we get 1 as the result when we ask ``wc -l`` to count lines.
+What's going on here is that the ``\n`` that we've typed is not being interpreted by the shell as a newline, but rather as two characters, and ordinary ``\`` and an ``n``.  
 
-Without getting into details, the solution to this problem is to use a different utility that is designed for fancier input:  ``printf``.  One way that ``printf`` differs from ``echo`` is it interprets the ``\n`` as we wanted
+We use ``hexdump`` to examine the data that is actually on disk.  We see the bytes ``5c 6e`` and the corresonding characters ``\n`` in the output from ``hexdump``, and we get 1 as the result when we ask ``wc -l`` to count lines.
+
+Without getting into details, the solution to this problem is to use a different utility that is designed for fancier input:  ``printf``.  One way that ``printf`` differs from ``echo`` is that it interprets the ``\n`` as we want
 
 .. sourcecode:: bash
 
@@ -53,7 +55,7 @@ Without getting into details, the solution to this problem is to use a different
 
 but that's getting ahead of ourselves.
     
-On to our example.  We want to construct two files with a small difference, e.g.
+On to our example.  We construct two files with a small difference, e.g.
 
 .. sourcecode:: bash
 
@@ -77,9 +79,9 @@ On to our example.  We want to construct two files with a small difference, e.g.
     > d
     >
 
-``diff`` shows the differences.  The second line in the first file ``x.txt`` has ``b`` for an extra line.  The fourth and the third line are also compared for differences (because they come after the identical line ``c``), with ``f`` in ``x.txt`` and ``d`` in ``y.txt``.
+``diff`` shows the differences.  The second line in the first file ``x.txt`` has ``b``, and this line is not present in ``y.txt``.  The fourth line of ``x.txt`` and the third line of ``y.txt`` are also compared for differences (because they come after the identical line ``c``), with ``f`` in ``x.txt`` and ``d`` in ``y.txt``.
 
-``diff`` is great for verifying in a second whether two textfiles contain any differences, and what they are.
+``diff`` is great for verifying in just an instant whether two textfiles contain any differences, and then secondarily, what they are.  Often we just want reassurance of identity.
 
 If we capture this output in a file
 
@@ -93,5 +95,5 @@ Textmate will color the output in a nice way.
 .. image:: /figs/xy_diff.png
    :scale: 50 %
 
-Perhaps it's a little garish, but OK.
+Perhaps it's a little garish, but I like it.
 

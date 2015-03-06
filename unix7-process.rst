@@ -8,7 +8,7 @@ ps
 
 Finding and killing a process
 
-The ``ps`` command by itself yields
+The ``ps`` command by itself yields information about the shell itself:
 
 .. sourcecode:: bash
 
@@ -17,12 +17,12 @@ The ``ps`` command by itself yields
       809 ttys000    0:00.01 -bash
     >
 
-A number of its flags select processes to display:
+A number of the flags for ``ps`` select different processes to display:
 
-* ``-A`` other peoples process
-* ``-a`` others plus mine
-* ``-G`` process for group G
-* ``-g`` group "leader" g
+* ``-A`` other peoples' process
+* ``-a`` others' plus mine
+* ``-G`` processes for group G
+* ``-g`` processes for group "leader" g (not sure about this)
 * ``-p`` process ID
 * ``-T`` standard input
 * ``-t`` terminal device
@@ -31,7 +31,7 @@ A number of its flags select processes to display:
 
 These flags may be combined and the processes will be combined too.  
 
-Processes can also be sorted (default is process ID) by 
+Processes can also be sorted (default criterion is process ID), using
 
 * ``-m`` memory usage
 * ``-r`` cpu usage
@@ -40,7 +40,7 @@ Processes can also be sorted (default is process ID) by
 * ``-v`` certain info for display
 
 
-**aux**
+**ps aux**
 
 * a = show processes for all users
 * u = display the process's user/owner

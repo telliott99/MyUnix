@@ -10,11 +10,13 @@ Here is a good page about Homebrew:
 
 http://dghubble.com/blog/posts/homebrew-os-x-package-management/
 
-Homebrew packages are called **kegs**.  All kegs are installed isolated from one another inside their own auto-created directories in **Cellar** ``/usr/local/Cellar``. 
+Homebrew packages are called **kegs**.  All kegs are installed isolated from one another inside their own auto-created directories in **Cellar**:   ``/usr/local/Cellar``. 
 
-Homebrew places symbolic links to package executables inside a bin directory ``/usr/local/bin``.  The package definition is called a formula and the standard ones are in ``usr/local/Library/Formula/`` as ``usr/local/Library/Formula/foo.rb``.  Technically, a keg is something like ``/usr/local/Cellar/foo/0.1``.
+Homebrew places symbolic links to package executables inside a bin directory ``/usr/local/bin``.  The package definition is called a formula and the standard ones are in ``usr/local/Library/Formula/`` as ruby scripts named like ``usr/local/Library/Formula/foo.rb``.  
 
-A Homebrew **Bottle** is a pre-built binary Key that can be unpacked.
+Technically, a *keg* is something with a version number like ``/usr/local/Cellar/foo/0.1``.
+
+A Homebrew **Bottle** is a pre-built binary Key that can be unpacked.  A couple of years ago, most Homebrew packages needed to be built on the user's machine, but now nearly all of them are *bottles*.
     
 Usage:
 
@@ -31,7 +33,7 @@ Usage:
 
 **Homebrew:  taps**
 
-    Homebrew maintains additional Git repos (inside usr/local/Library/Taps) that describe sets of package formulae that are available for installation. Homebrew calls these repos taps to continue its naming theme. The 'mxcl/master' tap is the primary tap you get by default with Homebrew and it describes all the packages that are available with vanilla Homebrew. You can add any other taps you like to have extra packages available at your fingertips.
+    Homebrew maintains additional Git repos (inside usr/local/Library/Taps) that describe sets of package formulae that are available for installation. Homebrew calls these repos *taps* to continue its naming theme. The 'mxcl/master' tap is the primary tap you get by default with Homebrew and it describes all the packages that are available with vanilla Homebrew. You can add any other taps you like to have extra packages available at your fingertips.
 
 .. sourcecode:: bash
 
@@ -40,7 +42,7 @@ Usage:
     brew untap tapname         # remove a tap
 
 
-As an example, ``muscle`` is available in a Homebrew "tap" called **homebrew/science**
+As an example, the sequence alignment program ``muscle`` is available in a Homebrew "tap" called **homebrew/science**
 
 .. sourcecode:: bash
 
@@ -149,7 +151,7 @@ https://github.com/caskroom/homebrew-cask
 
 **Homebrew:  formulae**
 
-Homebrew works with formula(s/ae) which are recipes for possibly building and then installing software.  In the early days most things were built on the user's computer, now most things come pre-built and install in just a moment.
+Homebrew works with formula(s/ae) which are recipes for possibly building and then installing software.
 
 The Formula Cookbook:
 
@@ -163,7 +165,7 @@ Formulas live in ``/usr/local/Library/Formula`` and there are a lot of them:
         3023
     >
 
-Let's look at one of them, perhaps ``libpng.rb`` that we use for ``matplotlib``:
+Let's look at one of them, perhaps ``libpng.rb``.  ``libpng`` is a library for dealing with png-formatted graphics files, and I use it extensively with ``matplotlib``:
 
 .. sourcecode:: bash
 
@@ -214,9 +216,9 @@ Let's look at one of them, perhaps ``libpng.rb`` that we use for ``matplotlib``:
 
 While we (or at least I) could not write one of these things without more understanding, I can sort of puzzle it out.
 
-The script is the definition of a class, an object that has both data and code, which can be utilized by the machinery of Homebrew (defined in some other place).  There is a URL for the source (and an ``sha1`` digest to check authenticity), as well digests for the "bottles" which are pre-built versions of the software that differ as OS X has changed recently.
+The script is the definition of a "class" (a class being an "object" that has both data and code), which can be utilized by the machinery (programs) of Homebrew---defined in some other place.  There is a URL for the source (and an ``sha1`` digest which is used to check authenticity), as well digests for the bottles which are pre-built versions of the software that change in-step as OS X has changed recently.
 
-There is a ``test`` which looks like a program that does ``#include <png.h>`` and then uses two functions from it (``png_create_write_struct`` and ``png_destroy_write_struct``), which presumably is built and run to test that the library works properly.  
+There is a ``test`` which looks like a program that does ``#include <png.h>`` and then uses two functions from it (``png_create_write_struct`` and ``png_destroy_write_struct``), which presumably will be built and run to test that the library works properly.  This probably happens prior to inclusion in the Library.
 
-The last part includes values for all settings need to build the program.  Above it is ``install`` which presumably is the instructions to install the library.
+The last part includes values for all the settings need to build the program.  I would gues that they have a centralized system to build libraries in a single place (to ensure it works).  Above that is an ``install`` function which presumably gives the instructions to install the library.
     
