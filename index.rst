@@ -15,11 +15,15 @@ Contents:
    unix1-navigation
    unix2-files
    unix3-permissions
-   unix-advanced1
+   unix4-grep
+   unix5-find-xargs
+   unix6-diff
+   unix7-process
+   unix8-tar-curl
+   unix9-regex
    installs
    brew
    python
-   unix-advanced2
    git1-setup
    git2-usage
    git3-merge

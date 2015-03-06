@@ -50,7 +50,11 @@ Notes there:
 
 I no longer have the BasicTeX installer (I usually save them in ``~/MyDownloads``).  So let's grab it from the link on the page above and then run it.
 
-One thing I've often wondered about is whether there is a simple way to monitor where package installs files as it works.  Maybe we can do ``find /usr`` with a flag to look at recent modification times?
+One thing I've often wondered about is whether there is a simple way to monitor where package installs files as it works.  I should try ``find /usr`` with a flag to look at recent modification times?
+
+    find /usr -type f -mtime -1 | wc
+
+or even ``find /``.  The ``-mtime -1`` flag means modified within the last 1 day.  To use min, substitute ``-mmin``.
 
 Rather than figure that out I decided to just run the installer and then re-try the TeXShop frontend on ``directions.tex``.  
 

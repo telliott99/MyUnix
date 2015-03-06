@@ -1,8 +1,8 @@
-.. _unix-advanced2:
+.. _unix8-tar-curl:
 
-########################
-More advanced Unix usage
-########################
+############
+tar and curl
+############
 
 **Archives and tar**
 
@@ -61,71 +61,6 @@ To extract and ``untar`` the archive:
     >
 
 The standard steps for Unix software installation (before package managers) were:  use ``curl`` to get the ``.zip`` archive, use ``tar`` to decompress and unarchive it, and then compile and install it.  Be sure to check the hash of the file the ``curl`` gives so that you know it hasn't been tampered with.
-
-**xargs**
-
-Here is a little bit about ``xargs``.  Basically "xargs" is used to remove or do some operation on long list of file names which were produced by "find" & "grep" commands.
-
-.. sourcecode:: bash
-
-    > echo 1 2 3 | xargs echo
-    1 2 3
-    > echo 1 2 3 | xargs -n 2
-    1 2
-    3
-    > echo 1 2 3 4 5 | xargs -n 2
-    1 2
-    3 4
-    5
-    >
-
-A second, more interesting example:
-
-.. sourcecode:: bash
-
-    > cd Desktop/
-    > find .
-    .
-    ./.DS_Store
-    ./xargs.txt
-    > find . -type f -print
-    ./.DS_Store
-    ./xargs.txt
-    > find . -type d -print
-    .
-    > find . -type d -print | xargs ls -al
-    total 16
-    drwxr-xr-x@  4 telliott_admin  staff   136 Feb 22 08:48 .
-    drwxr-xr-x+ 47 telliott_admin  staff  1598 Feb 17 08:34 ..
-    -rw-r--r--@  1 telliott_admin  staff  6148 Feb 22 08:48 .DS_Store
-    -rw-r--r--@  1 telliott_admin  staff     0 Feb 22 08:48 xargs.txt
-    > find . -type f -print | xargs ls -al
-    -rw-r--r--@ 1 telliott_admin  staff  6148 Feb 22 08:48 ./.DS_Store
-    -rw-r--r--@ 1 telliott_admin  staff     0 Feb 22 08:48 ./xargs.txt
-    >
-
-Spaces in filenames can be a pain.  Use ``-print0`` with find and ``-0`` with ls and grep and so on ..
-
-.. sourcecode:: bash
-
-    > ls
-    find.txt	x y.txt		xargs.txt
-    > find . -name "*.txt" -print0 | xargs -0 ls -al
-    ..
-    -rw-r--r--  1 telliott_admin  staff      0 Mar  4 13:28 ./x y.txt
-    ..
-    >
-
-.. sourcecode:: bash
-
-    > find . -name "*.txt" -print0 | xargs grep "y.txt"
-    grep: y.txt: No such file or directory
-    > find . -name "*.txt" -print0 | xargs -0 grep "y.txt"
-    ./xargs.txt:find.txt	x y.txt		xargs.txt
-    ./xargs.txt:-rw-r--r--  1 telliott_admin  staff    0 Feb 22 09:05 ./x y.txt
-    > 
-
-Notice that in the last step grep is going through the files line by line looking for the match, and it will go through the directory tree recursively.
 
 **curl and its flags**
 
@@ -193,86 +128,6 @@ More curl examples:
 
 http://www.thegeekstuff.com/2012/04/curl-examples/
 
-**processes and ps**
-
-Finding and killing a process
-
-The ``ps`` command by itself yields
-
-.. sourcecode:: bash
-
-    > ps
-      PID TTY           TIME CMD
-      809 ttys000    0:00.01 -bash
-    >
-
-A number of its flags select processes to display:
-
-* ``-A`` other peoples process
-* ``-a`` others plus mine
-* ``-G`` process for group G
-* ``-g`` group "leader" g
-* ``-p`` process ID
-* ``-T`` standard input
-* ``-t`` terminal device
-* ``-U`` user ID
-* ``-u`` username
-
-These flags may be combined and the processes will be combined too.  
-
-Processes can also be sorted (default is process ID) by 
-
-* ``-m`` memory usage
-* ``-r`` cpu usage
-
-* ``-o`` select info for display
-* ``-v`` certain info for display
-
-
-**aux**
-
-* a = show processes for all users
-* u = display the process's user/owner
-* x = also show processes not attached to a terminal
-
-.. sourcecode:: bash
-
-    > ps aux -r | head -n 4
-    USER              PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
-    telliott_admin    890   1.3  0.6  3678932  46272   ??  S     4:14PM   0:02.45 /Applications/Safari.app/Contents/MacOS/Safari
-    _windowserver     117   1.1  0.7  3614568  58988   ??  Ss    1:52PM   2:08.38 /System/Library/Frameworks/ApplicationServices.framework/Frameworks/CoreGraphics.framework/Resources/WindowServer -daemon
-    telliott_admin    806   1.0  0.4  2581004  33304   ??  R     3:59PM   0:09.72 /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
-    > 
-
-**user**
-
-.. sourcecode:: bash
-
-    > ps -f -u `whoami` | head -n 5
-      UID   PID  PPID   C STIME   TTY           TIME CMD
-      501   200     1   0  1:52PM ??         0:00.84 /usr/libexec/UserEventAgent (Aqua)
-      501   202     1   0  1:52PM ??         0:01.65 /usr/sbin/distnoted agent
-      501   204     1   0  1:52PM ??         0:01.50 /usr/sbin/cfprefsd agent
-      501   207     1   0  1:52PM ??         0:12.42 /System/Library/CoreServices/Dock.app/Contents/MacOS/Dock
-    > 
-
-**name or pid**
-
-.. sourcecode:: bash
-
-    > ps aux | grep "bash" 
-    telliott_admin    809   0.0  0.0  2461020   1316 s000  S     3:59PM   0:00.04 -bash
-    telliott_admin    950   0.0  0.0  2441988    652 s000  R+    4:20PM   0:00.00 grep bash
-    > ps -C 809
-      PID TTY           TIME CMD
-      809 ttys000    0:00.05 -bash
-    >
-
-[ Lots more to say ]
-
-Reference:
-
-http://www.binarytides.com/linux-ps-command/
 
 **cron**
 
