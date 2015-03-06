@@ -1,7 +1,7 @@
 .. _science:
 
 ##############################
-Scientific Programming in Unix
+Scientific programming in Unix
 ##############################
 
 Here is a quick look at some examples of using scientific software from the command line.  ``FastTree`` is a phylogenetic tree program that we compiled previously and have in the ``~/bin`` directory.  ``muscle`` is an alignment program by R. Edgar that we will download from his website.  ``PyCogent`` is a suite of programs for phylogenetics and sequence analysis from Rob Knight and Gavin Huttley's labs.  We will download, build and install PyCogent in the virtual environment that we set up in a previous chapter.

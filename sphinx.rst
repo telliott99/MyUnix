@@ -140,6 +140,24 @@ Here is a copy of that link (or look for it):
 
 file:///Users/telliott_admin/Desktop/MyUnix/_build/html/_sources/sphinx.txt
 
+**Links**
+
+.. sourcecode:: rst
+
+    .. _my-reference-label:
+
+    Section to cross-reference
+    --------------------------
+
+    This is the text of the section.
+
+    It refers to the section itself, see :ref:`my-reference-label`.
+    
+    alt:  :ref:`title<my-reference-label>`
+
+
+    Using ref is advised over standard reStructuredText links to sections (like `Section title`_) because it works across files, when section headings are changed, and for all builders that support cross-references.
+
 **Code highlighting**
 
 Snippets from the interpreter should be aligned with the left-hand margin (not indented).

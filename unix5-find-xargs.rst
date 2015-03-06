@@ -4,44 +4,95 @@
 find
 ####
 
-OS X has powerful search capacities in Spotlight, but you may want to generate a list of filenames to pipe into some other program.
+OS X has powerful search capacities in Spotlight, but you might want to generate a list of filenames to pipe into some other program.
 
-``find`` is quite sophisticated, and can filter the output in many ways, but I only know a little bit of usage for it.
+``find`` is quite sophisticated, and can filter the output in many ways---I only know a little bit of usage for it.
 
-``find`` is often combined with ``grep``, and we saw an example of that before
-
+``find`` is often combined with ``grep``, and we saw an example of that :ref:`before<find-grep>`
 
 .. sourcecode:: bash
 
     > find /Users/telliott_admin/Music/iTunes/iTunes\ Media/Music | grep ".mp3" | -l wc
          129
-    >
 
-    http://content.hccfl.edu/pollock/Unix/FindCmd.htm
 
-    Syntax for the ``find`` command:
+http://content.hccfl.edu/pollock/Unix/FindCmd.htm
 
-        find < file/directory > < criteria > < action >
+Syntax for the ``find`` command:
 
-    For example:
+.. sourcecode:: bash
 
-    * ``find / -name foo`` search / for foo,  display pathname
+    find < file/directory > < criteria > < action >
 
-    ``find /`` can produce a lot of error messages trying to read directories where you don't have permission to read.  Suppress this with
+For example:
 
-    * ``find / -name foo 2>/dev/null``
+* ``find / -name foo`` search / for foo,  display pathname
 
-    Useful flags include
+``find /`` can produce a lot of error messages trying to read directories where you don't have permission to read.  Suppress this with
 
-    * ``-type f`` files
-    * ``-mtime 7`` modified within the last 7 days
-    * ``-mmin 7`` modified within the last 7 minutes
+* ``find / -name foo 2>/dev/null``
 
-    Having generated a list of filenames, often you will want to feed that list to some other command.  Use ``xargs``:
+Useful flags include
 
-    find ~/Dropbox/MyX/MyUnix | xargs ls -al
+* ``-type f`` files
+* ``-mtime -7`` modified within the last 7 days
+* ``-mmin -7`` modified within the last 7 minutes
 
-    explain what happens
+Types include:
+
+.. sourcecode:: bash
+
+    -type t
+	     True if the file is of the specified type.  Possible file types
+	     are as follows:
+
+	     b	     block special
+	     c	     character special
+	     d	     directory
+	     f	     regular file
+	     l	     symbolic link
+	     p	     FIFO
+	     s	     socket
+    
+
+``-mtime`` is called a primary:
+
+
+    All primaries which take a numeric argument allow the number to be pre-
+         ceded by a plus sign (``+'') or a minus sign (``-'').  A preceding plus
+         sign means ``more than n'', a preceding minus sign means ``less than n''
+         and neither means ``exactly n''.
+
+**find files modified within time limit**
+
+    find /usr -type f -mtime -1 | wc
+
+or even ``find /``.  The ``-mtime -1`` flag means modified within the last 1 day.  
+
+To use min, substitute ``-mmin``.
+
+Alternatively use ``-mtime n[smhdw]``, e.g. ``-mtime -2m``.
+
+.. sourcecode:: bash
+
+    > touch x.txt
+    > find . -mmin -1 -type f
+    ./x.txt
+    > 
+
+``atime`` is access time, file just needs to have been read, not necessarily modified:
+
+    > find ~/Desktop -atime -1m
+
+**exclude sub-directories**
+
+``find . -path ./misc -prune -o -name '*.txt' -print``
+
+more than one:
+
+http://stackoverflow.com/questions/4210042/exclude-directory-from-find-command
+
+Having generated a list of filenames, often you will want to feed that list to some other command.  Use ``xargs``:
 
 **xargs**
 
@@ -107,17 +158,7 @@ Spaces in filenames can be a pain.  Use ``-print0`` with find and ``-0`` with ls
     > 
 
 Notice that in the last step grep is going through the files line by line looking for the match, and it will go through the directory tree recursively.
-    
-**find files modified within time limit**
 
-    find /usr -type f -mtime -1 | wc
+find ~/Dropbox/MyX/MyUnix | xargs ls -al
 
-or even ``find /``.  The ``-mtime -1`` flag means modified within the last 1 day.  To use min, substitute ``-mmin``.
-
-**exclude sub-directories**
-
-find . -path ./misc -prune -o -name '*.txt' -print
-
-more than one:
-
-http://stackoverflow.com/questions/4210042/exclude-directory-from-find-command
+explain what happens

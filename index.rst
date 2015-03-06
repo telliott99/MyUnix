@@ -21,6 +21,7 @@ Contents:
    unix7-process
    unix8-tar-curl
    unix9-regex
+   unix10-popular
    installs
    brew
    python

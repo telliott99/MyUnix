@@ -1,8 +1,8 @@
 .. _git2-merge:
 
-###########################
-Git:  Conflicts and mergins
-###########################
+##########################
+Git:  Conflicts and merges
+##########################
 
 **A problem**
 

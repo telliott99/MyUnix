@@ -90,6 +90,8 @@ Some simple regex patterns are:
     3:fb
     >
 
+.. _find-grep:
+
 Now suppose I want to know how many  ``.mp3`` songs are in my music collection?
 
 .. sourcecode:: bash
@@ -153,6 +155,8 @@ It seems like it would be worth it to print out the man page for ``find`` or ``g
 
      > man grep | col -b > grep.txt
      >
+
+Here is how it looks without that:
 
 .. sourcecode:: bash
 
