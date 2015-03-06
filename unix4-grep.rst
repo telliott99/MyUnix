@@ -88,24 +88,20 @@ Some simple regex symbols and patterns are:
 * ``^`` match only at the beginning of the string
 * ``$`` match only at the end of the string
 * ``[abc]`` match any of a,b,c
-* ``[a..d]`` match any of a,b,c,d
+* ``[a-d]`` match any of a,b,c,d
 
 .. sourcecode:: bash
 
-    > printf "abc\nb\nfb" | grep "b"
-    abc
+    > grep -n b t.txt
+    1:abc
+    3:b
+    7:bf
+    > grep ^b t.txt
     b
-    fb
-    > printf "abc\nb\nfb" | grep -n "^b"
-    2:b
-    > printf "abc\nb\nfb" | grep -n "b$"
-    2:b
-    3:fb
-    >
-    > printf "abc\nb\nfb" | grep [af]
-    abc
-    fb
-    >
+    bf
+    > grep b$ t.txt
+    b
+    
 
 .. _find-grep:
 
@@ -153,7 +149,7 @@ That's a little better, but we still have the hidden file ``.DS_Store``.  I'm ha
 
 http://askubuntu.com/questions/266179/how-to-exclude-ignore-hidden-files-and-directories-in-a-wildcard-embedded-find
 
-What this does is define a regular expression that matches anything ("*") followed by "/", then ".", then anything, and it tells ``find`` not to search there if the path contains that regex.
+What this does is define a regular expression that matches anything ("*") followed by the path separator "/", then ".", then anything, and it tells ``find`` not to search there if the path contains that regex.
 
 .. sourcecode:: bash
 
@@ -170,6 +166,113 @@ What this does is define a regular expression that matches anything ("*") follow
 Looks like it works.
 
 (Notice that ``find`` flag ``-type f`` breaks the rule of using ``--`` for multi-letter flags).
+
+Some more examples:
+
+**search through files for a string**
+
+.. sourcecode:: bash
+
+    > grep regex MyUnix/*.rst | head -n 1
+    MyUnix/index.rst:   unix9-regex
+    > egrep -o regex MyUnix/*.rst | head -n 5
+    MyUnix/index.rst:regex
+    MyUnix/unix4-grep.rst:regex
+    regex
+    MyUnix/unix4-grep.rst:regex
+    MyUnix/unix4-grep.rst:regex
+    >
+
+The usual example would be ``grep < pattern > < filepaths >.  This will give the name of the file and the matching line for each match.  Some of these lines are pretty long.  Hence I only printed the first result for the first search.  ``egrep`` has a flag ``-o`` to print only the portion of the line that matches.
+
+Another approach is to feed the results of the search to ``awk``
+
+.. sourcecode:: bash
+
+    > grep regex MyUnix/*.rst | awk '{print $1}' | head -n 5
+    MyUnix/index.rst:
+    MyUnix/unix4-grep.rst:The
+    MyUnix/unix4-grep.rst:Some
+    MyUnix/unix4-grep.rst:What
+    MyUnix/unix4-grep.rst:
+    > grep regex MyUnix/*.rst | awk '{print $1 $2}' | head -n 5
+    MyUnix/index.rst:unix9-regex
+    MyUnix/unix4-grep.rst:Thepatterns
+    MyUnix/unix4-grep.rst:Somesimple
+    MyUnix/unix4-grep.rst:Whatthis
+    MyUnix/unix4-grep.rst:>
+    > 
+
+**search a directory for filenames containing a pattern**
+
+We want *only* the filenames so we use the ``-l`` flag
+
+.. sourcecode:: bash
+
+    -l, --files-with-matches
+    Only the names of files containing selected lines are written to
+    standard output.  grep will only search a file until a match has
+    been found
+
+.. sourcecode:: bash
+
+    > grep -l grep MyUnix/_build/html/*.html 
+    MyUnix/_build/html/index.html
+    MyUnix/_build/html/unix3-permissions.html
+    MyUnix/_build/html/unix4-grep.html
+    MyUnix/_build/html/unix5-find-xargs.html
+    MyUnix/_build/html/unix7-process.html
+    MyUnix/_build/html/unix9-regex.html
+    >
+
+Notice that we've given a wildcard for the target files.  Or we can give ``-r`` (recursive) and a directory name(s):
+
+.. sourcecode:: bash
+
+    > grep -rl grep MyUnix/_build/html
+    MyUnix/_build/html/_sources/index.txt
+    MyUnix/_build/html/_sources/unix4-grep.txt
+    MyUnix/_build/html/_sources/unix5-find-xargs.txt
+    MyUnix/_build/html/_sources/unix7-process.txt
+    MyUnix/_build/html/_sources/unix9-regex.txt
+    MyUnix/_build/html/_static/jquery-1.11.1.js
+    MyUnix/_build/html/_static/jquery.js
+    MyUnix/_build/html/index.html
+    MyUnix/_build/html/searchindex.js
+    MyUnix/_build/html/unix3-permissions.html
+    MyUnix/_build/html/unix4-grep.html
+    MyUnix/_build/html/unix5-find-xargs.html
+    MyUnix/_build/html/unix7-process.html
+    MyUnix/_build/html/unix9-regex.html
+    >
+
+And this suggests that we can give multiple file names.  The ``-s`` flag (silence) or ``--no-messages`` will silence complaints:
+
+.. sourcecode:: bash
+
+    > grep -l grep MyUnix/*
+    grep: MyUnix/_build: Is a directory
+    grep: MyUnix/_static: Is a directory
+    grep: MyUnix/figs: Is a directory
+    MyUnix/index.rst
+    grep: MyUnix/unix: Is a directory
+    MyUnix/unix4-grep.rst
+    MyUnix/unix5-find-xargs.rst
+    MyUnix/unix7-process.rst
+    MyUnix/unix9-regex.rst
+    >
+
+.. sourcecode:: bash
+
+    > grep -ls grep MyUnix/* 
+    MyUnix/index.rst
+    MyUnix/unix4-grep.rst
+    MyUnix/unix5-find-xargs.rst
+    MyUnix/unix7-process.rst
+    MyUnix/unix9-regex.rst
+    >
+
+**man grep**
 
 It seems like it would be worth it to print out the man page for ``find`` or ``grep`` and study it.
 
