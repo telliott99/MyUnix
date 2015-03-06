@@ -9,7 +9,7 @@ Welcome to MyUnix's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    sphinx
    unix1-navigation

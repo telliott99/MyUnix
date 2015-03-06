@@ -368,9 +368,9 @@ TODO
 
 **reset --hard:  local and remote**
 
-.. sourcecode:: bash
-
 We can do a hard reset to delete some branches.
+
+.. sourcecode:: bash
 
     > git clone git@github.com:telliott99/demo.git
     Cloning into 'demo'...
@@ -487,114 +487,83 @@ Looks correct.  Actually, this last could use ``origin``, I think.
 
 **New local repository**
 
-Here is an example of creating a local repository (analogous to what github is) but on disk.  It might make sense to reduce clutter.  For example, I could add the html folder of MyUnix to a .gitignore, make a repo in my Dropbox folder, then ``push`` and ``clone`` when I want to work.
+Here is an example of creating a local repository (analogous to what github is) but on disk.  It might make sense to reduce clutter.  For example, I could add the html folder of MyUnix to a .gitignore, make a repo in my Dropbox folder, then ``push`` and ``pull`` when I want to work.
 
-Note:  here the repo ``/usr/local/remoteGit`` is a *single* project.
+The repo will be named ``~/Dropbox/repo``.
 
-Make a project in the usual way:
+As an example, just clone ``demo`` from github.  
 
-.. sourcecode:: bash
-
-    > mkdir tmp
-    > cd tmp
-    > echo "abc" > x.txt
-    > git init
-    Initialized empty Git repository in /Users/telliott_admin/Desktop/tmp/.git/
-    > git add .
-    > git commit -m "initial commit"
-    [master (root-commit) 4dfaebe] initial commit
-     1 file changed, 1 insertion(+)
-     create mode 100644 x.txt
-    > cd ..
-    >
-
-Use ``git init --bare``
+Then ``mkdir`` and do ``git init --bare`` to start an empty Git repo
 
 .. sourcecode:: bash
 
-    > mkdir /usr/local/remoteGit
-    > cd /usr/local/remoteGit
-    > git init --bare    # empty repo
-    Initialized empty Git repository in /usr/local/remoteGit/
-    >
-
-Go back to the Desktop and push to ``/usr/local/remoteGit``
+    > git clone git@github.com:telliott99/demo.git
+    > mkdir ~/Dropbox/repo
+    > cd ~/Dropbox/repo
+    > git init --bare
+    Initialized empty Git repository in /Users/telliott_admin/Dropbox/repo/
+    
+Go back to the ``demo`` project on the Desktop and add a new remote with the alias ``db``: 
 
 .. sourcecode:: bash
    
-    > cd ~/Desktop/tmp
-    > git remote add origin /usr/local/remoteGit
-    > git push origin master
-    Counting objects: 3, done.
-    Writing objects: 100% (3/3), 215 bytes | 0 bytes/s, done.
-    Total 3 (delta 0), reused 0 (delta 0)
-    To /usr/local/remoteGit
+    > cd Desktop/demo
+    > git remote rm db   # was just ~/Dropbox/demo
+    > git remote add db ~/Dropbox/repo
+    > git remote -v
+    db	/Users/telliott_admin/Dropbox/repo (fetch)
+    db	/Users/telliott_admin/Dropbox/repo (push)
+    origin	git@github.com:telliott99/demo.git (fetch)
+    origin	git@github.com:telliott99/demo.git (push)
+    >
+    
+and ``push`` to it
+
+.. sourcecode:: bash
+
+    > git push -u db master
+    Counting objects: 14, done.
+    Delta compression using up to 4 threads.
+    Compressing objects: 100% (8/8), done.
+    Writing objects: 100% (14/14), 1.15 KiB | 0 bytes/s, done.
+    Total 14 (delta 1), reused 14 (delta 1)
+    To /Users/telliott_admin/Dropbox/repo
      * [new branch]      master -> master
-    > ls
-    x.txt
-    > ls /usr/local/remoteGit
-    HEAD		description	info		refs
-    config		hooks		objects
+    Branch master set up to track remote branch master from db.
     >
 
 .. sourcecode:: bash
 
-    > mkdir tmp2
-    > cd tmp2
-    > touch y.txt
-    > git init
-    > git add .
-    > git commit -m "initial commit"
-    > git remote add origin /usr/local/remoteGit
-    > git push origin master
-    To /usr/local/remoteGit
-     ! [rejected]        master -> master (fetch first)
-    error: failed to push some refs to '/usr/local/remoteGit'
-    hint: Updates were rejected because the remote contains work that you do
-    hint: not have locally. This is usually caused by another repository pushing
-    hint: to the same ref. You may want to first integrate the remote changes
-    hint: (e.g., 'git pull ...') before pushing again.
-    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
-    > 
-    
-.. sourcecode:: bash
+    > git diff db/master origin/master
+    > git log --oneline db/master origin/master
+    cd0b0c1 add a.txt
+    d3f7469 add z.txt
+    1c40233 changed x.txt
+    36a3cf6 adding y.txt to project
+    ec7b410 initial project version
+    >
 
-    > git pull
-    warning: no common commits
-    remote: Counting objects: 3, done.
-    remote: Total 3 (delta 0), reused 0 (delta 0)
-    Unpacking objects: 100% (3/3), done.
-    From /usr/local/remoteGit
-     * [new branch]      master     -> origin/master
-    There is no tracking information for the current branch.
-    Please specify which branch you want to merge with.
-    See git-pull(1) for details
+Of course, there is a lot of potential for the two repos to get out of sync with each other, but that's another story.
 
-        git pull <remote> <branch>
+.. note::
 
-    If you wish to set tracking information for this branch you can do so with:
-
-        git branch --set-upstream-to=origin/<branch> master
-
-We need to specify /usr/local/remoteGit  
+    Since we didn't push to the remote, it doesn't know about the new repo, and ``log`` doesn't report that difference above.
 
 .. sourcecode:: bash
 
-    > git pull /usr/local/remoteGit
-    From /usr/local/remoteGit
-     * branch            HEAD       -> FETCH_HEAD
-    error: cannot run TextMate: No such file or directory
-    error: unable to start editor 'TextMate'
-    Not committing merge; use 'git commit' to complete the merge.
-    > git commit
-    error: cannot run TextMate: No such file or directory
-    error: unable to start editor 'TextMate'
-    Please supply the message using either -m or -F option.
-    > git commit -m "no message"
-    [master c2e1432] no message
-    > git log --pretty=oneline
-    c2e14325a1d41402d7d13040d317c926bb5e2b52 no message
-    846ca8eb2a922b32c7ab7a127d1e7998c1aac6f7 initial commit
-    4dfaebea4062a969511f82df2489084fff02c60e initial commit
-    > 
-    
+    > rm -r demo
+    > git clone git@github.com:telliott99/demo.git
+    Cloning into 'demo'...
+    remote: Counting objects: 14, done.
+    remote: Compressing objects: 100% (9/9), done.
+    remote: Total 14 (delta 1), reused 12 (delta 0), pack-reused 0
+    Receiving objects: 100% (14/14), done.
+    Resolving deltas: 100% (1/1), done.
+    Checking connectivity... done.
+    > cd demo
+    > git remote -v
+    origin	git@github.com:telliott99/demo.git (fetch)
+    origin	git@github.com:telliott99/demo.git (push)
+    >
+
+
