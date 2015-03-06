@@ -170,6 +170,18 @@ Often I combine it with ``grep``, so let's talk about that first.  ``grep`` is u
 
 Order matters.
 
+One can pipe data to grep and also get the line number of the match:
+
+    > cat x.txt | grep -n "b"
+    2:b
+    > printf "a\nb\nc\nf\n" | grep -n "b"
+    2:b
+    > grep -n "b" < x.txt
+    2:b
+    >
+
+Here we used ``cat`` (unnecessary, but OK), and ``printf``, and a redirect operator ``<``, which uses ``x.txt`` as *input*.
+
 Now suppose I want to know how many  ``.mp3`` songs are in my music collection?
 
 .. sourcecode:: bash

@@ -251,7 +251,7 @@ It can also append to files by using ``>>``:
     def
     >
 
-The ``>>`` is also called redirection operator.  In fact there are more:
+The ``>>`` is also called redirection operator.  In fact there are several more:
 
 * < filename : Read standard input from file.
 * > filename : Sends standard output to file.

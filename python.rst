@@ -91,7 +91,7 @@ A quick test:
 Looks good to me.
 
 .. image:: /figs/example.png
-   :scale: 40 %
+   :scale: 25 %
 
 .. sourcecode:: bash
 
@@ -174,7 +174,6 @@ What I did that worked was to hide the System "pip" and "virtualenv"!
 
     > sudo mkdir tmp
     > sudo rm virtualenv.pyc
-    > mv virtualenv.py virtualenv.py.old
     > sudo mv virtualenv.py tmp/virtualenv.py
     > sudo mv pip-1.4.1-py2.7.egg/ tmp/pip-1.4.1-p2.7.egg
     > sudo mv virtualenv-1.11.5-py2.7.egg-info tmp
