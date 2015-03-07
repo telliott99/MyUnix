@@ -1,4 +1,4 @@
-.. _unix6-diff:
+.. _diff:
 
 ####
 diff

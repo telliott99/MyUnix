@@ -1,4 +1,4 @@
-.. _unix7-process:
+.. _process:
 
 ##
 ps

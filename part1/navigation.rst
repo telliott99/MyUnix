@@ -1,4 +1,4 @@
-.. _unix1-navigation:
+.. _navigation:
 
 ################################
 Navigating from the command line

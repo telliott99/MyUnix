@@ -1,4 +1,4 @@
-.. _unix5-find-xargs:
+.. _find-xargs:
 
 ##############
 find and xargs

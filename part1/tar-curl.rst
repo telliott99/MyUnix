@@ -1,4 +1,4 @@
-.. _unix8-tar-curl:
+.. _tar-curl:
 
 ############
 tar and curl

@@ -1,4 +1,4 @@
-.. _unix10-hexdump:
+.. _hexdump:
 
 ###############
 Examining files

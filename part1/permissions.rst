@@ -1,4 +1,4 @@
-.. _unix3-permissions:
+.. _permissions:
 
 #####################
 Permissions and Paths

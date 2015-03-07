@@ -12,17 +12,7 @@ Contents:
    :maxdepth: 3
 
    sphinx
-   unix1-navigation
-   unix2-files
-   unix3-permissions
-   unix4-grep
-   unix5-find-xargs
-   unix6-diff
-   unix7-process
-   unix8-tar-curl
-   unix9-regex
-   unix10-hexdump
-   unix12-popular
+   part1/index
    installs
    brew
    python
@@ -32,6 +22,7 @@ Contents:
    latex
    science
    brew2
+   server1
 
 
 Indices and tables

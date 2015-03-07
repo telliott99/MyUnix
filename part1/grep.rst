@@ -1,4 +1,4 @@
-.. _unix4-grep:
+.. _grep:
 
 ####
 grep

@@ -1,4 +1,4 @@
-.. _unix2-files:
+.. _files:
 
 ################################
 Files and Directories, mv and cp

@@ -1,7 +1,7 @@
-.. _unix12-popular:
+.. _popular:
 
 #######
-popular
+Popular
 #######
 
 I found a list of Unix commands sorted by popularity.  
@@ -12,7 +12,7 @@ They are all interesting and some are very useful.  Here are a few.
 
 **sudo !!**
 
-You issued a command and forgot to do ``sudo < command >``.  One fix is to use the up-arrow to repeat the command, and then do CTL-a to bring the cursor to the beginning of the the line, and type ``sudo ``.  But this is faster:
+You issued a command and forgot to do ``sudo < command >``.  One fix is to use the up-arrow to repeat the command, and then do CTL-a to bring the cursor to the beginning of the the line, and type ``sudo``.  But this is faster:
 
 .. sourcecode:: bash
 
@@ -83,6 +83,8 @@ did not actually execute for me
 
 CTL-D to stop:
 
+.. sourcecode:: bash
+
      > time read
      ^D
      real	0m3.920s
@@ -90,7 +92,9 @@ CTL-D to stop:
      sys	0m0.001s
      >
 
-**cd and jump back
+**cd and jump back**
+
+.. sourcecode:: bash
 
      > pwd
      /Users/telliott_admin/Desktop
