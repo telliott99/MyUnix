@@ -1,14 +1,10 @@
 .. _unix10-hexdump:
 
-#######
-hexdump
-#######
+###############
+Examining files
+###############
 
-
-
-**xxd**
-
-``xxd`` is sorta like ``hexdump``
+My go-to utility for reading binary data in files has been ``hexdump``.
 
 .. sourcecode:: bash
 
@@ -19,18 +15,17 @@ hexdump
     > xxd x.txt
     0000000: 3061 6263 6666 0a                        0abcff.
     >
+    
+**xxd**
 
-Except, use of the ``-p`` flag gives reads the binary data from the file has "0abcff" in ASCII-encoding, and gives us the hex equivalent:
+``xxd`` is sorta like ``hexdump`` except use of the ``-p`` flag gives reads the binary data from the file in ASCII-encoding, and gives us the hex equivalent:
 
 .. sourcecode:: bash
 
-    > xxd -p x.txt
-    3061626366660a
-    > xxd -p x.txt > x.hex
-    > cat x.hex
-    3061626366660a
+    > echo "ab" > x.txt
+    > xxd -p < x.txt
+    61620a
     >
-
 
 So what we've just done is to convert some hex as a string (or we could get it from a text file) and turn that into actual binary data on disk.  That's useful.
 

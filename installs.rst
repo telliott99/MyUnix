@@ -112,6 +112,8 @@ The resulting file is almost 8500 bytes.  Looking at it with ``hexdump`` will sh
 
 **FastTree**
 
+.. _compile-FastTree:
+
 What I would like to do is to show how to install and run a software program from the web (hopefully, from someone we trust).  FastTree is a phylogenetics program that qualifies
 
 http://www.microbesonline.org/fasttree/

@@ -4,7 +4,13 @@
 Scientific programming in Unix
 ##############################
 
-Here is a quick look at some examples of using scientific software from the command line.  ``FastTree`` is a phylogenetic tree program that we compiled previously and have in the ``~/bin`` directory.  ``muscle`` is an alignment program by R. Edgar that we will download from his website.  ``PyCogent`` is a suite of programs for phylogenetics and sequence analysis from Rob Knight and Gavin Huttley's labs.  We will download, build and install PyCogent in the virtual environment that we set up in a previous chapter.
+Here is a quick look at some examples of using scientific software from the command line.  
+
+``FastTree`` is a phylogenetic tree program that we compiled in a previous :ref:`chapter<compile-FastTree>` and have in the ``~/bin`` directory.  
+
+``muscle`` is an alignment program by R. Edgar that we will download from his website.  
+
+``PyCogent`` is a suite of programs for phylogenetics and sequence analysis from Rob Knight and Gavin Huttley's labs.  We will download, build and install PyCogent in the virtual environment that we set up in a previous chapter.
 
 **PyCogent, muscle and FastTree**
 
@@ -16,18 +22,18 @@ The instructions for installation are here:
 
 http://pycogent.org/install.html
 
-According to that site the only prerequisites that we need are 
+According to that site the only prerequisites that we requirement is
 
 * ``cogent-requirements.txt``
 
     cogent
     numpy>=1.3.0
     
-and they suggest we use ``pip``:
+(although there are some optional ones) and they suggest we use ``pip``:
 
 * DONT_USE_PYREX=1 sudo pip install -r path/to/cogent-requirements.txt
 
-However, we will not use ``sudo`` nor ``pip``.  Instead we will use ``virtualenv`` and our Homebrew Python, downloading, building and installing the software the old-fashioned way.
+However, we will *not* use ``sudo`` nor ``pip`` directly.  Instead we will use ``virtualenv`` with ``pip`` and our Homebrew Python, downloading, building and installing the software the old-fashioned way, but in a special, isolated directory
 
 Normally, we'd be installing into ``/Library/Python/site-packages`` and would do ``sudo`` for the install step but we are using instead our virtualenv.  So we don't need ``sudo``.  Here goes:
 
@@ -58,7 +64,9 @@ Normally, we'd be installing into ``/Library/Python/site-packages`` and would do
     [1]+  Stopped                 python
     (mpl2)> 
     
-Looks good.  Let's go get some sequences.  Start with a file with sequence names and ids:
+Looks good.  Let's go get some sequences.  Start with a file with some Genbank ids and sequence names:
+
+``names.txt``
 
 .. sourcecode:: bash
 
@@ -71,7 +79,22 @@ Looks good.  Let's go get some sequences.  Start with a file with sequence names
 
 These are 16S ribosomal RNA gene sequences from some closely related bacterial strains.
 
-There are only six of them.  Easy enough to do it "by hand" in Python interpreter (I just type in the Genbank ids):
+There are only six of them, and we want the first column.  We could extract the Genbank ids to a new file using Python and then import the Genbank ids.  In fact, I could use ``awk``:
+
+.. sourcecode:: bash
+
+    > awk '{split($0,a," ");  print a[1]}' < names.txt
+    AF411019.1
+    AF411020.1
+    AJ002809.1
+    AJ278451.1
+    DQ450530.1
+    EU373389.1
+    >
+
+https://www.gnu.org/software/gawk/manual/html_node/String-Functions.html#index-split-string-into-array
+
+But it is easy enough to do it "by hand" in Python interpreter (I just type in the values):
 
 .. sourcecode:: bash
 

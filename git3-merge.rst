@@ -197,7 +197,7 @@ So, when we go to push ``demo``, GitHub will complain:
     hint: See the 'Note about fast-forwards' in 'git push --help' for details.
     >
 
-And the solution should be:
+And the solution should be:  ``git fetch origin``
 
 .. sourcecode:: bash
 
@@ -214,6 +214,8 @@ And the solution should be:
      (use "git pull" to update your local branch)
     nothing to commit, working directory clean
     >
+
+and ``git pull``
     
 .. sourcecode:: bash
     
