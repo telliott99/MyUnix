@@ -130,7 +130,7 @@ And then
 
 .. sourcecode:: bash
 
-    python x.py
+    $ python x.py
 
 The ``savefig`` command works, as does ``plt.show()`` from the interpreter, though I didn't figure out how to exit cleanly.
 
@@ -163,13 +163,13 @@ Finally, try a virtual environment.
 
 .. sourcecode:: bash
 
-    cd Desktop/
-    mkdir tmp
-    virtualenv tmp
-    cd tmp
-    source bin/activate
+    $ cd Desktop/
+    $ mkdir tmp
+    $ virtualenv tmp
+    $ cd tmp
+    $ source bin/activate
 
-And the prompt changes.
+The prompt has been ``$`` but not it changes:
 
 .. sourcecode:: bash
 
@@ -184,5 +184,4 @@ However,
 * ``sudo pip install matplotlib`` 
 
 failed because it couldn't find ``freetype``, ``png``.  I'm going to wait on this, since our objective for the moment is to work on running a server, rather than do scientific computing in a virtual environment setup.
-
 

@@ -23,6 +23,8 @@ Contents:
    science
    brew2
    server1
+   server2
+   server3
 
 
 Indices and tables
