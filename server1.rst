@@ -15,13 +15,21 @@ https://www.virtualbox.org
 I have explored this approach previously and blogged about it
 
 http://telliott99.blogspot.com/2011/08/trying-ubuntu-linux-1.html
+
 http://telliott99.blogspot.com/2011/08/trying-ubuntu-linux-2.html
+
 http://telliott99.blogspot.com/2011/08/trying-ubuntu-linux-3.html
+
 http://telliott99.blogspot.com/2011/08/trying-ubuntu-linux-4.html
+
 http://telliott99.blogspot.com/2011/08/trying-ubuntu-linux-5.html
+
 http://telliott99.blogspot.com/2011/08/trying-ubuntu-linux-6.html
 
+
+
 http://telliott99.blogspot.com/2011/08/linux-server.html
+
 http://telliott99.blogspot.com/2011/08/linux-server-ssh.html
 
 http://telliott99.blogspot.com/2012/03/ubuntu-under-virtualbox-1.html
@@ -58,11 +66,29 @@ The file is ``ubuntu-14.10-desktop-amd64.iso``, which I move to ``~/MyDownloads`
 
 I run the VirtualBox installer, and then I run VirtualBox, naming the new machine "Ubuntu", and accepting all the defaults, except I boosted the RAM to 1024.  Start the VM and it prompts for an image:  and I navigate to ``ubuntu-14.04.2-desktop-amd64.iso``.
 
+It takes a minute or so and then displays the install screen for Ubuntu.
+
 Now, here is where I had trouble.  I installed Ubuntu in VB numerous times and each time I struggled with the mouse not working in the Ubuntu window.  
 
 Eventually, this is fixed later by installing what is called the VBoxGuestAdditions in Linux.  But it's a chicken-and-egg problem:  the mouse doesn't work well without the guest additions, you need the mouse to do the install, and you need the install to mount the CD and get the additions.
 
 In a few cases, eventually it just started working well enough to accomplish the install, but it is *not* very reliable.
+
+[ UPDATE: Reading the manual, I came upon this:
+
+    Your mouse is owned by the VM only after you have clicked in the VM window. The host mouse pointer will disappear, and your mouse will drive the guest's pointer instead of your normal mouse pointer.
+
+We have *two* windows open:
+
+.. image:: /figs/virtualbox_manager.png
+   :scale: 50 %
+
+.. image:: /figs/ubuntu_install.png
+  :scale: 50 %
+
+*The first window is the VM window*.  You click *in the first window*, and now the mouse will work *in the second window*!
+
+Even with this, it's still flaky.  What you can try is to click ``Disable Mouse Integration`` on the bottom, then move the mouse into the screen and press LEFT-CMD (the Host key), and then click ``Capture``.  That worked, once. ]
 
 So I installed Ubuntu, and along the way authorized a bunch of connections through LittleSnitch.
 
@@ -72,7 +98,7 @@ So I installed Ubuntu, and along the way authorized a bunch of connections throu
     username te
     password ********
 
-Another little hiccup is that the Ubuntu installer prompted me to restart at the end, but when I did that it just hung.  So I quite VB, tried to "send shutdown signal" but then just pulled the plug with "power off machine".
+Another little hiccup is that the Ubuntu installer prompted me to restart at the end, but when I did that it just hung.  So I tried to "send shutdown signal" but then just pulled the plug with "power off machine".
 
 Start up VirtualBox again, and restart Linux.  Now for the guest additions.  The file is inside the VirtualBox application bundle:
 
@@ -84,104 +110,13 @@ Following this advice:
 
 http://www.productionmonkeys.net/guides/virtualbox/guest-additions
 
-I found that the toolbar at the bottom of the Linux window has a disk icon, so I clicked on that and then did a file dialog to find the ``iso`` file.  Mount it and then follow the prompt to run it.  Restart when it's done.
+I found that the toolbar at the bottom of the Linux window has a disk icon, so I clicked on that and then did a file dialog to find the ``iso`` file.  Make sure the mouse is working for Ubuntu before you do this!
 
-The mouse works fine now!
+Follow the prompt to run it.  Restart when it's done.
+
+The mouse should work fine now!
 
 In VirtualBox under Settings > General > Advanced I set the "Shared Clipboard" and "Drag'n'Drop" to "Bidirectional".
 
-I do CMD-C to copy in OS X as usual, the paste command in Linux is 
-
-* ``CTL-SHIFT-V``
-
-Other good ones:
-
-* ``CTL-OPT-T`` brings up the Terminal application
-* ``CTL-L`` clear screen in Terminal (this works in OS X as well)
-
-I figure out how to drag the Terminal icon to the top of the "Dock" (it's a little awkward).  In Terminal I do:
-
-* ``sudo apt-get update``
-
-``sudo apt-get install``:
-
-* ``python-dev``
-* ``gfortran``
-* ``python-numpy``
-* ``zlib-bin``
-* ``libpng3``
-* ``libfreetype6``
-* ``python-matplotlib``
-* ``python-scipy``
-
-And then I do a few tests.  I make a script file with the EOF trick:
-
-.. sourcecode:: bash
-
-    cat << EOF > x.py
-    import matplotlib.pyplot as plt
-    xL = range(5)
-    yL = [n**2 for n in xL]
-    plt.scatter (xL,yL,s=100,color='red')
-    plt.savefig('example.png')
-    EOF
-
-And then
-
-.. sourcecode:: bash
-
-    $ python x.py
-
-The ``savefig`` command works, as does ``plt.show()`` from the interpreter, though I didn't figure out how to exit cleanly.
-
-This works as well:
-
->>> from scipy import stats
->>> from scipy.stats import norm
->>> norm.cdf(0)
-0.5
->>> norm.cdf(2)
-0.97724986805182079
-
-Finally, 
-
-* ``sudo apt-get install cython``
-* ``sudo apt-get install python-pip``
-* ``sudo pip install virtualenv``
-
-Permissions are weird on ``/usr/local`` so:
-
-* ``sudo chown `whoami` -R /usr/local``
-* ``sudo chmod 755 -R /usr/local``
-* ``sudo chgrp adm -R /usr/local``
-
-Note:  even with this ``sudo`` is still required because the install process needs to read ``/var/lib/dpkg/lock`` for some reason.
-
-Now, click the VB window's red close button and choose "save state".  Take a "snapshot" and call it "setup".
-
-Finally, try a virtual environment.
-
-.. sourcecode:: bash
-
-    $ cd Desktop/
-    $ mkdir tmp
-    $ virtualenv tmp
-    $ cd tmp
-    $ source bin/activate
-
-The prompt has been ``$`` but not it changes:
-
-.. sourcecode:: bash
-
-    (tmp)te@te-VB:~/Desktop/tmp$ pip install numpy
-
-* ``sudo pip install virtualenv``
-
-took a while because ``numpy`` is actually being built.
-
-However,
-
-* ``sudo pip install matplotlib`` 
-
-failed because it couldn't find ``freetype``, ``png``.  I'm going to wait on this, since our objective for the moment is to work on running a server, rather than do scientific computing in a virtual environment setup.
-
+.. image:: /figs/clipboard.png
+  :scale: 50 %
