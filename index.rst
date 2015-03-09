@@ -27,6 +27,7 @@ Contents:
    server3
    server4
    server5
+   server6
 
 
 Indices and tables

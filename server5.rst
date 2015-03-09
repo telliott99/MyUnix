@@ -4,48 +4,53 @@
 Apache server
 #############
 
-Reading over my old blog posts while moving on.  The thing is that I haven't yet done
+In this chapter, we will set up an Apache server (2.4) and get it configured for running scripts through the ``cgi-bin`` (common gateway interface) mechanism.  I made note of all my old blog posts about this in the first chapter on :ref:`Linux<server1>`, but working through them, I realize that a lot of that stuff wasn't necessary, so we'll try to do a minimal installation.
+
+Of the installs mentioned in those posts, one set that I haven't yet done is
 
 sudo apt-get install dkms build-essential linux-headers-generic
 
-I am not sure what these are and I will hold off on doing this.
+I am going to hold off on doing these.
+
+What I did next:
 
 * ``sudo apt-get install apache2``
 * ``sudo apt-get install curl``
+
+In some runs I also did
+
 * ``sudo apt-get install php5 libapache2-mod-php5``
 * ``sudo apt-get install libapache2-mod-python``
 
-Useful commands:
+but I found that these are not necessary.  ``libapache2-mod-python`` sounds like a module to use python with apache, but it really is a module to embed python *within* an apache server.  So we should skip these for now.
 
-* ``sudo /etc/init.d/apache2 start``
-* ``sudo /etc/init.d/apache2 stop``
+Useful commands to remember with the apache server are ``start``, ``stop`` and ``restart``.  Any change to the server needs a restart for it to take effect.  They can be invoked in any of three ways:
+
 * ``sudo /etc/init.d/apache2 restart``
+* ``sudo apache2ctl restart``
+* ``sudo service apache2 restart``
+
+As far as I know right now they are equivalent.  We will use ``apachectl``
 
 Now do:
 
-.. sourcecode:: rst
+.. sourcecode:: bash
 
     sudo apache2ctl start
 
-Note:  both ``/etc/init.d/apache2 start`` and ``apache2ctl start`` also work.
+A quick test with ``curl localhost`` shows that Apache2 is up and running.
 
-And a quick test ``curl localhost`` shows that Apache2 is up and running.
+The web page that is served comes from ``/var/www/html/index.html``.
 
-The web page is served from ``/var/www/html/index.html``.
+At this point, use VirtualBox to make a new snapshot with the clean install:  ``apache``.
 
-Make a new snapshot with the clean install:  ``apache``
+******************
+Configuring Apache
+******************
 
-****************
-Configure Apache
-****************
+Next, I'd like to configure Apache to serve scripts.
 
-Now, I'd like to configure Apache to serve scripts.
-
-I blogged a lot about this:
-
-http://telliott99.blogspot.com/2011/08/trying-ubuntu-linux-5.html
-
-but I've struggled in applying those lessons.  It turns out most of that is wrong.  Here are some docs
+Here are some docs
 
 http://httpd.apache.org/docs/current/howto/cgi.html
 
@@ -54,12 +59,10 @@ Every time I've gone through this before, I've done a change of setting (with Ub
 .. sourcecode:: bash
 
     VBoxManage modifyvm Ubuntu --natpf1 "server,tcp,,8080,,8080"
-    
-But this is not necessary!  So don't do that.
 
-Since I installed Dropbox, I am going to do the editing by copying the files to ``~/Dropbox/Ubuntu``, modifying them with TextMate on OS X, and then copying back to the original locations.
+This tells VirtualBox to do *Network Address Translation* or NAT.  But it is not necessary to get the basic server to work.  So don't do that yet.
 
-And since I can start over at any time using the snapshot, I will not bother to make copies.
+Since I installed Dropbox, I am going to do the editing by copying the files to ``~/Dropbox/Ubuntu``, modifying them with TextMate on OS X, and then copying back to the original locations.  And since I can start over at any time using the snapshot, I will not bother to make copies, but normally one should save a copy of the original for any config file that you edit.
 
 So the first thing the docs say is I need something like:
 
@@ -80,19 +83,23 @@ and the problem is that this is supposed to go in ``httpd.conf``, which does not
     find: `/etc/polkit-1/localauthority': Permission denied
     te@tom-vb:/etc/apache2$
 
+A help page from Ubuntu
+
 https://help.ubuntu.com/lts/serverguide/httpd.html
 
-explains that now ``httpd.conf`` does not exist!  This documentation is more up-to-date, but it is hardly more user-friendly.  We will have to see.
+explains that now ``httpd.conf`` does not exist!  This Ubuntu documentation is more up-to-date than that from Apache, but it is hardly more user-friendly.  We will have to see.
 
-One useful piece of information:
+.. note::
+
+   Useful info:
 
     mods-enabled:  holds symlinks to the files in ``/etc/apache2/mods-available``.  When a module configuration file is symlinked it will be enabled the next time apache2 is restarted.
-    
+
 What this means is that we should edit the files in ``available`` rather than ``enabled`` since the latter are just symbolic links.
 
-So how will we tell apache to load ``mod_cgi.so``?
+We need to tell apache to load ``mod_cgi.so``?
 
-Let's look at the environment variables.  
+Let's look at the environment variables in ``envvars``.  
 
 .. sourcecode:: bash
 
@@ -144,7 +151,7 @@ Let's look at the environment variables.
     ## installations which interact with Apache
     #export APACHE2_MAINTSCRIPT_DEBUG=1
 
-Not much help there.
+Not much help there.  If we look within ``mods-available`` we see three files with ``cgi`` in the filename:
 
 .. sourcecode:: bash
 
@@ -167,6 +174,8 @@ Not much help there.
     LoadModule cgid_module /usr/lib/apache2/modules/mod_cgid.so
     te@tom-vb:/etc/apache2/mods-available$
 
+but none in ``mods-enabled``:
+
 .. sourcecode:: bash
 
     te@tom-vb:/etc/apache2/mods-available$ ls ../mods-enabled/
@@ -181,7 +190,7 @@ Not much help there.
     te@tom-vb:/etc/apache2/mods-available$
     
 
-Note:  there is nothing about the ``libapache2-mod-python`` that we installed earlier.
+On ``libapache2-mod-python`` that we talked about earlier.
 
 From something on the web
 
@@ -189,7 +198,7 @@ From something on the web
 
 So this makes it pretty clear that we don't need ``libapache2-mod-python``, and we have both ``php5.load`` and ``python.load`` above in ``mods-enabled``.
 
-From the printout above, the directives to load the cgi module look good.  But they are not sym-linked into ``mods-enabled``.  Should we do that?  To enable it, we probably need to do ``sudo a2enmod cgi``
+From the printout above, the directives to load the cgi module look good.  But they are not sym-linked into ``mods-enabled``.  Should we do that manually?  There is a recommended tool for it, so let's use it.  We need to do ``sudo a2enmod cgi``
 
 http://askubuntu.com/questions/403067/cgi-bin-not-working
 
@@ -201,12 +210,12 @@ From the man page:
     removing those symlinks.  It is not an error to enable a  module  which
     is already enabled, or to disable one which is already disabled.
 
-It looks like that is right.  So I will do this:
+So I will do this:
 
 .. sourcecode:: bash
 
     sudo a2enmod cgi
-    sudo service apache2 restart
+    sudo apachectl restart
 
 And take a look:
 
@@ -216,20 +225,20 @@ And take a look:
     cgi.load
     te@tom-vb:/etc/apache2$
 
-So at this point we have only done one "essential" thing:
+So at this point we have only done one *required* step:
 
 .. note::
 
-   Essential setting #1:
+   Requirement #1
 
 .. sourcecode:: bash
 
     sudo a2enmod cgi
-    sudo service apache2 restart
+    sudo apachectl restart
 
-Now, what else?  Other things I reported in the blog have to do with listening on port 8080, and setting the script directory to be something other than the default:
+Now, what else?  Other things I reported in the blog have to do with listening on port 8080, and setting the script directory to be something other than the default.  ``ScriptAlias`` is the directive to set this directory.  
 
-.. sourcecode:: rst
+.. sourcecode:: bash
 
     te@tom-vb:/etc/apache2$ cat conf-available/serve-cgi-bin.conf 
     <IfModule mod_alias.c>
@@ -254,55 +263,19 @@ Now, what else?  Other things I reported in the blog have to do with listening o
     # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
     te@tom-vb:/etc/apache2$
 
-``ScriptAlias`` is the directive to set this directory.  But currently it seems to be ``/usr/lib/cgi-bin``, and I would like to try going ahead without changing that.
+In the default setting it seems to be ``/usr/lib/cgi-bin``, and I would like to try going ahead without changing that.
 
 I note a variable ``ENABLE_USR_LIB_CGI_BIN``, which is set ``IfModule mod_alias.c .. IfModule mod_cgi.c``.  Maybe I can run the server in debug mode and see if this is set.
 
-The next thing that might be checked is ``ScriptAlias``.
+If we did want to edit this ``ScriptAlias``.
 
 * ``sudo cp /etc/apache2/conf-available/serve-cgi-bin.conf ~/Dropbox/Ubuntu``
-
-Here is the (short) file:
-
-.. sourcecode:: bash
-
-    <IfModule mod_alias.c>
-    	<IfModule mod_cgi.c>
-    		Define ENABLE_USR_LIB_CGI_BIN
-    	</IfModule>
-
-    	<IfModule mod_cgid.c>
-    		Define ENABLE_USR_LIB_CGI_BIN
-    	</IfModule>
-
-    	<IfDefine ENABLE_USR_LIB_CGI_BIN>
-    		ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
-    		<Directory "/usr/lib/cgi-bin">
-    			AllowOverride None
-    			Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
-    			Require all granted
-    		</Directory>
-    	</IfDefine>
-    </IfModule>
-
-    # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
-
-So we see:
-    
-.. sourcecode:: bash
-
-    ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
-	<Directory "/usr/lib/cgi-bin">
-
-If we wish to change to some other place like ``/usr/local/apache/cgi-bin`` then we would have to change this.  But I don't see any reason to do that yet.
-
-Since there was no edit to change it, we don't need to do a copy like this:
 
 * ``sudo cp ~/Dropbox/Ubuntu/serve-cgi-bin.conf /etc/apache2/conf-available``
 
 .. note::
 
-   Essential setting #2a:  python
+   Requirement #2:  python
 
 We need a script:
 
@@ -315,13 +288,13 @@ We need a script:
     print "Content-type:  text/html\n\n"
     print "Hello, world!"
 
-The second line is a critical change from early attempts.
+On my early attempts, my Python script failed while a php script succeeded, pointing me to something specific about Python  The second line is a critical change from early attempts.  Its absence accounted for the early failures.
 
-It is in ``~/Dropbox/Ubuntu``.  Copy it to ``/usr/lib/cgi-bin`` 
+``script.py`` is in ``~/Dropbox/Ubuntu``.  Copy it to ``/usr/lib/cgi-bin`` 
 
 * ``sudo cp ~/Dropbox/Ubuntu/script.py /usr/lib/cgi-bin``
 
-and check the permissions
+and *check the permissions*
 
 .. sourcecode:: bash
 
@@ -352,7 +325,7 @@ I also got php to work.
 
 .. note::
 
-   Essential setting #2b:  php
+   Requirement #2b:  php
 
 Here is a simple php script:
 
@@ -364,7 +337,7 @@ Here is a simple php script:
     phpinfo();
     ?>
 
-Put this into ``~/Dropbox/Ubuntu`` and then copy it into ``/usr/lib/cgi-bin``.  Then check permissions.
+Put this into ``~/Dropbox/Ubuntu`` and then copy it into ``/usr/lib/cgi-bin``.  Then check its permissions.
 
 .. sourcecode:: bash
 
@@ -379,28 +352,14 @@ Put this into ``~/Dropbox/Ubuntu`` and then copy it into ``/usr/lib/cgi-bin``.  
     te@tom-vb:~$
     
     te@tom-vb:~$ curl localhost/cgi-bin/info.php
+    ..
     
-It seems to work!  Try it in Firefox:
+I won't show the output, which is extensive, but it seems to work!  Try it in Firefox:
 
 .. image:: /figs/apache_php_firefox.png
   :scale: 50 %
 
 It definitely works!  
-
-
-The first time through, I got php to work but not Python.  And that's because I forgot to tell the right ``Content-type``.
-
-Now, we never changed the port for listening in Apache, although don't forget we did do this:
-
-* ``VBoxManage modifyvm Ubuntu --natpf1 "server,tcp,,8080,,8080"``
-
-so I want to remember to switch that back now.
-
-is this right?
-
-can we query VBox for what it knows about?
-
-* ``VBoxManage modifyvm "VM name" --natpf1 delete "guestssh"``
 
 As I said, the first time through I had the problem that it worked with php but not with Python.  So then I thought:
 
@@ -414,7 +373,7 @@ The server error log is set by the ErrorLog directive in ``etc/apache2/apache2.c
     export APACHE_LOG_DIR=/var/log/apache2$SUFFIX
     te@tom-vb:/etc/apache2$
 
-So try the Python script again:
+So try the Python script again (the broken version):
 
 .. sourcecode:: bash
 
@@ -443,28 +402,16 @@ So try the Python script again:
     [Sun Mar 08 21:15:14.202181 2015] [cgi:error] [pid 1190] [client 127.0.0.1:35330] malformed header from script 'script.py': Bad header: Hello, world!
     te@tom-vb:/var/log/apache2$
     
-So the first thing is this is not a 404.
-
-And the second thing is that the latest log info is:
+So the first thing is this is not a 404.  And the second thing is that the latest log info is:
 
 .. sourcecode:: bash
 
     [Sun Mar 08 21:05:09.628818 2015] [cgi:error] [pid 1189] [client 127.0.0.1:35327] malformed header from script 'script.py': Bad header: Hello, world!
     te@tom-vb:/var/log/apache2$
 
-``malformed header``.  Hmmm.
-
-And that's what led me to the solution.
+``malformed header``.  Hmmm.  And that's what led me to the solution.
 
 http://stackoverflow.com/questions/14126144/perl-cgi-error-message-br-malformed-header-from-script-bad-header-ltbod
-
-Edit the script to add
-
-.. sourcecode:: bash
-
-    print "Content-type:  text/html\n\n"
-
-And now it works.
 
 Aside: a quick look at ``cgi-bin`` shows:
 
@@ -526,4 +473,28 @@ So ``/usr/lib/cgi-bin/php`` is a link to ``/etc/alternatives/php-cgi-bin`` which
        with Zend OPcache v7.0.4-dev, Copyright (c) 1999-2014, by Zend Technologies
     te@tom-vb:/usr/lib/cgi-bin/tmp$
 
-Make a snapshot and call it  ``server5``.
+It is a ``php`` binary.
+
+Make a snapshot and call it  ``server5``.  Essential steps we did were just:
+
+.. sourcecode:: bash
+
+    sudo apt-get install apache curl php5
+    sudo a2enmod cgi
+    sudo apachectl restart
+
+    sudo cp ~/Dropbox/Ubuntu/script.py /usr/lib/cgi-bin
+    sudo chmod 755 /usr/lib/cgi-bin/script.py
+    sudo chown `whoami` /usr/lib/cgi-bin/script.py
+    sudo chgrp adm /usr/lib/cgi-bin/script.py
+
+    sudo cp ~/Dropbox/Ubuntu/info.php /usr/lib/cgi-bin
+    sudo chmod 755 /usr/lib/cgi-bin/info.php
+    sudo chown `whoami` /usr/lib/cgi-bin/info.php
+    sudo chgrp adm /usr/lib/cgi-bin/info.php
+    
+    curl localhost/cgi-bin/info.php
+    curl localhost/cgi-bin/script.py
+
+
+
