@@ -204,6 +204,12 @@ Looking again at ``/etc/ssh/sshd_config`` edit to produce
 
     AuthorizedKeysFile	%h/.ssh/authorized_keys
 
+And I also do
+
+.. sourcecode:: bash
+
+    PasswordAuthentication no
+
 So this should work..
 
 
@@ -282,5 +288,4 @@ Other useful commands to remember:
 * ``cat /etc/ssh/sshd_config``
 * ``scp -P 2222 ~/.ssh/ubuntu_id_rsa.pub te@127.0.0.1:~/.ssh/authorized_keys``
 
-
-
+Save a snapshot of the server as ``server4``.

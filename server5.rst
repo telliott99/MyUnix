@@ -1,0 +1,523 @@
+.. _server5:
+
+#############
+Apache server
+#############
+
+Reading over my old blog posts while moving on.  The thing is that I haven't yet done
+
+sudo apt-get install dkms build-essential linux-headers-generic
+
+I am not sure what these are and I will hold off on doing this.
+
+``sudo apt-get install apache2``
+``sudo apt-get install curl``
+``sudo apt-get install php5 libapache2-mod-php5``
+``sudo apt-get install libapache2-mod-python``
+
+Useful commands:
+
+* ``sudo /etc/init.d/apache2 start``
+* ``sudo /etc/init.d/apache2 stop``
+* ``sudo /etc/init.d/apache2 restart``
+
+Now do:
+
+``sudo apache2ctl start``
+
+Note:  both ``/etc/init.d/apache2 start`` and ``apache2ctl start`` also work.
+
+And a quick test ``curl localhost`` shows that Apache2 is up and running.
+
+The web page is served from ``/var/www/html/index.html``.
+
+Make a new snapshot with the clean install:  ``apache``
+
+****************
+Configure Apache
+****************
+
+Now, I' like to configure Apache to serve scripts.
+
+I blogged a lot about this:
+
+http://telliott99.blogspot.com/2011/08/trying-ubuntu-linux-5.html
+
+but I've struggled in applying those lessons.  I think I will first try reading the official documentation carefully!
+
+http://httpd.apache.org/docs/current/howto/cgi.html
+
+But, in addition to whatever that says, I need to change a setting for VirtualBox (with Ubuntu powered down).
+
+.. note::
+
+   Essential setting #1:
+
+.. sourcecode:: bash
+
+    VBoxManage modifyvm Ubuntu --natpf1 "server,tcp,,8080,,8080"
+
+Since I installed Dropbox, I am going to do the editing by copying the files to ``~/Dropbox/Ubuntu``, modifying them with TextMate on OS X, and then copying back to the original locations.
+
+Since I can start over at any time using the snapshot, I will not bother to make copies.
+
+So the first thing the docs say is I need something like:
+
+``LoadModule cgi_module modules/mod_cgi.so``
+
+and the problem is that this is supposed to go in ``httpd.conf``, which does not seem to exist in ``/etc/apache2``.
+
+.. sourcecode:: bash
+
+    te@tom-vb:/etc/apache2$ find /etc | grep "httpd"
+    find: `/etc/cups/ssl': Permission denied
+    /etc/lighttpd
+    /etc/lighttpd/conf-enabled
+    /etc/lighttpd/conf-enabled/90-javascript-alias.conf
+    /etc/lighttpd/conf-available
+    /etc/lighttpd/conf-available/90-javascript-alias.conf
+    find: `/etc/ssl/private': Permission denied
+    find: `/etc/polkit-1/localauthority': Permission denied
+    te@tom-vb:/etc/apache2$
+
+https://help.ubuntu.com/lts/serverguide/httpd.html
+
+explains that now ``httpd.conf`` does not exist!  This documentation is more up-to-date, but it is hardly more user-friendly.  We will have to see.
+
+One useful piece of information:
+
+    mods-enabled:  holds symlinks to the files in ``/etc/apache2/mods-available``.  When a module configuration file is symlinked it will be enabled the next time apache2 is restarted.
+    
+What this means is that we should edit the files in ``available`` rather than ``enabled`` since the latter are just symbolic links.
+
+So how will we tell apache to load ``mod_cgi.so``?
+
+Let's look at the environment variables.  
+
+.. sourcecode:: bash
+
+    # envvars - default environment variables for apache2ctl
+
+    # this won't be correct after changing uid
+    unset HOME
+
+    # for supporting multiple apache2 instances
+    if [ "${APACHE_CONFDIR##/etc/apache2-}" != "${APACHE_CONFDIR}" ] ; then
+    	SUFFIX="-${APACHE_CONFDIR##/etc/apache2-}"
+    else
+    	SUFFIX=
+    fi
+
+    # Since there is no sane way to get the parsed apache2 config in scripts, some
+    # settings are defined via environment variables and then used in apache2ctl,
+    # /etc/init.d/apache2, /etc/logrotate.d/apache2, etc.
+    export APACHE_RUN_USER=www-data
+    export APACHE_RUN_GROUP=www-data
+    # temporary state file location. This might be changed to /run in Wheezy+1
+    export APACHE_PID_FILE=/var/run/apache2/apache2$SUFFIX.pid
+    export APACHE_RUN_DIR=/var/run/apache2$SUFFIX
+    export APACHE_LOCK_DIR=/var/lock/apache2$SUFFIX
+    # Only /var/log/apache2 is handled by /etc/logrotate.d/apache2.
+    export APACHE_LOG_DIR=/var/log/apache2$SUFFIX
+
+    ## The locale used by some modules like mod_dav
+    export LANG=C
+    ## Uncomment the following line to use the system default locale instead:
+    #. /etc/default/locale
+
+    export LANG
+
+    ## The command to get the status for 'apache2ctl status'.
+    ## Some packages providing 'www-browser' need '--dump' instead of '-dump'.
+    #export APACHE_LYNX='www-browser -dump'
+
+    ## If you need a higher file descriptor limit, uncomment and adjust the
+    ## following line (default is 8192):
+    #APACHE_ULIMIT_MAX_FILES='ulimit -n 65536'
+
+    ## If you would like to pass arguments to the web server, add them below
+    ## to the APACHE_ARGUMENTS environment.
+    #export APACHE_ARGUMENTS=''
+
+    ## Enable the debug mode for maintainer scripts.
+    ## This will produce a verbose output on package installations of web server modules and web application
+    ## installations which interact with Apache
+    #export APACHE2_MAINTSCRIPT_DEBUG=1
+
+No help there.
+
+.. sourcecode:: bash
+
+    te@tom-vb:/etc/apache2/mods-available$ cat cgi.load
+    LoadModule cgi_module /usr/lib/apache2/modules/mod_cgi.so
+    te@tom-vb:/etc/apache2/mods-available$
+
+.. sourcecode:: bash
+
+    te@tom-vb:/etc/apache2/mods-available$ cat cgid.conf
+    # Socket for cgid communication
+    ScriptSock ${APACHE_RUN_DIR}/cgisock
+
+    # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+    te@tom-vb:/etc/apache2/mods-available$
+
+.. sourcecode:: bash
+
+    te@tom-vb:/etc/apache2/mods-available$ cat cgid.load
+    LoadModule cgid_module /usr/lib/apache2/modules/mod_cgid.so
+    te@tom-vb:/etc/apache2/mods-available$
+
+.. sourcecode:: bash
+
+    te@tom-vb:/etc/apache2/mods-available$ ls ../mods-enabled/
+    access_compat.load  authz_user.load  filter.load       php5.load
+    alias.conf          autoindex.conf   mime.conf         python.load
+    alias.load          autoindex.load   mime.load         setenvif.conf
+    auth_basic.load     deflate.conf     mpm_prefork.conf  setenvif.load
+    authn_core.load     deflate.load     mpm_prefork.load  status.conf
+    authn_file.load     dir.conf         negotiation.conf  status.load
+    authz_core.load     dir.load         negotiation.load
+    authz_host.load     env.load         php5.conf
+    te@tom-vb:/etc/apache2/mods-available$
+    
+
+Note:  there is nothing about the ``libapache2-mod-python`` that we installed earlier.
+
+From something on the web
+
+    Mod_python is an Apache module that embeds the Python interpreter within the server. With mod_python you can write web-based applications in Python that will run many times faster than traditional CGI and will have access to advanced features such as ability to retain database connections and other data between hits and access to Apache internals. A more detailed description of what mod_python can do is available in this O'Reilly article.
+
+So this makes it pretty clear that we don't need ``libapache2-mod-python``, and we have both ``php5.load`` and ``python.load`` above in ``mods-enabled``.
+
+From the printout above, the directives to load the cgi module look good.  But they are not sym-linked into ``mods-enabled``.  Should we do that?  To enable it, we probably need to do ``sudo a2enmod cgi``
+
+http://askubuntu.com/questions/403067/cgi-bin-not-working
+
+From the man page:
+
+    a2enmod  is  a  script  that  enables  the  specified module within the
+    apache2 configuration.   It  does  this  by  creating  symlinks  within
+    /etc/apache2/mods-enabled.   Likewise,  a2dismod  disables  a module by
+    removing those symlinks.  It is not an error to enable a  module  which
+    is already enabled, or to disable one which is already disabled.
+
+It looks like that is right.  So I will do this:
+
+.. sourcecode:: bash
+
+    sudo a2enmod cgi
+    sudo service apache2 restart
+
+And take a look:
+
+.. sourcecode:: bash
+
+    te@tom-vb:/etc/apache2$ ls mods-enabled | grep "cgi"
+    cgi.load
+    te@tom-vb:/etc/apache2$
+
+So at this point we have only done two things.  This second move was:
+
+.. note::
+
+   Essential setting #2:
+
+.. sourcecode:: bash
+
+    sudo a2enmod cgi
+    sudo service apache2 restart
+
+Now, what?  Other things I reported in the blog have to do with listening on port 8080, and setting the script directory to be something other than the default:
+
+    te@tom-vb:/etc/apache2$ cat conf-available/serve-cgi-bin.conf 
+    <IfModule mod_alias.c>
+    	<IfModule mod_cgi.c>
+    		Define ENABLE_USR_LIB_CGI_BIN
+    	</IfModule>
+
+    	<IfModule mod_cgid.c>
+    		Define ENABLE_USR_LIB_CGI_BIN
+    	</IfModule>
+
+    	<IfDefine ENABLE_USR_LIB_CGI_BIN>
+    		ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+    		<Directory "/usr/lib/cgi-bin">
+    			AllowOverride None
+    			Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+    			Require all granted
+    		</Directory>
+    	</IfDefine>
+    </IfModule>
+
+    # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+    te@tom-vb:/etc/apache2$
+
+``ScriptAlias`` is the directive to set this directory.  But currently it seems to be ``/usr/lib/cgi-bin``, and I would like to try going ahead without changing that.
+
+I note a variable ``ENABLE_USR_LIB_CGI_BIN``, which is set ``IfModule mod_alias.c .. IfModule mod_cgi.c``.  Maybe I can run the server in debug mode and see if this is set.
+
+The next thing that might be checked is ``ScriptAlias``.
+
+* ``sudo cp /etc/apache2/conf-available/serve-cgi-bin.conf ~/Dropbox/Ubuntu``
+
+Here is the (short) file:
+
+.. sourcecode:: bash
+
+    <IfModule mod_alias.c>
+    	<IfModule mod_cgi.c>
+    		Define ENABLE_USR_LIB_CGI_BIN
+    	</IfModule>
+
+    	<IfModule mod_cgid.c>
+    		Define ENABLE_USR_LIB_CGI_BIN
+    	</IfModule>
+
+    	<IfDefine ENABLE_USR_LIB_CGI_BIN>
+    		ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+    		<Directory "/usr/lib/cgi-bin">
+    			AllowOverride None
+    			Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+    			Require all granted
+    		</Directory>
+    	</IfDefine>
+    </IfModule>
+
+    # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+
+So we see:
+    
+.. sourcecode:: bash
+
+    ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+	<Directory "/usr/lib/cgi-bin">
+
+If we wish to change to some other place like ``/usr/local/apache/cgi-bin`` then we would have to change this.  But I don't see any reason to do that yet.
+
+Since there was no edit to change it, we don't need to do a copy like this:
+
+* ``sudo cp ~/Dropbox/Ubuntu/serve-cgi-bin.conf /etc/apache2/conf-available``
+
+.. note::
+
+   Essential setting #3a:  python
+
+We need a script:
+
+``script.py``:
+
+.. sourcecode:: python
+
+    #! /usr/bin/python
+    print "Hello, world!"
+
+It is in ``~/Dropbox/Ubuntu``.  Copy it to ``/usr/lib/cgi-bin`` and check the permissions
+
+.. sourcecode:: python
+
+    te@tom-vb:/etc/apache2$ ls -al /usr/lib/cgi-bin/script.py
+    -rw-r--r--   1 root root    41 Mar  8 20:10 script.py
+    te@tom-vb:/etc/apache2$ sudo chmod 755 /usr/lib/cgi-bin/script.py 
+    te@tom-vb:/etc/apache2$ sudo chown `whoami` /usr/lib/cgi-bin/script.py 
+    te@tom-vb:/etc/apache2$ sudo chgrp adm /usr/lib/cgi-bin/script.py 
+    te@tom-vb:/etc/apache2$ ls -al /usr/lib/cgi-bin/script.py
+    -rwxr-xr-x   1 te   adm     41 Mar  8 20:10 script.py
+    te@tom-vb:/etc/apache2$ /usr/lib/cgi-bin/script.py 
+    Hello, world!
+    te@tom-vb:/etc/apache2$
+
+Now, is it going to work?
+
+Both ``curl localhost/python.py`` and ``curl localhost/cgi-bin/python.py`` give me a 404 (page not found).  Restarting the server doesn't help.
+
+We could try php5.  I may have installed the wrong module for this before.  Try:
+
+    sudo apt-get install php5-cgi
+    sudo a2enmod php5-cgi
+    
+    
+    te@tom-vb:~$ sudo a2enmod php5-cgi
+    ERROR: Module php5-cgi does not exist!
+    te@tom-vb:~$
+
+Guess that wasn't it!  Nothing new in ``/etc/apache2/mods-available``.
+
+.. note::
+
+   Essential setting #3b:  php
+
+Here is a simple php script:
+
+``info.php``:
+
+    <?php
+    phpinfo();
+    ?>
+
+Put this into ``~/Dropbox/Ubuntu`` and then copy it into ``/usr/lib/cgi-bin``.  Then check permissions.
+
+    te@tom-vb:/etc/apache2$ sudo cp ~/Dropbox/Ubuntu/info.php /usr/lib/cgi-bin
+    te@tom-vb:/etc/apache2$ ls -al /usr/lib/cgi-bin/info.php 
+    -rw-r--r-- 1 root root 20 Mar  8 20:25 /usr/lib/cgi-bin/info.php
+    te@tom-vb:/etc/apache2$ sudo chmod 755 /usr/lib/cgi-bin/info.php
+    te@tom-vb:/etc/apache2$ sudo chown `whoami` /usr/lib/cgi-bin/info.php
+    te@tom-vb:/etc/apache2$ sudo chgrp adm /usr/lib/cgi-bin/info.php
+    te@tom-vb:/etc/apache2$ ls -al /usr/lib/cgi-bin/info.php -rwxr-xr-x 1 te adm 20 Mar  8 20:25 /usr/lib/cgi-bin/info.php
+    te@tom-vb:/etc/apache2$
+
+It seems to work!  Try it in Firefox:
+
+.. image:: /figs/apache_php_firefox.png
+  :scale: 50 %
+
+It definitely works!  So, we got php to work but not Python.  And we never changed the port for listening in Apache, although don't forget we did do this:
+
+* ``VBoxManage modifyvm Ubuntu --natpf1 "server,tcp,,8080,,8080"``
+
+So now, why php and not Python?  Both scripts are in ``/usr/lib/cgi-bin`` with the right permissions:
+
+    te@tom-vb:~$ ls -al /usr/lib/cgi-bin/
+    total 8988
+    drwxr-xr-x   2 root root    4096 Mar  8 20:25 .
+    drwxr-xr-x 158 root root   20480 Mar  8 19:04 ..
+    -rwxr-xr-x   1 te   adm       20 Mar  8 20:25 info.php
+    lrwxrwxrwx   1 root root      29 Mar  8 20:20 php -> /etc/alternatives/php-cgi-bin
+    -rwxr-xr-x   1 root root 9167936 Feb 13 14:10 php5
+    -rwxr-xr-x   1 te   adm       41 Mar  8 20:10 script.py
+    te@tom-vb:~$
+
+What are those other things?  Are they necessary to the behavior we see?
+
+    te@tom-vb:/usr/lib/cgi-bin$ ls -al
+    total 36
+    drwxr-xr-x   3 root root  4096 Mar  8 20:46 .
+    drwxr-xr-x 158 root root 20480 Mar  8 19:04 ..
+    -rwxr-xr-x   1 te   adm     20 Mar  8 20:25 info.php
+    -rwxr-xr-x   1 te   adm     41 Mar  8 20:10 script.py
+    drwxr-xr-x   2 root root  4096 Mar  8 20:46 tmp
+    te@tom-vb:/usr/lib/cgi-bin$
+
+Nope, it still works.
+
+More:
+
+    te@tom-vb:/usr/lib/cgi-bin$ ls -al /etc/alternatives/php-cgi-bin
+    lrwxrwxrwx 1 root root 21 Mar  8 20:20 /etc/alternatives/php-cgi-bin -> /usr/lib/cgi-bin/php5
+    te@tom-vb:/usr/lib/cgi-bin$
+
+So ``/usr/lib/cgi-bin/php`` is a link to ``/etc/alternatives/php-cgi-bin`` which is a link to ``/usr/lib/cgi-bin/php5``.  From the size above (9167936), it might be some kind of big binary.  It is not a text file:
+
+    te@tom-vb:~$ hexdump -C -n 64 /usr/lib/cgi-bin/tmp/php5
+    00000000  7f 45 4c 46 02 01 01 00  00 00 00 00 00 00 00 00  |.ELF............|
+    00000010  02 00 3e 00 01 00 00 00  a5 3a 46 00 00 00 00 00  |..>......:F.....|
+    00000020  40 00 00 00 00 00 00 00  40 dc 8b 00 00 00 00 00  |@.......@.......|
+    00000030  00 00 00 00 40 00 38 00  09 00 40 00 20 00 1f 00  |....@.8...@. ...|
+    00000040
+    te@tom-vb:~$
+
+``7f 45 4c 46`` is a magic ____ ELF header for a binary file.
+
+    te@tom-vb:/usr/lib/cgi-bin/tmp$ ./php5 -v
+    PHP 5.5.12-2ubuntu4.2 (cgi-fcgi) (built: Feb 13 2015 18:57:05)
+    Copyright (c) 1997-2014 The PHP Group
+    Zend Engine v2.5.0, Copyright (c) 1998-2014 Zend Technologies
+       with Zend OPcache v7.0.4-dev, Copyright (c) 1999-2014, by Zend Technologies
+    te@tom-vb:/usr/lib/cgi-bin/tmp$
+
+So why doesn't the Python script work?
+
+Maybe we can run the server in debug mode, or check the log.  Where are the logs?
+
+The server error log is set by the ErrorLog directive in ``etc/apache2/apache2.conf`` as ``${APACHE_LOG_DIR}/error.log``, but where is that?  In ``envvars`` we have ``/var/log/apache2$SUFFIX``.
+
+    te@tom-vb:/etc/apache2$ cat envvars | grep "LOG"
+    export APACHE_LOG_DIR=/var/log/apache2$SUFFIX
+    te@tom-vb:/etc/apache2$
+    
+
+So try the Python script again:
+
+    te@tom-vb:/var/log/apache2$ curl localhost/cgi-bin/script.py
+    <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+    <html><head>
+    <title>500 Internal Server Error</title>
+    </head><body>
+    <h1>Internal Server Error</h1>
+    <p>The server encountered an internal error or
+    misconfiguration and was unable to complete
+    your request.</p>
+    <p>Please contact the server administrator at 
+     webmaster@localhost to inform them of the time this error occurred,
+     and the actions you performed just before this error.</p>
+    <p>More information about this error may be available
+    in the server error log.</p>
+    <hr>
+    <address>Apache/2.4.10 (Ubuntu) Server at localhost Port 80</address>
+    </body></html>
+    te@tom-vb:/var/log/apache2$ tail error.log
+    [Sun Mar 08 20:50:54.012940 2015] [core:notice] [pid 1381] AH00094: Command line: '/usr/sbin/apache2'
+    [Sun Mar 08 21:01:38.405844 2015] [mpm_prefork:notice] [pid 1381] AH00169: caught SIGTERM, shutting down
+    [Sun Mar 08 21:01:52.251858 2015] [:error] [pid 1184] python_init: Python version mismatch, expected '2.7.6', found '2.7.8'.
+    [Sun Mar 08 21:01:52.252817 2015] [:error] [pid 1184] python_init: Python executable found '/usr/bin/python'.
+    [Sun Mar 08 21:01:52.252834 2015] [:error] [pid 1184] python_init: Python path being used '/usr/lib/python2.7/:/usr/lib/python2.7/plat-x86_64-linux-gnu:/usr/lib/python2.7/lib-tk:/usr/lib/python2.7/lib-old:/usr/lib/python2.7/lib-dynload'.
+    [Sun Mar 08 21:01:52.252850 2015] [:notice] [pid 1184] mod_python: Creating 8 session mutexes based on 150 max processes and 0 max threads.
+    [Sun Mar 08 21:01:52.252854 2015] [:notice] [pid 1184] mod_python: using mutex_directory /tmp 
+    [Sun Mar 08 21:01:52.271803 2015] [mpm_prefork:notice] [pid 1184] AH00163: Apache/2.4.10 (Ubuntu) PHP/5.5.12-2ubuntu4.2 mod_python/3.3.1 Python/2.7.8 configured -- resuming normal operations
+    [Sun Mar 08 21:01:52.271854 2015] [core:notice] [pid 1184] AH00094: Command line: '/usr/sbin/apache2'
+    [Sun Mar 08 21:05:09.628818 2015] [cgi:error] [pid 1189] [client 127.0.0.1:35327] malformed header from script 'script.py': Bad header: Hello, world!
+    te@tom-vb:/var/log/apache2$
+    
+So the first thing is this is not a 404.
+
+And the second thing is that the latest log info is:
+
+    [Sun Mar 08 21:05:09.628818 2015] [cgi:error] [pid 1189] [client 127.0.0.1:35327] malformed header from script 'script.py': Bad header: Hello, world!
+    te@tom-vb:/var/log/apache2$
+
+``malformed header``.  Hmmm.
+
+    te@tom-vb:/var/log/apache2$ cat /usr/lib/cgi-bin/script.py 
+    #! /usr/bin/python
+    print "Hello, world!"
+    te@tom-vb:/var/log/apache2$
+
+
+    te@tom-vb:/var/log/apache2$ /usr/lib/cgi-bin/script.py 
+    Hello, world!
+    te@tom-vb:/var/log/apache2$ ls -al /usr/lib/cgi-bin/script.py 
+    -rwxr-xr-x 1 te adm 41 Mar  8 20:10 /usr/lib/cgi-bin/script.py
+    te@tom-vb:/var/log/apache2$
+
+I don't see anything wrong with it.  And nothing wrong with the permissions either.
+
+I put a new blank line between the first and second lines.  Then
+
+    sudo cp ~/Dropbox/Ubuntu/script.py /usr/lib/cgi-bin/script.py
+    
+Permissions are fine.  This is not needed:
+
+    sudo chmod 755 /usr/lib/cgi-bin/script.py
+
+Does not fix the error.
+
+    te@tom-vb:/var/log/apache2$ tail -n 5 /var/log/apache2/error.log 
+    [Sun Mar 08 21:01:52.252854 2015] [:notice] [pid 1184] mod_python: using mutex_directory /tmp 
+    [Sun Mar 08 21:01:52.271803 2015] [mpm_prefork:notice] [pid 1184] AH00163: Apache/2.4.10 (Ubuntu) PHP/5.5.12-2ubuntu4.2 mod_python/3.3.1 Python/2.7.8 configured -- resuming normal operations
+    [Sun Mar 08 21:01:52.271854 2015] [core:notice] [pid 1184] AH00094: Command line: '/usr/sbin/apache2'
+    [Sun Mar 08 21:05:09.628818 2015] [cgi:error] [pid 1189] [client 127.0.0.1:35327] malformed header from script 'script.py': Bad header: Hello, world!
+    [Sun Mar 08 21:15:14.202181 2015] [cgi:error] [pid 1190] [client 127.0.0.1:35330] malformed header from script 'script.py': Bad header: Hello, world!
+    te@tom-vb:/var/log/apache2$
+
+Maybe we don't need the hash bang part??
+
+    te@tom-vb:/var/log/apache2$ tail -n 5 /var/log/apache2/error.log
+    [Sun Mar 08 21:15:14.202181 2015] [cgi:error] [pid 1190] [client 127.0.0.1:35330] malformed header from script 'script.py': Bad header: Hello, world!
+    [Sun Mar 08 21:18:32.439872 2015] [cgi:error] [pid 1188] [client 127.0.0.1:35333] AH01215: (8)Exec format error: exec of '/usr/lib/cgi-bin/script.py' failed
+    [Sun Mar 08 21:18:32.440459 2015] [cgi:error] [pid 1188] [client 127.0.0.1:35333] End of script output before headers: script.py
+    [Sun Mar 08 21:18:47.380373 2015] [cgi:error] [pid 1191] [client 127.0.0.1:35334] AH01215: (8)Exec format error: exec of '/usr/lib/cgi-bin/script.py' failed
+    [Sun Mar 08 21:18:47.380792 2015] [cgi:error] [pid 1191] [client 127.0.0.1:35334] End of script output before headers: script.py
+    te@tom-vb:/var/log/apache2$
+    
+
+Well, that doesn't look right!
+

@@ -51,6 +51,12 @@ And then
 
 The ``savefig`` command works, as does ``plt.show()`` from the interpreter, though I didn't figure out how to exit cleanly.
 
+Later, I put the script in ``~/Dropbox/Ubuntu/test-matplotlib.py``.  It saves to whatever directory you are in when you invoke the script.
+
+.. sourcecode:: bash
+
+    python ~/Dropbox/Ubuntu/test-matplotlib.py
+
 This works as well:
 
 >>> from scipy import stats
@@ -74,7 +80,7 @@ Permissions are weird on ``/usr/local`` so:
 
 Note:  even with this ``sudo`` is still required because the install process needs to read ``/var/lib/dpkg/lock`` for some reason.
 
-Now, click the VB window's red close button and choose "save state".  Take a "snapshot" and call it "setup".
+Now, click the VB window's red close button and choose "save state".  Take a "snapshot" and call it "server2".
 
 Finally, try a virtual environment.
 
@@ -86,7 +92,7 @@ Finally, try a virtual environment.
     $ cd tmp
     $ source bin/activate
 
-The prompt has been ``$`` but not it changes:
+The prompt has been ``$`` but note it changes:
 
 .. sourcecode:: bash
 

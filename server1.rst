@@ -66,6 +66,10 @@ The file is ``ubuntu-14.10-desktop-amd64.iso``, which I move to ``~/MyDownloads`
 
 I run the VirtualBox installer, and then I run VirtualBox, naming the new machine "Ubuntu", and accepting all the defaults, except I boosted the RAM to 1024.  Start the VM and it prompts for an image:  and I navigate to ``ubuntu-14.04.2-desktop-amd64.iso``.
 
+[ Update:  I've gone back to ubuntu-14.10 ]
+
+This process is very smooth.  It's much better than when I tried VirtualBox previously.
+
 It takes a minute or so and then displays the install screen for Ubuntu.
 
 Now, here is where I had trouble.  I installed Ubuntu in VB numerous times and each time I struggled with the mouse not working in the Ubuntu window.  
@@ -88,7 +92,7 @@ We have *two* windows open:
 
 *The first window is the VM window*.  You click *in the first window*, and now the mouse will work *in the second window*!
 
-Even with this, it's still flaky.  What you can try is to click ``Disable Mouse Integration`` on the bottom, then move the mouse into the screen and press LEFT-CMD (the Host key), and then click ``Capture``.  That worked, once. ]
+Even with this, it's still flaky.  What you can try is to click ``Disable Mouse Integration`` in the menu on the bottom of the window, then move the mouse into the screen and press LEFT-CMD (the Host key), and then click ``Capture``.  That worked, once. ]
 
 So I installed Ubuntu, and along the way authorized a bunch of connections through LittleSnitch.
 
@@ -120,3 +124,15 @@ In VirtualBox under Settings > General > Advanced I set the "Shared Clipboard" a
 
 .. image:: /figs/clipboard.png
   :scale: 50 %
+
+Rather than do their shared folder thing (a huge pain, as I recall)
+
+http://telliott99.blogspot.com/2011/08/trying-ubuntu-linux-1.html
+
+I just set up limited Dropbox access in VB/Ubuntu.
+
+Get the Terminal running with CTL-OPT-T and drag its icon to the top of the Dock.
+
+And I figured out how to page up and down:  SHIFT + PAGE UP/DOWN on the keyboard.  Not sure about when keyboard is not attached.
+
+After several times through, I am labeling my snapshots of the server in sync with these chapters.  So at this point I will save one as ``server1``.
