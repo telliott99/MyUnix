@@ -12,24 +12,10 @@ Contents:
    :maxdepth: 3
 
    sphinx
-   part1/index
-   installs
-   brew
-   python
-   git1-setup
-   git2-usage
-   git3-merge
-   latex
-   science
-   brew2
-   server1
-   server2
-   server3
-   server4
-   server5
-   server6
-   server7
-
+   unix/index
+   software/index
+   git/index
+   server/index
 
 Indices and tables
 ==================

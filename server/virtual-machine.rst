@@ -1,4 +1,4 @@
-.. _server1:
+.. _virtual-machine:
 
 ##########################
 Linux on a Virtual Machine
@@ -66,7 +66,9 @@ The file is ``ubuntu-14.10-desktop-amd64.iso``, which I move to ``~/MyDownloads`
 
 I run the VirtualBox installer, and then I run VirtualBox, naming the new machine "Ubuntu", and accepting all the defaults, except I boosted the RAM to 1024.  Start the VM and it prompts for an image:  and I navigate to ``ubuntu-14.04.2-desktop-amd64.iso``.
 
-[ Update:  I've gone back to ubuntu-14.10 ]
+.. note::
+
+   Update:  I've gone back to ubuntu-14.10.
 
 This process is very smooth.  It's much better than when I tried VirtualBox previously.
 
@@ -78,7 +80,9 @@ Eventually, this is fixed later by installing what is called the VBoxGuestAdditi
 
 In a few cases, eventually it just started working well enough to accomplish the install, but it is *not* very reliable.
 
-[ UPDATE: Reading the manual, I came upon this:
+.. note::
+
+    Reading the manual, I came upon this:
 
     Your mouse is owned by the VM only after you have clicked in the VM window. The host mouse pointer will disappear, and your mouse will drive the guest's pointer instead of your normal mouse pointer.
 

@@ -1,10 +1,10 @@
-.. _server5:
+.. _apache:
 
 #############
 Apache server
 #############
 
-In this chapter, we will set up an Apache server (2.4) and get it configured for running scripts through the ``cgi-bin`` (common gateway interface) mechanism.  I made note of all my old blog posts about this in the first chapter on :ref:`Linux<server1>`, but working through them, I realize that a lot of that stuff wasn't necessary, so we'll try to do a minimal installation.
+In this chapter, we will set up an Apache server (2.4) and get it configured for running scripts through the ``cgi-bin`` (common gateway interface) mechanism.  I made note of all my old blog posts about this in the first chapter on :ref:`Linux<virtual-machine>`, but working through them, I realize that a lot of that stuff wasn't necessary, so we'll try to do a minimal installation.
 
 Of the installs mentioned in those posts, one set that I haven't yet done is
 

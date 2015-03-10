@@ -1,8 +1,8 @@
 .. _sphinx:
 
-######
-Sphinx
-######
+##########################
+Introduction:  Sphinx docs
+##########################
 
 
 This "book" is a brief review of the most common things I do from the command line on OS X.  I call it **MyUnix** because it really is (almost) Unix at this level, and because my other projects on github are named like *MyX*.

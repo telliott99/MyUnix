@@ -1,4 +1,4 @@
-.. _server7:
+.. _nginx:
 
 #####
 nginx
@@ -476,4 +476,3 @@ I try ``test.com`` and get a 404:
 That's because I did not change the port yet in ``/etc/nginx/sites-available/test.com``.
 
 And I'll leave that as an exercise for the reader.  :)
-

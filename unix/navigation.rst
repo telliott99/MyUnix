@@ -1,8 +1,8 @@
 .. _navigation:
 
-################################
-Navigating from the command line
-################################
+##########
+Navigation
+##########
 
 **pwd, cd and ls**
 
@@ -11,6 +11,8 @@ Navigating from the command line
 * ``pwd`` (print working directory)
 * ``cd < dirname >`` (change directory)
 * ``ls < dirname >`` (list directory contents)
+
+I use brackets ``<`` and ``>`` to indicate a place where we need to substitute a specific filename or directory or some other string.
 
 .. sourcecode:: bash
 

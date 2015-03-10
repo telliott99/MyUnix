@@ -1,8 +1,8 @@
 .. _intro:
 
-############
-Introduction
-############
+#####
+Intro
+#####
 
 Starting with this chapter, we are going to learn about Unix and more specifically about the BASH shell, and the command line.  Here is an extended quote from the *bash Cookbook*:
 

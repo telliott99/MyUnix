@@ -1,4 +1,4 @@
-.. _server6:
+.. _apache2:
 
 #################################
 Network Address Translation (NAT)
@@ -74,9 +74,9 @@ This is not enough to make it work from OS X:
     1
     >
 
-##################
-Apache:  Port 8080
-##################
+*********
+Port 8080
+*********
 
 Above, we tested port 8080 from Ubuntu and it is not open.
 
@@ -203,9 +203,9 @@ Now to try from OS X:
 
 And it's working on OS X as well!
 
-####################
-Apache:  ScriptAlias
-####################
+***********
+ScriptAlias
+***********
 
 One last thing we could do is to change the directory where we put scripts.  The default is ``/usr/lib/cgi-bin``, and it's working fine.
 

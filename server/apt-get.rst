@@ -1,4 +1,4 @@
-.. _server2:
+.. _apt-get:
 
 ####################
 Terminal and apt-get

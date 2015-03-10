@@ -1,9 +1,0 @@
-build something that imports libpng
-
--I/usr/local/include
--L/usr/local/lib -llibpng
-
-
-for (key, _) in Dictionary {
-    println(key)
-}

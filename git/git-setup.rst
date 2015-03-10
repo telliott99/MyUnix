@@ -1,8 +1,8 @@
-.. _git1-setup:
+.. _git-setup:
 
-###########
-Git:  setup
-###########
+#####
+Setup
+#####
 
 **Version control**
 

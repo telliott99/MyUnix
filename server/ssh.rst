@@ -1,4 +1,4 @@
-.. _server3:
+.. _ssh:
 
 ###########
 Linux:  SSH

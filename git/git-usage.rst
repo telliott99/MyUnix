@@ -1,8 +1,8 @@
-.. _git2-usage:
+.. git-usage:
 
-###########
-Git:  usage
-###########
+#####
+Usage
+#####
 
 **Shell scripts**
 

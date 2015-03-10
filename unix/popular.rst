@@ -1,8 +1,8 @@
 .. _popular:
 
-#######
-Popular
-#######
+################
+Popular commands
+################
 
 I found a list of Unix commands sorted by popularity.  
 

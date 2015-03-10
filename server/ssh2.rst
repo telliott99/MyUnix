@@ -1,4 +1,4 @@
-.. _server4:
+.. _ssh2:
 
 ##################
 Linux:  SSH access
