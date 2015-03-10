@@ -38,7 +38,7 @@ So 80 is open, but only from Ubuntu, and 8080 is not open for either.
 
 To get this to work from OS X, we need to get VirtualBox to forward our requests to the virtual machine.
 
-Virtual box has a utility called ``VBoxManage`` which sets up NAT.  Our examples from before used port 8080.  The reason for this is that Unix does not allow ports below a certain value to be reassigned (I believe that value is 1000).
+Virtual box has a utility called ``VBoxManage`` which sets up NAT.  Our examples from before used port 8080.  The reason for this is that Unix does not allow ports below a certain value to be reassigned (I believe that value is 1024).
 
 Recall that our server is set up to listen on port 80 (standard).  Is this command enough to get the VirtualBox to route us to the server?
 

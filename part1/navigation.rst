@@ -353,4 +353,30 @@ For example, suppose we do:
 
 If we want to repeat the journey recover the entire ``pushd ..`` command with the up-arrow or from the history.
 
+.. note::
+
+    Both $_ and !$ hold the value of the last argument of the previous command.  Frequently I do ``ls`` to list a long directory name, and then I find I want to ``cd`` into it.  Just do ``cd $_``.
+
+.. sourcecode:: bash
+
+    > cd
+    > ls Desktop
+    MyUnix
+    > cd $_
+    > pwd
+    /Users/telliott_admin/Desktop
+    > 
+
+.. sourcecode:: bash
+
+    > cd
+    > ls Desktop
+    MyUnix
+    > cd !$
+    cd Desktop
+    > pwd
+    /Users/telliott_admin/Desktop
+    > 
+    
+
 That's a introductory summary of useful navigation commands.
