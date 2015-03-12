@@ -13,6 +13,8 @@ Contents:
    permissions
    grep
    find-xargs
+   man
+   keystrokes
    diff
    process
    tar-curl

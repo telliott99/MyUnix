@@ -155,8 +155,13 @@ file:///Users/telliott_admin/Desktop/MyUnix/_build/html/_sources/sphinx.txt
     
     alt:  :ref:`title<my-reference-label>`
 
-
     Using ref is advised over standard reStructuredText links to sections (like `Section title`_) because it works across files, when section headings are changed, and for all builders that support cross-references.
+    
+To link to a static file contained in the project, do something like:
+
+.. sourcecode:: rst
+
+    :download:`resources.html </_static/unix_resources.html>`
 
 **Code highlighting**
 
