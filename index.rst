@@ -15,7 +15,8 @@ Contents:
    unix/index
    software/index
    git/index
-   server/index
+   ubuntu/index
+   servers/index
 
 Indices and tables
 ==================

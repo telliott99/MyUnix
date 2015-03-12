@@ -476,3 +476,20 @@ I try ``test.com`` and get a 404:
 That's because I did not change the port yet in ``/etc/nginx/sites-available/test.com``.
 
 And I'll leave that as an exercise for the reader.  :)
+
+Note that we cannot reach ``example.com`` or test.com`` from OS X because we are not really using a DNS.  Well, actually I get example.com, but it is not our ``example.com``.
+
+.. sourcecode:: html
+
+    > whois example.com
+
+    Whois Server Version 2.0
+
+    Domain names in the .com and .net domains can now be registered
+    with many different competing registrars. Go to http://www.internic.net
+    for detailed information.
+
+    EXAMPLE.COM.AU
+    EXAMPLE.COM.FLORAMEIYUKWONG.COM
+    EXAMPLE.COM.RAFAELYALUFF.COM
+    EXAMPLE.COM

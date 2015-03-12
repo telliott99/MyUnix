@@ -4,7 +4,6 @@
 Terminal and apt-get
 ####################
 
-
 I do CMD-C to copy in OS X as usual
 
 the paste command in Linux is 

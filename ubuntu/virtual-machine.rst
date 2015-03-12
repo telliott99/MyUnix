@@ -4,35 +4,21 @@
 Linux on a Virtual Machine
 ##########################
 
-Our purpose here is to take a look at Linux.  
+***********
+Virtual Box
+***********
+
+Our purpose here is to take a look at Linux.
 
 One way to do that would be to find an old laptop with Windows and wipe it.  But I don't have one.  It is possible to "dual boot" OS X and Linux, but it's a pain, from what I understand.  Another idea is tro try to run Linux on my current laptop, by installing a virtual machine.
 
-There is free software called VirtualBox (owned by Oracle) which can be used to provide our VM.
+While we do that we will set up a server.  We are not going to serve pages to the web at large, but we will serve them to machines on our local network.
+
+There is free software called VirtualBox (owned by Oracle) which can be used to provide the VM.
 
 https://www.virtualbox.org
 
-I have explored this approach previously and blogged about it
-
-http://telliott99.blogspot.com/2011/08/trying-ubuntu-linux-1.html
-
-http://telliott99.blogspot.com/2011/08/trying-ubuntu-linux-2.html
-
-http://telliott99.blogspot.com/2011/08/trying-ubuntu-linux-3.html
-
-http://telliott99.blogspot.com/2011/08/trying-ubuntu-linux-4.html
-
-http://telliott99.blogspot.com/2011/08/trying-ubuntu-linux-5.html
-
-http://telliott99.blogspot.com/2011/08/trying-ubuntu-linux-6.html
-
-
-
-http://telliott99.blogspot.com/2011/08/linux-server.html
-
-http://telliott99.blogspot.com/2011/08/linux-server-ssh.html
-
-http://telliott99.blogspot.com/2012/03/ubuntu-under-virtualbox-1.html
+I have explored this approach previously and blogged about it at these :download:`links </_static/blog.html>`
 
 The VirtualBox installer is ``VirtualBox-4.3.24-98716-OSX.dmg``.
 
@@ -53,26 +39,29 @@ I compare with
 
 ``openssl`` needs to be called with ``dgst -sha256`` for this version of ``sha``.
 
-I like to paste them right on top of each other:
+I like to paste them right next to each other:
 
 * ``c6d629ca2f5a470b03c48849d2f6c991382c45da5c84255d3c73e78ad5200389``
 * ``c6d629ca2f5a470b03c48849d2f6c991382c45da5c84255d3c73e78ad5200389``
+
 
 We also need Ubuntu.  I got that from here:
 
 http://www.ubuntu.com/download/desktop
 
-The file is ``ubuntu-14.10-desktop-amd64.iso``, which I move to ``~/MyDownloads``.  Because I had a problem that an answer at StackOverflow blamed on faulty drivers, later I obtained ``ubuntu-14.04.2-desktop-amd64.iso`` because it should be more stable.  It didn't solve that problem, but ``14.04`` is what I'm going to use here.  It is called "Trusty Tahr" in Linux-speak, while 14.10 is "Utopic Unicorn".
+The file is ``ubuntu-14.10-desktop-amd64.iso``, which I move to ``~/MyDownloads``.  
+
+Because I had a problem that an answer at StackOverflow blamed on faulty drivers, later I obtained ``ubuntu-14.04.2-desktop-amd64.iso`` because it should be more stable.  It didn't solve that problem, so I moved back to ``14.10`` is what I'm going to use here.  The ``14.04`` release is  called "Trusty Tahr" in Linux-speak, while 14.10 is "Utopic Unicorn".
 
 I run the VirtualBox installer, and then I run VirtualBox, naming the new machine "Ubuntu", and accepting all the defaults, except I boosted the RAM to 1024.  Start the VM and it prompts for an image:  and I navigate to ``ubuntu-14.04.2-desktop-amd64.iso``.
 
-.. note::
-
-   Update:  I've gone back to ubuntu-14.10.
-
-This process is very smooth.  It's much better than when I tried VirtualBox previously.
+This process is very smooth.  It's a lot better than when I tried VirtualBox previously.
 
 It takes a minute or so and then displays the install screen for Ubuntu.
+
+*****************
+Installing Ubuntu
+*****************
 
 Now, here is where I had trouble.  I installed Ubuntu in VB numerous times and each time I struggled with the mouse not working in the Ubuntu window.  
 
@@ -128,15 +117,3 @@ In VirtualBox under Settings > General > Advanced I set the "Shared Clipboard" a
 
 .. image:: /figs/clipboard.png
   :scale: 50 %
-
-Rather than do their shared folder thing (a huge pain, as I recall)
-
-http://telliott99.blogspot.com/2011/08/trying-ubuntu-linux-1.html
-
-I just set up limited Dropbox access in VB/Ubuntu.
-
-Get the Terminal running with CTL-OPT-T and drag its icon to the top of the Dock.
-
-And I figured out how to page up and down:  SHIFT + PAGE UP/DOWN on the keyboard.  Not sure about when keyboard is not attached.
-
-After several times through, I am labeling my snapshots of the server in sync with these chapters.  So at this point I will save one as ``server1``.
