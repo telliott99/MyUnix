@@ -17,6 +17,7 @@ Contents:
    git/index
    ubuntu/index
    servers/index
+   osx/index
 
 Indices and tables
 ==================
