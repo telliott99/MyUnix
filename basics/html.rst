@@ -119,4 +119,18 @@ And this is what it looks like:
 .. image:: /figs/css_example.png
    :scale: 50 %
 
+Some other HTML elements include the ``table``:
+
+.. sourcecode:: html
+
+    <table>
+      <tr>
+        <td>short</td>
+        <td>muchlonger</td>
+      </tr>
+      <tr>
+        <td>c</td>
+        <td>d</td>
+      </tr>
+    </table>
 

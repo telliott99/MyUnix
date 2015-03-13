@@ -11,14 +11,14 @@ Contents:
 .. toctree::
    :maxdepth: 3
 
-   sphinx
+   basics/index
    unix/index
    software/index
    git/index
    ubuntu/index
    servers/index
    osx/index
-   web/index
+   basics/index
 
 Indices and tables
 ==================
