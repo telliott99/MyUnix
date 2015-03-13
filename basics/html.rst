@@ -1,12 +1,10 @@
 .. _html:
 
-#############
-Intro to HTML
-#############
+###########
+Simple HTML
+###########
 
-Here is a pretty basic HTML document:
-
-.. sourcecode:: html
+Here is a HTML document, stripped-down to the essentials::
 
     <html>
       <head>
@@ -22,9 +20,7 @@ But according to Mark Pilgrim's book:
 
 http://diveintohtml5.info
 
-a more reasonable basic document includes at least this much:
-
-.. sourcecode:: html
+a more reasonable basic document includes at least this much::
 
     <!DOCTYPE html>
     <html>
@@ -36,31 +32,23 @@ a more reasonable basic document includes at least this much:
       </body>
     </html>
 
-HTML elements include *anchors* or *hypertext references*:
-
-.. sourcecode:: html
+HTML elements include *anchors* or *hypertext references*::
 
     <a href="link_url">link_text</a>
 
 where link_url is a URL, of course, and link_text is the text displayed for the link.
 
-Now, back in the old days, you might specify the color of text and maybe even the font and size for a particular paragraph or section of text:
-
-.. sourcecode:: html
+Now, back in the old days, you might specify the color of text and maybe even the font and size for a particular paragraph or section of text::
 
     <p<font color="red">This is red text!</font></p>
 
-but this no longer even works in my browser.  We are supposed to use CSS.  The syntax of CSS is different, just for starters:
-
-.. sourcecode:: html
+but this no longer even works in my browser.  We are supposed to use CSS.  The syntax of CSS is different, just for starters::
 
     <p style="color:red">This is red text!</p>
 
 and that *does* work.
 
-One step up from this in sophistication is to put some ``style`` into the ``head`` section like this:
-
-.. sourcecode:: html
+One step up from this in sophistication is to put some ``style`` into the ``head`` section like this::
 
     <!DOCTYPE html>
     <html>
@@ -79,17 +67,13 @@ One step up from this in sophistication is to put some ``style`` into the ``head
       </body>
     </html>
 
-This leads to a bunch of styles being defined for a particular document.  Reuse of styles leads to separation into files called style sheets that define styles, with a file extension like ``css``.
-
-.. sourcecode:: html
+This leads to a bunch of styles being defined for a particular document.  Reuse of styles leads to separation into files called style sheets that define styles, with a file extension like ``css``::
 
     <link rel="stylesheet" type="text/css" href="mystyle.css">
 
 With this approach, we would have a separate file
 
-``mystyle.css``:
-
-.. sourcecode:: html
+``mystyle.css``::
 
     body {
         background-color: lightblue;
@@ -98,9 +82,7 @@ With this approach, we would have a separate file
         color: red;
     }
 
-and then ``example.html`` is:
-
-.. sourcecode:: html
+and then ``example.html`` is::
 
     <!DOCTYPE html>
     <html>
@@ -119,9 +101,7 @@ And this is what it looks like:
 .. image:: /figs/css_example.png
    :scale: 50 %
 
-Some other HTML elements include the ``table``:
-
-.. sourcecode:: html
+Some other HTML elements include the ``table``::
 
     <table>
       <tr>

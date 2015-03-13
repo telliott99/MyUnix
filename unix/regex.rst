@@ -1,8 +1,8 @@
 .. _regex:
 
-#####
-regex
-#####
+###########################
+Regular Expressions (regex)
+###########################
 
 To repeat a bit from the chapter on ``grep``:  the "patterns" that one composes as targets for grep to find in a file are called regular expressions, regex or re for short.  regex is a language defining descriptions of search patterns that are not necessarily exact matches.
 

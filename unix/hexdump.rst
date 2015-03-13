@@ -1,8 +1,8 @@
 .. _hexdump:
 
-###############
-Examining files
-###############
+################################
+Files as bytes (hexdump and xxd)
+################################
 
 My go-to utility for reading binary data in files has been ``hexdump``.
 

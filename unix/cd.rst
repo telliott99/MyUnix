@@ -1,8 +1,8 @@
-.. _navigation:
+.. _cd:
 
-##########
-Navigation
-##########
+###########################
+Navigation (pwd, cd and ls)
+###########################
 
 **pwd, cd and ls**
 

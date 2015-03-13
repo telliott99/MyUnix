@@ -1,8 +1,8 @@
-.. _find-xargs:
+.. _find:
 
-##############
-find and xargs
-##############
+################
+Searching (find)
+################
 
 OS X has powerful search capacities in Spotlight, but you might want to generate a list of filenames to pipe into some other program.
 

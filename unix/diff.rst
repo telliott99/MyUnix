@@ -1,8 +1,8 @@
 .. _diff:
 
-####
-diff
-####
+#####################
+Comparing files: diff
+#####################
 
 A really great utility on Unix is ``diff``, which shows the differences between two text files (like edits).  There are tricks to use it with binary, but it's meant for text.  ``diff`` can be very useful in deciding which file is the version you want to keep, or if there are differences between similar files from two different projects.  ``diff`` is a very good reason to use plaintext, or failing that restructured text like this document, or failing even that ``.rtf`` "rich text format".
 

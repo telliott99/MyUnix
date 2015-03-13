@@ -1,10 +1,8 @@
 .. _process:
 
-##
-ps
-##
-
-**Unix processes and ps**
+###################
+Unix processes (ps)
+###################
 
 Finding and killing a process
 

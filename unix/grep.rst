@@ -1,8 +1,9 @@
 .. _grep:
 
-####
-grep
-####
+##############
+Filters (grep)
+##############
+
 ``grep`` is used on files like this:
 
 .. sourcecode:: bash

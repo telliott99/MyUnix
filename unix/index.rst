@@ -8,16 +8,18 @@ Contents:
    :maxdepth: 2
    
    intro
-   navigation
-   files
-   permissions
+   cd
+   cp
+   chmod
    grep
-   find-xargs
+   find
+   xargs
    man
    keystrokes
    diff
    process
-   tar-curl
+   tar
+   curl
    regex
    hexdump
    popular

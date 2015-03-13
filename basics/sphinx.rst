@@ -1,11 +1,11 @@
 .. _sphinx:
 
-##########################
-Introduction:  Sphinx docs
-##########################
+########################
+Sphinx for documentation
+########################
 
 
-This "book" is a brief review of the most common things I do from the command line on OS X.  I call it **MyUnix** because it really is (almost) Unix at this level, and because my other projects on github are named like *MyX*.
+This "book" contains (among other things) a brief review of the most common things I do from the command line on OS X.  I called it **MyUnix** because it really is (almost) Unix at this level, and because my other projects on github are named like *MyX*.
 
 It seems a little hokey sometimes, but it's probably too late to change now.
 
@@ -21,15 +21,11 @@ The Sphinx project aims to make it easier to produce documentation.  It is what 
 
 http://sphinx-doc.org
 
-You can install it with:
-
-.. sourcecode:: bash
+You can install it with::
 
     > easy_install -U Sphinx
 
-Start a new project with:
-
-.. sourcecode:: bash
+Start a new project with::
 
     > sphinx-quickstart
 
@@ -53,9 +49,7 @@ If you have Sphinx installed and you obtain this book from my Git repository (gi
 
 https://github.com/telliott99/MyUnix
 
-You can "build" the html pages by doing:
-
-.. sourcecode:: rst
+You can "build" the html pages by doing::
 
     > cd Desktop/
     > cd MyUnix/
@@ -84,18 +78,14 @@ You can "build" the html pages by doing:
     > open -a Preview _build/html/index.html 
     > 
 
-It can happen that partially built stuff with an error may not show the error when you do ``make html`` again.  In that case, you can start by doing ``make clean``.  The actions that ``make`` takes are defined in a ``Makefile`` in the project, also produced by the setup script.  For example, ``make clean`` is defined:
-
-.. sourcecode:: bash
+It can happen that partially built stuff with an error may not show the error when you do ``make html`` again.  In that case, you can start by doing ``make clean``.  The actions that ``make`` takes are defined in a ``Makefile`` in the project, also produced by the setup script.  For example, ``make clean`` is defined::
 
     clean:
     	rm -rf $(BUILDDIR)/*
 
 One purpose of this book is to understand what such instructions mean.
 
-Sphinx shows you what it's doing.  The actual invocation would look like this:
-
-.. sourcecode:: bash
+Sphinx shows you what it's doing.  The actual invocation would look like this::
 
     > make clean
     rm -rf _build/*
@@ -177,7 +167,7 @@ Snippets from the interpreter should be aligned with the left-hand margin (not i
 
 The instructions say not to include a final ``>>>`` prompt.  But I like it here.
 
-Source code copied from a file:
+Snippets of Python code that would be executed from a file (by doing ``python myscript.py``, are copied into restructured text and indented by four spaces.  The code is preceeded by the notation ``.. sourcecode:: python``.  It looks like this:
 
 .. sourcecode:: python
 
@@ -186,6 +176,16 @@ Source code copied from a file:
             print s
         else:
             print "not", s
+
+.. note::
+
+   I have been using a similar notation for non-Python code:  ``.. sourcecode:: bash``.  I later found out this is completely wrong!  The right way to do it is to indent the code sample as usual, and simply end the preceeding paragraph with a double colon ``::``.  I am working through my projects to replace all of these, but it may take a while.
+   
+Here is an example::
+
+    > pwd
+    /Users/telliott_admin/Desktop/MyUnix
+    >
 
 I can turn on line numbers:
 

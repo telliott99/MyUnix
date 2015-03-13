@@ -6,9 +6,7 @@ Bits
 
 As you know, everything in the computer is just a bunch of 0's and 1's.  Every piece of data in a file or in memory, or in a register, is a binary number.  Each digit in the number is called a bit.  A convenient small chunk of data is 8 bits, called a byte.  
 
-The binary number ``01011100`` is one of 256 possible values for a byte (from 0 to 255);  its storage takes 8 bits.  Any binary number has a decimal equivalent.  ``01011100`` is:
-
-.. sourcecode:: bash
+The binary number ``01011100`` is one of 256 possible values for a byte (from 0 to 255);  its storage takes 8 bits.  Any binary number has a decimal equivalent.  ``01011100`` is::
 
     0 x 128 
     1 x 64
@@ -21,24 +19,18 @@ The binary number ``01011100`` is one of 256 possible values for a byte (from 0 
     -------
     92
 
-These two numbers are the same value:
-
-.. sourcecode:: bash
+These two numbers are the same value::
 
     01011100 (base 2) = 92 (base 10)
 
-Base 16 (called hexadecimal) is also a convenient representation.  A byte is represented by 2 hexdecimal digits.  The hexadecimal digits are (in increasing value) 0 to 9, followed by a to f.
-
-.. sourcecode:: bash
+Base 16 (called hexadecimal) is also a convenient representation.  A byte is represented by 2 hexdecimal digits.  The hexadecimal digits are (in increasing value) 0 to 9, followed by a to f::
 
     0000 0    0100 4    1000 8    1100 c
     0001 1    0101 5    1001 9    1101 d
     0010 2    0110 6    1010 a    1110 e
     0011 3    0111 7    1011 b    1111 f
 
-The number above can also be written as ``5c`` in "hex":
-
-.. sourcecode:: bash
+The number above can also be written as ``5c`` in "hex"::
 
     5c (base 16) = 01011100 (base 2) = 92 (base 10)
 
@@ -50,21 +42,15 @@ Text is represented by converting each individual character to a number (with bi
 
 http://en.wikipedia.org/wiki/ASCII
 
-the classical programmer's greeting "Hello world!" is represented as this list of decimal numbers
-
-.. sourcecode:: bash
+the classical programmer's greeting "Hello world!" is represented as this list of decimal numbers::
 
     72 101 108 108 111 32 119 111 114 108 100 33
 
-with hex equivalents:
-
-.. sourcecode:: bash
+with hex equivalents::
 
     48 65 6c 6c 6f 20 77 6f 72 6c 64 21
 
-I have a file on my Desktop named "hello.txt".  I use a Unix program called hexdump to look at the contents:
-
-.. sourcecode:: bash
+I have a file on my Desktop named "hello.txt".  I use a Unix program called hexdump to look at the contents::
 
     > hexdump hello.txt
     0000000 48 65 6c 6c 6f 20 77 6f 72 6c 64 21 0a         
@@ -86,9 +72,7 @@ On Windows, a newline is two characters:  ``\r\n``.  In binary that ``\r`` is ``
 
 On very old Mac systems newline was two characters like on Windows, but in reversed order: LF CR.
 
-I've modified ``hello.txt`` to contain a Windows newline:
-
-.. sourcecode:: bash
+I've modified ``hello.txt`` to contain a Windows newline::
 
     > hexdump hello.mod.txt
     0000000 48 65 6c 6c 6f 20 77 6f 72 6c 64 21 0d 0a      
@@ -124,9 +108,7 @@ Luckily, the standard English letters and other printable characters have the sa
 UTF-8
 *****
 
-Another important feature of text on the computer is that of encoding.  One could simply use the Unicode values unchanged, so that the first two letters of "Hello world!" would be represented as:
-
-.. sourcecode:: bash
+Another important feature of text on the computer is that of encoding.  One could simply use the Unicode values unchanged, so that the first two letters of "Hello world!" would be represented as::
 
     00 00 00 48 00 00 00 65
 
@@ -170,9 +152,7 @@ On lines 2 and following is the sequence, which may have newlines (but no blank 
 
 The sequence stops either at the first blank line, or at the next ">".  
 
-This is valid fasta-formatted data:
-
-.. sourcecode:: bash
+This is valid fasta-formatted data::
 
     >S1
     ATCG
@@ -184,9 +164,7 @@ This is valid fasta-formatted data:
 
 It is not required to have a newline at the end of the file, but some tools will require it, so it's always a good idea to have one.
 
-Sometimes, people will set the file extension to indicate that the file is a fasta file.  Examples:
-
-.. sourcecode:: bash
+Sometimes, people will set the file extension to indicate that the file is a fasta file.  Examples::
 
     u.fasta
     u.fasta.txt
@@ -199,9 +177,7 @@ And I suppose I should mention that on Windows XP filenames may not have more th
 
 Dealing with problems
 
-Most text editors nowadays will convert between different newlines and encodings.  Such things can be done on the command line as well, e.g.:
-
-.. sourcecode:: bash
+Most text editors nowadays will convert between different newlines and encodings.  Such things can be done on the command line as well, e.g.::
 
     > hexdump hello.txt
     0000000 48 65 6c 6c 6f 20 77 6f 72 6c 64 21 0d 0a      

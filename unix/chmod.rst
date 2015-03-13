@@ -1,10 +1,8 @@
-.. _permissions:
+.. _chmod:
 
-#####################
-Permissions and Paths
-#####################
-
-**Permissions**
+#############################
+Permissions and Paths (chmod)
+#############################
 
 .. sourcecode:: bash
 
