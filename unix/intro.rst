@@ -12,7 +12,7 @@ Starting with this chapter, we are going to learn about Unix and more specifical
     
     Beyond simple convenience, shells are programmable.  There are many sequences of commands that you type again and again.  **Whenever you do anything a second time, you should ask "Can't I write a program to do this for me?"**  You can. [emphasis added]
 
-For more material on Unix and the command line see :download:`resources.html </_static/unix_resources.html>`
+For more material on Unix and the command line see :download:`resources.html </_static/resources.html>`
 
 **To begin at the beginning**
 

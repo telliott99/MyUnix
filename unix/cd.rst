@@ -12,9 +12,7 @@ Navigation (pwd, cd and ls)
 * ``cd < dirname >`` (change directory)
 * ``ls < dirname >`` (list directory contents)
 
-I use brackets ``<`` and ``>`` to indicate a place where we need to substitute a specific filename or directory or some other string.
-
-.. sourcecode:: bash
+I use brackets ``<`` and ``>`` to indicate a place where we need to substitute a specific filename or directory or some other string::
 
     > pwd
     /Users/telliott_admin
@@ -35,15 +33,11 @@ Terminal (the "BASH shell") has a sense of where you are in the file system.  ``
 
 The ``cd`` command usually operates on a destination directory that is typed in.  Invoked without an argument, it means ``cd < home directory >``.
 
-A very useful feature of the shell is "command completion".  Starting from ``/Users/telliott_admin``, if I type
-
-.. sourcecode:: bash
+A very useful feature of the shell is "command completion".  Starting from ``/Users/telliott_admin``, if I type::
 
     > cd De
 
-and then press TAB, the rest of ``Desktop/`` will autocomplete.  If there is more than one match to the partial name, the screen will blink with the first press, and then when I press TAB again, the shell will display those options:
-
-.. sourcecode:: bash
+and then press TAB, the rest of ``Desktop/`` will autocomplete.  If there is more than one match to the partial name, the screen will blink with the first press, and then when I press TAB again, the shell will display those options::
 
     > cd Des
     Desktop/      Destinations/ 
@@ -53,9 +47,7 @@ typing a second letter gives the shell enough information to autocomplete (after
 
 Filenames are case-sensitive at the level of the Terminal.
 
-``ls`` with no arguments will list the contents of the current directory.
-
-.. sourcecode:: bash
+``ls`` with no arguments will list the contents of the current directory::
 
     > cd /
     > ls
@@ -69,26 +61,20 @@ Filenames are case-sensitive at the level of the Terminal.
 
 Directory structure in Unix is conceptualized as a tree structure with the idea of a "path" to be followed to each directory or file starting from the from the ``root`` of the directory hierarchy, ``/``.  The symbol ``/`` is used to separate path elements, and it is an idiosyncrasy of Unix that spaces are not allowed in filenames or paths.  
 
-Of course OS X does allow spaces in filenames.  To include a space in a Unix-style filename on OS X, type a forward slash before the space:
-
-.. sourcecode:: bash
+Of course OS X does allow spaces in filenames.  To include a space in a Unix-style filename on OS X, type a forward slash before the space::
 
     > cd Music/iTunes/iTunes\ Media
 
 Some directories above have the ``path`` given as a "relative path", which starts from the current directory.  But the result of the ``pwd`` command, for example, are shown as an "absolute path" which starts from the ``root``.  
 
-Either the relative or the absolute path method can be used to specify a directory or filename.  If I am in my home directory ``/Users/telliott_admin``, both of these are valid names for the Desktop directory:
-
-.. sourcecode:: bash
+Either the relative or the absolute path method can be used to specify a directory or filename.  If I am in my home directory ``/Users/telliott_admin``, both of these are valid names for the Desktop directory::
 
     > ls Desktop/
     MyUnix
     > ls /Users/telliott_admin/Desktop/
     MyUnix
 
-I don't know if it's a good thing or not, but I am easily distracted by the output of previous commands in the shell, so I like to clear the screen regularly with CMD-K.  Another important command to remember is the command to kill a process that you have started from the command line and is running amok.  Just do CTL-Z.
-
-.. sourcecode:: bash
+I don't know if it's a good thing or not, but I am easily distracted by the output of previous commands in the shell, so I like to clear the screen regularly with CMD-K.  Another important command to remember is the command to kill a process that you have started from the command line and is running amok.  Just do CTL-Z::
 
     > find /
     ..
@@ -100,9 +86,7 @@ Here, I typed ``find /``, which will list every file on my computer.  A lot of o
 
 The command prompt tells me the computer awaits my instructions.
 
-Many commands have options.  Even ``pwd`` has options, though they are too advanced for us at the moment.  But ``ls`` is usually run with at least a few options.  I make a new empty text file on my Desktop by using ``touch < filename >`` and then do ``ls``:
-
-.. sourcecode:: bash
+Many commands have options.  Even ``pwd`` has options, though they are too advanced for us at the moment.  But ``ls`` is usually run with at least a few options.  I make a new empty text file on my Desktop by using ``touch < filename >`` and then do ``ls``::
 
     > touch x.txt
     > ls
@@ -121,9 +105,7 @@ Many commands have options.  Even ``pwd`` has options, though they are too advan
 
 The plain ``ls`` command just shows the file I made (plus the directory MyUnix which contains this project).  Adding the ``-a`` and ``-l`` "flags" (which may be combined as ``-al``) shows (``-a``) all files, even hidden ones whose names start with a ``.``   For example here we see that the directory contains a reference to itself (the single ``.``), a reference to its parent directory ``..``, and a special hidden OS X file ``.DS_Store``, in addition.
 
-The ``-d`` flag lists a directory rather than its contents:
-
-.. sourcecode:: bash
+The ``-d`` flag lists a directory rather than its contents::
 
     > ls -ald MyUnix
     drwxr-xr-x@ 29 telliott_admin  staff  986 Mar  5 04:02 MyUnix
@@ -149,11 +131,8 @@ http://superuser.com/questions/155458/what-does-the-mean-on-the-output-of-ls-on-
 
 See below for what the numbers column (``10``, ``48``, ``1``, etc.) stands for.
 
-Then we have the user, my group, the size of the file and the creation date, followed by the name.  There are lots of options for ``ls`` and many ways to display the data.  To explore these, you could do ``man ls``:
+Then we have the user, my group, the size of the file and the creation date, followed by the name.  There are lots of options for ``ls`` and many ways to display the data.  To explore these, you could do ``man ls``::
 
-.. sourcecode:: bash
-
-    
     LS(1)                     BSD General Commands Manual                    LS(1)
 
     NAME
@@ -163,24 +142,18 @@ Then we have the user, my group, the size of the file and the creation date, fol
          ls [-ABCFGHLOPRSTUW@abcdefghiklmnopqrstuwx1]
             [file ...]
 
-This is the first of many pages of output for ``man ls``.  Each one of the flags
-
-.. sourcecode:: bash
+This is the first of many pages of output for ``man ls``.  Each one of the flags::
 
     -ABCFGHLOPRSTUW@abcdefghiklmnopqrstuwx1
  
-means something.  You can page through the output looking for the meaning of a particular flag, like
-
-.. sourcecode:: bash
+means something.  You can page through the output looking for the meaning of a particular flag, like::
 
     -a      Include directory entries whose names
             begin with a dot (.).
 
 To exit from the manual, type ``q`` (quit).
 
-Flags may be combined, as in ``-al``.  One useful option for ``ls`` is to sort the output by size:
-
-.. sourcecode:: bash
+Flags may be combined, as in ``-al``.  One useful option for ``ls`` is to sort the output by size::
 
     > ls -lS MyUnix/
     total 192
@@ -202,9 +175,7 @@ Flags may be combined, as in ``-al``.  One useful option for ``ls`` is to sort t
     >
     
 
-The number to the left of the username refers to the number of included files for a directory.  For example:
-
-.. sourcecode:: bash
+The number to the left of the username refers to the number of included files for a directory.  For example::
 
     > ls -al MyUnix/_static/
     total 16
@@ -226,15 +197,11 @@ The number to the left of the username refers to the number of included files fo
 
 Compare this with the numbers shown above.
 
-Sometimes flags are whole words (or may be either whole words or single letter abbreviations).  For a flag that is a whole word, Unix uses a double-dash prefix.  Here is a made-up example:
+Sometimes flags are whole words (or may be either whole words or single letter abbreviations).  For a flag that is a whole word, Unix uses a double-dash prefix.  Here is a made-up example::
 
-.. sourcecode:: bash
+    > myprog --flag
 
-    > myprog --myflag
-
-As we said, ``.`` is a shorthand symbol for the current directory, and ``..`` is for the parent of the current directory.  Another such symbol is ``~``, which means the user's home directory.  So, for example
-
-.. sourcecode:: bash
+As we said, ``.`` is a shorthand symbol for the current directory, and ``..`` is for the parent of the current directory.  Another such symbol is ``~``, which means the user's home directory.  So, for example::
 
     > pwd
     /Users/telliott_admin/Desktop
@@ -249,17 +216,13 @@ As we said, ``.`` is a shorthand symbol for the current directory, and ``..`` is
     /Users/telliott_admin
     >
 
-The shell keeps track of the commands you've entered.  One way to navigate this history is to use the up- and down-arrows, which will move you successively backward in time, displaying one command after the prompt, but not executing it.  To run the command, press RETURN.  This is great for repeating a command or even a series of commands.  Like a set of 3 commands:  
-
-.. sourcecode:: bash
+The shell keeps track of the commands you've entered.  One way to navigate this history is to use the up- and down-arrows, which will move you successively backward in time, displaying one command after the prompt, but not executing it.  To run the command, press RETURN.  This is great for repeating a command or even a series of commands.  Like a set of 3 commands::
 
     UP-UP-UP-RUN-UP-UP-UP-RUN-UP-UP-UP-RUN
     
 It looks weird here but it's easy to do and works great.
 
-To see all of your history, enter ``history``
-
-.. sourcecode:: bash
+To see the last 500 or so commands of your history, enter ``history``::
 
       ..
       541  touch x.txt
@@ -279,9 +242,7 @@ To see all of your history, enter ``history``
       555  history
     >
 
-To run a particular command from your history, type ``!`` followed by the number from the list, e.g.
-
-.. sourcecode:: bash
+To run a particular command from your history, type ``!`` followed by the number from the list::
 
     > !556
       ..
@@ -296,9 +257,7 @@ To run a particular command from your history, type ``!`` followed by the number
 
 A pair of commands that can help sometimes when navigating around to deeply nested directories is ``pushd`` and ``popd``.  ``pushd <dirname>`` does ``cd <dirname>`` and also stores that command in a "stack" of ``cd`` commands.  ``popd`` reverses this ``cd``, bringing us back to where we where when we did the ``pushd``.
 
-For example, suppose we do:
-
-.. sourcecode:: bash
+For example, suppose we do::
 
     > cd /usr/local/lib/python2.7/site-packages
     > pushd /Library/Python/2.7/site-packages
@@ -319,9 +278,7 @@ If we want to repeat the journey recover the entire ``pushd ..`` command with th
 
 .. note::
 
-    Both $_ and !$ hold the value of the last argument of the previous command.  Frequently I do ``ls`` to list a long directory name, and then I find I want to ``cd`` into it.  Just do ``cd $_``.
-
-.. sourcecode:: bash
+    Both $_ and !$ hold the value of the last argument of the previous command.  Frequently I do ``ls`` to list a long directory name, and then I find I want to ``cd`` into it.  Just do ``cd $_``::
 
     > cd
     > ls Desktop

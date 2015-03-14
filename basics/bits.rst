@@ -56,7 +56,7 @@ I have a file on my Desktop named "hello.txt".  I use a Unix program called hexd
     0000000 48 65 6c 6c 6f 20 77 6f 72 6c 64 21 0a         
     000000d
 
-The numbers on the left are just a counter for position in the output.  There are 13 bytes (e.g. ``0d``) in the file.
+The numbers on the left are just a counter for position in the output.  There are 13 bytes (e.g. ``6f``) in the file.
 
 You can see that the output matches what we had above with the addition of one extra character (``0a``) at the end.  The reason for that is I put a newline in the file.
 
@@ -86,7 +86,7 @@ In the original ASCII-encoding system, all characters (including control charact
 
 0xxx xxxx
 
-That is, the high value bit was unused (this is equivalent to all the bytes between 00 and ef.
+That is, the high value bit was unused (this restricts the range of allowed values for bytes to the range between 00 and ef.
 
 This opportunity led to different OS's and different programmers using the top bit to encode additional characters (Mac OS Roman, Windows 1252, etc.).  For example, Mac OS Roman
 
@@ -102,17 +102,17 @@ Another problem is that there are many more than 256 characters.  The current st
 
 http://en.wikipedia.org/wiki/Snowman
 
-Luckily, the standard English letters and other printable characters have the same Unicode code points as in ASCII.
+Luckily, for compatibility the standard English letters and other printable characters have the same Unicode code points as in ASCII.
 
 *****
 UTF-8
 *****
 
-Another important feature of text on the computer is that of encoding.  One could simply use the Unicode values unchanged, so that the first two letters of "Hello world!" would be represented as::
+Another important feature of text on the computer is that of how to store the numerical representation of text on disk or over the network.  One could simply use the Unicode values unchanged, so that the first two letters of "Hello world!" would be represented as::
 
     00 00 00 48 00 00 00 65
 
-This is obviously inefficient, wasteful of memory and bandwidth on the web.  Various encodings are used to make up for this.  The most widely used and supported is UTF-8.
+This is obviously inefficient, wasteful of memory and bandwidth on the web.  Various schemes (also called encodings) are used to make up for this.  The most widely used and supported is UTF-8.
 
 https://en.wikipedia.org/wiki/UTF-8
 

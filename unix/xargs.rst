@@ -4,9 +4,7 @@
 xargs
 #####
 
-Basically "xargs" is used to remove or do some operation on long list of file names which were produced by "find" & "grep" commands.
-
-.. sourcecode:: bash
+Basically "xargs" is used to remove or do some operation on long list of file names which were produced by "find" & "grep" commands::
 
     > echo 1 2 3 | xargs echo
     1 2 3
@@ -19,9 +17,7 @@ Basically "xargs" is used to remove or do some operation on long list of file na
     5
     >
 
-A second, more interesting example:
-
-.. sourcecode:: bash
+A second, more interesting example::
 
     > cd Desktop/
     > find .
@@ -44,9 +40,7 @@ A second, more interesting example:
     -rw-r--r--@ 1 telliott_admin  staff     0 Feb 22 08:48 ./xargs.txt
     >
 
-Spaces in filenames can be a pain.  Use ``-print0`` with find and ``-0`` with ls and grep and so on ..
-
-.. sourcecode:: bash
+Spaces in filenames can be a pain.  Use ``-print0`` with find::
 
     > ls
     find.txt	x y.txt		xargs.txt
@@ -56,7 +50,7 @@ Spaces in filenames can be a pain.  Use ``-print0`` with find and ``-0`` with ls
     ..
     >
 
-.. sourcecode:: bash
+ and ``-0`` with ``ls`` and ``grep`` and so on .. ::
 
     > find . -name "*.txt" -print0 | xargs grep "y.txt"
     grep: y.txt: No such file or directory
@@ -65,10 +59,8 @@ Spaces in filenames can be a pain.  Use ``-print0`` with find and ``-0`` with ls
     ./xargs.txt:-rw-r--r--  1 telliott_admin  staff    0 Feb 22 09:05 ./x y.txt
     > 
 
-Notice that in the last step grep is going through the files line by line looking for the match, and it will go through the directory tree recursively.
-
-.. sourcecode:: bash
+Notice that in the last step grep is going through the files line by line looking for the match, and it will go through the directory tree recursively::
 
     > find ~/Dropbox/MyX/MyUnix | xargs ls -al
 
-explain what happens
+[TODO: explain what happens]

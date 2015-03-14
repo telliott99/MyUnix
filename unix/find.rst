@@ -8,41 +8,78 @@ OS X has powerful search capacities in Spotlight, but you might want to generate
 
 ``find`` is quite sophisticated, and can filter the output in many ways---I only know a little bit of usage for it.
 
-``find`` is often combined with ``grep``, and we saw an example of that :ref:`before<find-grep>`
-
-.. sourcecode:: bash
+``find`` is often combined with ``grep``, and we saw an example of that :ref:`before<grep>`::
 
     > find /Users/telliott_admin/Music/iTunes/iTunes\ Media/Music | grep ".mp3" | -l wc
          129
 
 
+https://danielmiessler.com/study/find/
+
 http://content.hccfl.edu/pollock/Unix/FindCmd.htm
 
-Syntax for the ``find`` command:
-
-.. sourcecode:: bash
+Syntax for the ``find`` command::
 
     find < file/directory > < criteria > < action >
 
-For example:
+Example::
 
-* ``find / -name foo`` search ``/`` for ``foo``,  display whole path
+    find MyUnix
+    
+``find`` will descend the file hierarchy of dirname and print the name of each file.  
 
-``find /`` can produce a lot of error messages trying to read directories where you don't have permission to read.  Suppress this with
+``-name`` is a "primary", it acts as a criterion::
 
-* ``find / -name foo 2>/dev/null``
+    > find MyUnix -name "find"
+    > find MyUnix -name "find.rst"
+    MyUnix/unix/find.rst
+    >
 
-[ Todo:  link to an explanation of this ]
+It needs to be an exact match or use one of the shell's "globbing" patterns::
 
-Useful flags include
+    > find MyUnix -name "find*"
+    MyUnix/_build/doctrees/unix/find.doctree
+    MyUnix/_build/html/_sources/unix/find.txt
+    MyUnix/_build/html/unix/find.html
+    MyUnix/unix/find.rst
+    >
 
-* ``-type f`` files
-* ``-mtime -7`` modified within the last 7 days
-* ``-mmin -3`` modified within the last 3 minutes
+This achieves the same as::
 
-Types include:
+    > find MyUnix | grep "find"
+    MyUnix/_build/doctrees/unix/find.doctree
+    MyUnix/_build/html/_sources/unix/find.txt
+    MyUnix/_build/html/unix/find.html
+    MyUnix/unix/find.rst
+    >
 
-.. sourcecode:: bash
+So we see that piping to ``grep`` finds the pattern inside each line whereas ``-name`` in simplest form limits to an exact match.
+
+Primaries
+
+    All primaries which take a numeric argument allow the number to be pre-
+    ceded by a plus sign ("+") or a minus sign ("-").  A preceding plus
+    sign means "more than n", a preceding minus sign means "less than n"
+    and neither means "exactly n".
+    
+**************
+use with xargs
+**************
+
+Having generated a list of filenames, often you will want to feed that list to some other command.  Use :ref:`xargs<xargs>`::
+
+    > find MyUnix | sort -r | head -n 2 | xargs ls -l
+    -rw-r--r--@ 1 telliott_admin  staff  2054 Mar 13 06:53 MyUnix/unix/tar.rst
+    -rw-r--r--@ 1 telliott_admin  staff  1852 Mar 14 18:31 MyUnix/unix/xargs.rst
+    >
+
+Here we list file hierarchy, sort (in reversed order, largest first), restrict to the top 2 hits, and then ``ls -l`` them.
+
+**************
+filter by type
+**************
+
+Types include::
 
     -type t
 	     True if the file is of the specified type.  Possible file types
@@ -55,40 +92,71 @@ Types include:
 	     l	     symbolic link
 	     p	     FIFO
 	     s	     socket
-    
 
-``-mtime`` is called a "primary":
+***********************
+recently modified files
+***********************
 
-
-    All primaries which take a numeric argument allow the number to be pre-
-    ceded by a plus sign ("+") or a minus sign ("-").  A preceding plus
-    sign means "more than n", a preceding minus sign means "less than n"
-    and neither means "exactly n".
-
-**time limits**
-
-.. sourcecode:: bash
+An example::
 
     find /usr -type f -mtime -1 | wc
     
 The ``-mtime -1`` flag means modified within the last 1 day.  We could try ``find /``, but that would take a while.  I haven't found it so useful for that reason.  Even in my home directory a search takes a while. 
 
-To use the time in minutes, you can substitute the ``-mmin`` flag, or even better, use ``-mtime n[smhdw]``, e.g. ``-mtime -2m``.
-
-.. sourcecode:: bash
+To use the time in minutes, you can substitute the ``-mmin`` flag, or even better, use ``-mtime n[smhdw]``, e.g. ``-mtime -2m``::
 
     > touch x.txt
     > find . -mtime -2m -type f
     ./x.txt
     > 
 
-``atime`` is access time, this filters for files tht have been read, it is not necessary that they have been modified:
-
-.. sourcecode:: bash
+``atime`` is access time, this filters for files tht have been read, it is not necessary that they have been modified::
 
     > find ~/Desktop -atime -1m
 
-**exclude sub-directories**
+Or anything modified more recently than some other file::
+
+    > find MyUnix -newer MyUnix/unix/find.rst -not -path '*/\.*' | head -n2
+    MyUnix/unix/grep.rst
+    >
+
+The last example uses
+
+********************
+exclude hidden files
+********************
+
+Example::
+
+    > find MyUnix -not -path '*/\.*' | head -n2
+    MyUnix
+    MyUnix/_build
+    >
+
+
+**************
+filter by size
+**************
+
+Movies larger than a specified size.  Example::
+
+    > find ~/Movies/ -size +1024M
+    /Users/telliott_admin/Movies//POOH.m4v
+    /Users/telliott_admin/Movies//POOH.mpg
+    ..
+
+***********************
+filter by user or group
+***********************
+
+Example::
+
+    find . -user te
+    find . -group admin
+
+***********************
+exclude sub-directories
+***********************
 
 ``find . -path ./misc -prune -o -name '*.txt' -print``
 
@@ -98,75 +166,18 @@ more than one exclude directory:
 
 http://stackoverflow.com/questions/4210042/exclude-directory-from-find-command
 
-Having generated a list of filenames, often you will want to feed that list to some other command.  Use ``xargs``:
+****************
+silencing errors
+****************
 
-**xargs**
+``find /`` can produce a lot of error messages trying to read directories where you don't have permission to read.  Suppress this with
 
-Here is a little bit about ``xargs``.  Basically "xargs" is used to remove or do some operation on long list of file names which were produced by "find" & "grep" commands.
+* ``find / -name foo 2>/dev/null``
 
-.. sourcecode:: bash
+[ Todo:  link to an explanation of this ]
 
-    > echo 1 2 3 | xargs echo
-    1 2 3
-    > echo 1 2 3 | xargs -n 2
-    1 2
-    3
-    > echo 1 2 3 4 5 | xargs -n 2
-    1 2
-    3 4
-    5
-    >
+Other useful flags include
 
-A second, more interesting example:
-
-.. sourcecode:: bash
-
-    > cd Desktop/
-    > find .
-    .
-    ./.DS_Store
-    ./xargs.txt
-    > find . -type f -print
-    ./.DS_Store
-    ./xargs.txt
-    > find . -type d -print
-    .
-    > find . -type d -print | xargs ls -al
-    total 16
-    drwxr-xr-x@  4 telliott_admin  staff   136 Feb 22 08:48 .
-    drwxr-xr-x+ 47 telliott_admin  staff  1598 Feb 17 08:34 ..
-    -rw-r--r--@  1 telliott_admin  staff  6148 Feb 22 08:48 .DS_Store
-    -rw-r--r--@  1 telliott_admin  staff     0 Feb 22 08:48 xargs.txt
-    > find . -type f -print | xargs ls -al
-    -rw-r--r--@ 1 telliott_admin  staff  6148 Feb 22 08:48 ./.DS_Store
-    -rw-r--r--@ 1 telliott_admin  staff     0 Feb 22 08:48 ./xargs.txt
-    >
-
-Spaces in filenames can be a pain.  Use ``-print0`` with find and ``-0`` with ls and grep and so on ..
-
-.. sourcecode:: bash
-
-    > ls
-    find.txt	x y.txt		xargs.txt
-    > find . -name "*.txt" -print0 | xargs -0 ls -al
-    ..
-    -rw-r--r--  1 telliott_admin  staff      0 Mar  4 13:28 ./x y.txt
-    ..
-    >
-
-.. sourcecode:: bash
-
-    > find . -name "*.txt" -print0 | xargs grep "y.txt"
-    grep: y.txt: No such file or directory
-    > find . -name "*.txt" -print0 | xargs -0 grep "y.txt"
-    ./xargs.txt:find.txt	x y.txt		xargs.txt
-    ./xargs.txt:-rw-r--r--  1 telliott_admin  staff    0 Feb 22 09:05 ./x y.txt
-    > 
-
-Notice that in the last step grep is going through the files line by line looking for the match, and it will go through the directory tree recursively.
-
-.. sourcecode:: bash
-
-    > find ~/Dropbox/MyX/MyUnix | xargs ls -al
-
-explain what happens
+* ``-type f`` files
+* ``-mtime -7`` modified within the last 7 days
+* ``-mmin -3`` modified within the last 3 minutes

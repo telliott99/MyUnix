@@ -38,7 +38,7 @@ HTML elements include *anchors* or *hypertext references*::
 
 where link_url is a URL, of course, and link_text is the text displayed for the link.
 
-Now, back in the old days, you might specify the color of text and maybe even the font and size for a particular paragraph or section of text::
+Now, in the old days, you might specify the color of text and maybe even the font and size for a particular paragraph or section of text::
 
     <p<font color="red">This is red text!</font></p>
 
@@ -101,7 +101,13 @@ And this is what it looks like:
 .. image:: /figs/css_example.png
    :scale: 50 %
 
-Some other HTML elements include the ``table``::
+Some other CSS directives::
+
+    padding-bottom: 1em;
+    padding-left: 10px;
+    color: #B0B0B0;
+
+Another well-usedHTML elements is the ``table`` with sub-elements ``tr`` (table row) and ``td`` (table data)::
 
     <table>
       <tr>
@@ -113,4 +119,22 @@ Some other HTML elements include the ``table``::
         <td>d</td>
       </tr>
     </table>
+
+*************
+Named Anchors
+*************
+
+To link to a particular paragraph or section of a target HTML document, modify the target to have something like this::
+
+    <h2><a name="target">The landing place of the link</a></h2>
+
+    Then, to make the link::
+
+    <a href="http://www.example.com/some-page-or-other.html#target">Click here</a>
+
+We can also move within a page.  In that case you could make the link as::
+
+    <a href="#target">Click here</a>
+
+
 

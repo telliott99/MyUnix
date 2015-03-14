@@ -18,7 +18,7 @@ There is free software called VirtualBox (owned by Oracle) which can be used to 
 
 https://www.virtualbox.org
 
-I have explored this approach previously and blogged about it at these :download:`links </_static/blog.html>`
+I have explored this approach previously and blogged about it at these :download:`links </_static/resources.html>`
 
 The VirtualBox installer is ``VirtualBox-4.3.24-98716-OSX.dmg``.
 
