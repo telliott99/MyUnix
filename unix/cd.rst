@@ -278,7 +278,9 @@ If we want to repeat the journey recover the entire ``pushd ..`` command with th
 
 .. note::
 
-    Both $_ and !$ hold the value of the last argument of the previous command.  Frequently I do ``ls`` to list a long directory name, and then I find I want to ``cd`` into it.  Just do ``cd $_``::
+    Both $_ and !$ hold the value of the last argument of the previous command.
+    
+Frequently I do ``ls`` to list a long directory name, and then I find I want to ``cd`` into it.  Just do ``cd $_``::
 
     > cd
     > ls Desktop
@@ -286,9 +288,9 @@ If we want to repeat the journey recover the entire ``pushd ..`` command with th
     > cd $_
     > pwd
     /Users/telliott_admin/Desktop
-    > 
+    >
 
-.. sourcecode:: bash
+and::
 
     > cd
     > ls Desktop
@@ -298,6 +300,6 @@ If we want to repeat the journey recover the entire ``pushd ..`` command with th
     > pwd
     /Users/telliott_admin/Desktop
     > 
-    
+
 
 That's an introductory summary of useful navigation commands.

@@ -9,7 +9,7 @@ Downloads (curl)
 * ``-O`` write to local file named like the remote one
 * ``-#`` use a progress bar rather than the usual meter
 
-.. sourcecode:: bash
+Example::
 
     > curl http://en.wikipedia.org/wiki/Main_Page | head -n 5
       % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
@@ -22,16 +22,12 @@ Downloads (curl)
     curl: (23) Failed writing body (0 != 9972)
     >
 
-This is kind of fun:  The following command shares all the files in the current folder over HTTP (but you have to be able to get to localhost, which outsiders can't do):
-
-.. sourcecode:: bash
+This is kind of fun:  The following command shares all the files in the current folder over HTTP (but you have to be able to get to localhost, which outsiders can't do)::
 
     > echo "abc" > x.txt
     > python -m SimpleHTTPServer 8080
 
-So do that from the Desktop, and then open a new tab in Terminal and do:
-
-.. sourcecode:: bash
+So do that from the Desktop, and then open a new tab in Terminal and do::
 
     Last login: Thu Mar  5 04:40:50 on ttys000
     > cd Desktop

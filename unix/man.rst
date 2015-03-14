@@ -5,9 +5,7 @@ Unix man pages
 ##############
 
 
-It seems like it would be worth it to print out the man page for ``find`` or ``grep`` and study it.
-
-.. sourcecode:: bash
+It seems like it would be worth it to print out the man page for ``find`` or ``grep`` and study it::
 
     > man grep > grep.txt
     > wc -l grep.txt
@@ -20,14 +18,12 @@ It seems like it would be worth it to print out the man page for ``find`` or ``g
 
     To print man pages to a text file:
 
-.. sourcecode:: bash
+Example::
 
      > man grep | col -b > grep.txt
      >
 
-Here is how it looks without that:
-
-.. sourcecode:: bash
+Here is how it looks without that::
 
     GREP(1)                   BSD General Commands Manual                  GREP(1)
 

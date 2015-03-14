@@ -6,9 +6,7 @@ Unix processes (ps)
 
 Finding and killing a process
 
-The ``ps`` command by itself yields information about the shell itself:
-
-.. sourcecode:: bash
+The ``ps`` command by itself yields information about the shell itself::
 
     > ps
       PID TTY           TIME CMD
@@ -44,7 +42,7 @@ Processes can also be sorted (default criterion is process ID), using
 * u = display the process's user/owner
 * x = also show processes not attached to a terminal
 
-.. sourcecode:: bash
+Example::
 
     > ps aux -r | head -n 4
     USER              PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
@@ -55,7 +53,7 @@ Processes can also be sorted (default criterion is process ID), using
 
 **user**
 
-.. sourcecode:: bash
+Example::
 
     > ps -f -u `whoami` | head -n 5
       UID   PID  PPID   C STIME   TTY           TIME CMD
@@ -67,7 +65,7 @@ Processes can also be sorted (default criterion is process ID), using
 
 **name or pid**
 
-.. sourcecode:: bash
+Example::
 
     > ps aux | grep "bash" 
     telliott_admin    809   0.0  0.0  2461020   1316 s000  S     3:59PM   0:00.04 -bash

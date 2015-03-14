@@ -4,9 +4,7 @@
 Regular Expressions (regex)
 ###########################
 
-To repeat a bit from the chapter on ``grep``:  the "patterns" that one composes as targets for grep to find in a file are called regular expressions, regex or re for short.  regex is a language defining descriptions of search patterns that are not necessarily exact matches.
-
-.. sourcecode:: bash
+To repeat a bit from the chapter on ``grep``:  the "patterns" that one composes as targets for grep to find in a file are called regular expressions, regex or re for short.  regex is a language defining descriptions of search patterns that are not necessarily exact matches::
 
     > printf "abc\ndef" | grep b
     abc
@@ -19,9 +17,7 @@ To repeat a bit from the chapter on ``grep``:  the "patterns" that one composes 
     abc
     >
 
-This target text is in ``x.txt`` (with a newline at the end):
-
-.. sourcecode:: bash
+This target text is in ``x.txt`` (with a newline at the end)::
 
     abc
     ab c
@@ -33,7 +29,7 @@ This target text is in ``x.txt`` (with a newline at the end):
 * re may contain spaces
 * The ``-n`` flag gives us line numbers.
 
-.. sourcecode:: bash
+Example::
 
     > grep -n "b " < x.txt
     2:ab c
@@ -51,7 +47,7 @@ This target text is in ``x.txt`` (with a newline at the end):
 
 ``*`` will match when the preceding character is found 0 or more times
 
-.. sourcecode:: bash
+Example::
 
     > grep x < x.txt
     > grep x* < x.txt
@@ -73,7 +69,7 @@ Anchors
 * ``^`` match at the beginning of a string
 * ``$`` match at the end of a string
 
-.. sourcecode:: bash
+Example::
 
     > grep "^a" x.txt
     abc
@@ -103,9 +99,7 @@ Additional simple regex symbols and patterns:
 
 Suppose we have the following text file:
 
-``x.txt``:
-
-.. sourcecode:: bash
+``x.txt``::
 
     abc
     xyz
@@ -115,9 +109,7 @@ Suppose we have the following text file:
     1967
     bf
 
-* match any of several characters
-
-.. sourcecode:: bash
+* match any of several characters::
 
     > grep [af] x.txt
     abc
@@ -125,9 +117,7 @@ Suppose we have the following text file:
     bf
     >
 
-* whitespace
-
-.. sourcecode:: bash
+* whitespace::
 
     > grep ":\s[ab]" t.txt
     9: a
@@ -140,9 +130,7 @@ A space would work here, but ``\s`` will also match a tab or newline.
     regular expressions (EREs).  See re_format(7) for
     more information on regular expressions.
 
-* egrep is needed for fancier expressions
-
-.. sourcecode:: bash
+* egrep is needed for fancier expressions::
 
     > egrep "\d{4}" t.txt
     1967
@@ -159,7 +147,7 @@ A regex for social security numbers I found in *bash Cookbook*
 
 * ``'[0-9]\{3\}-\{0,1\}[0-9]\{2\}-\{0,1\}[0-9]\{4\}'``
 
-.. sourcecode:: bash
+Example::
 
     > echo "553-26-4787" | grep '[0-9]\{3\}-\{0,1\}[0-9]\{2\}-\{0,1\}[0-9]\{4\}'
     553-26-4787
@@ -179,9 +167,7 @@ Quotes seem to be required as well.  When to quote a pattern?
 
 **substitution**
 
-Using ``tr``
-
-.. sourcecode:: bash
+Using ``tr``::
 
     > echo "abc" | tr /b/ /x/
     axc

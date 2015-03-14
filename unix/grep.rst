@@ -5,35 +5,27 @@ Filters (grep)
 ##############
 
 
-``grep`` is used on files like this:
-
-.. sourcecode:: bash
+``grep`` is used on files like this::
 
     > printf "a\nb\nc\nf\n" > x.txt
     > grep "b" x.txt
     b
     >
 
-or with a redirect like this
-
-.. sourcecode:: bash
+or with a redirect like this::
 
     > printf "a\nb\nc\nf\n" > x.txt
     > grep "b" < x.txt
     b
     >
 
-or even on a stream of data like this
-
-.. sourcecode:: bash
+or even on a stream of data like this::
 
     > printf "a\nb\nc\nf\n" | grep "b"
     b
     >
 
-but ``grep`` is *not* used like this
-
-.. sourcecode:: bash
+but ``grep`` is *not* used like this::
 
     > grep x.txt "b"
     grep: b: No such file or directory
@@ -41,9 +33,7 @@ but ``grep`` is *not* used like this
 
 because the order matters:  ``grep < pattern > < target >``.
 
-One can get the line number of the match:
-
-.. sourcecode:: bash
+One can get the line number of the match::
 
     > cat x.txt | grep -n "b"
     2:b
@@ -66,7 +56,7 @@ Some other useful flags for ``grep`` include
 * ``-n`` print line numbers for matches
 * ``-r`` recursive (also ``-R``)
 
-.. sourcecode:: bash
+Example::
 
     > cd Desktop
     > printf "a\nb\nc\nf\n" | grep -A 1 "b"

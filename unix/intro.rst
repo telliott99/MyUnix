@@ -16,23 +16,17 @@ For more material on Unix and the command line see :download:`resources.html </_
 
 **To begin at the beginning**
 
-When you first run the Terminal application, or obtain a command line environment, you will be greeted with a prompt.  I like mine as simple as possible, so I have modified my shell to show only this:
-
-.. sourcecode:: bash
+When you first run the Terminal application, or obtain a command line environment, you will be greeted with a prompt.  I like mine as simple as possible, so I have modified my shell to show only this::
 
     > 
 
-This is called the command prompt.  When you see the command prompt, the shell is ready and awaits your input.  You can even do nothing if you want, by pressing RET (return or enter):
-
-.. sourcecode:: bash
+This is called the command prompt.  When you see the command prompt, the shell is ready and awaits your input.  You can even do nothing if you want, by pressing RET (return or enter)::
 
     > 
     >
     >
 
-On OS X, yours will look something like this:
-
-.. sourcecode:: bash
+On OS X, yours will look something like this::
 
     ComputerName:Current_directory Username$ 
 

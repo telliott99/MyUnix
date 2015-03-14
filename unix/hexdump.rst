@@ -4,9 +4,7 @@
 Files as bytes (hexdump and xxd)
 ################################
 
-My go-to utility for reading binary data in files has been ``hexdump``.
-
-.. sourcecode:: bash
+My go-to utility for reading binary data in files has been ``hexdump``::
 
     > echo "0abcff" > x.txt
     > hexdump -C x.txt
@@ -18,9 +16,7 @@ My go-to utility for reading binary data in files has been ``hexdump``.
     
 **xxd**
 
-``xxd`` is sorta like ``hexdump`` except use of the ``-p`` flag gives reads the binary data from the file in ASCII-encoding, and gives us the hex equivalent:
-
-.. sourcecode:: bash
+``xxd`` is sorta like ``hexdump`` except use of the ``-p`` flag gives reads the binary data from the file in ASCII-encoding, and gives us the hex equivalent::
 
     > echo "ab" > x.txt
     > xxd -p < x.txt
@@ -29,9 +25,7 @@ My go-to utility for reading binary data in files has been ``hexdump``.
 
 So what we've just done is to convert some hex as a string (or we could get it from a text file) and turn that into actual binary data on disk.  That's useful.
 
-The ``xxd`` ``-r`` flag, when combined with ``-p`` we get:
-
-.. sourcecode:: bash
+The ``xxd`` ``-r`` flag, when combined with ``-p`` we get::
 
     > xxd -r x.hex
     > xxd -r -p x.hex
@@ -43,9 +37,7 @@ The ``xxd`` ``-r`` flag, when combined with ``-p`` we get:
 
 Using ``-p`` we can go from hex to binary, and using ``-r`` we can go back again.
     
-This solves the problem I had with crypto prob #1
-
-.. sourcecode:: bash
+This solves the problem I had with crypto prob #1::
 
     > echo \
     "49276d206b696c6c696e6720796f757220627261696e206c\

@@ -4,9 +4,7 @@
 Archives (tar)
 ##############
 
-We will look next at ``tar``, which stands for "tape archive".  Here is an example
-
-.. sourcecode:: bash
+We will look next at ``tar``, which stands for "tape archive".  Here is an example::
 
     > mkdir tmp
     > echo "abc" > tmp/x.txt
@@ -21,9 +19,7 @@ We will look next at ``tar``, which stands for "tape archive".  Here is an examp
 
 We have simply packaged everything up into what "looks like" a single file.  The standard flags for ``tar`` to make a zip file include ``-cvzf`` as shown above.  ``-c`` create a new archive, ``-v`` verbosely list the files being processed, ``-z`` compress by filtering the archive through ``gzip``, and ``-f`` use the given filename.  The immediate product of ``tar`` is a ``.tar`` file, but usually one compresses it to make a ``.zip`` file.
 
-Given a (an uncompressed) ``tar`` file, one can look at the files it contains:
-
-.. sourcecode:: bash
+Given a (an uncompressed) ``tar`` file, one can look at the files it contains::
 
     > tar -cvf tmp.tar tmp
     a tmp
@@ -35,9 +31,7 @@ Given a (an uncompressed) ``tar`` file, one can look at the files it contains:
     -rw-r--r--  0 telliott_admin staff       4 Mar  3 19:12 tmp/y.txt
     >
     
-Add one more flag for a ``.zip`` file:
-
-.. sourcecode:: bash
+Add one more flag for a ``.zip`` file::
 
     > tar -ztvf tmp.zip
     drwxr-xr-x  0 telliott_admin staff       0 Mar  3 19:12 tmp/
@@ -45,9 +39,7 @@ Add one more flag for a ``.zip`` file:
     -rw-r--r--  0 telliott_admin staff       4 Mar  3 19:12 tmp/y.txt
     >
 
-To extract and ``untar`` the archive:
-
-.. sourcecode:: bash
+To extract and ``untar`` the archive::
 
     > rm -r tmp
     > tar -xvf tmp.zip

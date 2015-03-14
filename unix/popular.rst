@@ -12,9 +12,7 @@ They are all interesting and some are very useful.  Here are a few.
 
 **sudo !!**
 
-You issued a command and forgot to do ``sudo < command >``.  One fix is to use the up-arrow to repeat the command, and then do CTL-a to bring the cursor to the beginning of the the line, and type ``sudo``.  But this is faster:
-
-.. sourcecode:: bash
+You issued a command and forgot to do ``sudo < command >``.  One fix is to use the up-arrow to repeat the command, and then do CTL-a to bring the cursor to the beginning of the the line, and type ``sudo``.  But this is faster::
 
     > cd Desktop
     > echo "abc" > z.txt
@@ -28,7 +26,7 @@ You issued a command and forgot to do ``sudo < command >``.  One fix is to use t
 
 **Quick correction**
 
-.. sourcecode:: bash
+Example::
 
     > echo "abcx" 
     abcx
@@ -47,9 +45,7 @@ You issued a command and forgot to do ``sudo < command >``.  One fix is to use t
 
 **at**
 
-cron alternative
-
-.. sourcecode:: bash
+cron alternative::
 
     > echo "ls -l" | at 4:03
     job 1 at Sat Mar  7 04:03:00 2015
@@ -59,7 +55,8 @@ did not actually execute for me
 
 **man ascii**
 
-.. sourcecode:: bash
+Example::
+
 
      The hexadecimal set:
 
@@ -83,7 +80,7 @@ did not actually execute for me
 
 CTL-D to stop:
 
-.. sourcecode:: bash
+Example::
 
      > time read
      ^D
@@ -94,7 +91,7 @@ CTL-D to stop:
 
 **cd and jump back**
 
-.. sourcecode:: bash
+Example::
 
      > pwd
      /Users/telliott_admin/Desktop
@@ -105,13 +102,5 @@ CTL-D to stop:
      > pwd
      /Users/telliott_admin/Desktop
      >
-
-**python -m SimpleHTTPServer**
-
-We showed this _____.
-
-
-
-
 
 
