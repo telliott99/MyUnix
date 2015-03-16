@@ -1,9 +1,12 @@
 .. _grep:
 
-##############
-Filters (grep)
-##############
+#############
+Filter (grep)
+#############
 
+****************
+basic grep usage
+****************
 
 ``grep`` is used on files like this::
 
@@ -19,7 +22,7 @@ or with a redirect like this::
     b
     >
 
-or even on a stream of data like this::
+or even on a stream of data using a pipe, like this::
 
     > printf "a\nb\nc\nf\n" | grep "b"
     b
@@ -45,13 +48,27 @@ One can get the line number of the match::
 
 Here we used ``cat`` (unnecessary, but OK), and ``printf``, and a redirect operator ``<``, which uses ``x.txt`` as *input*.
 
-Some other useful flags for ``grep`` include
+To search every file in a directory:
 
-* ``-A`` print A lines of context
+    > grep grep MyUnix/
+    grep: MyUnix/: Is a directory
+    > grep -r grep MyUnix/ | tail -n 1
+    MyUnix//unix/xargs.rst:Notice that in the last step grep..
+    > 
+
+Truncated the output.
+
+Some useful flags for ``grep`` include
+
+* ``-A`` print A lines of context after each match
+* ``-B`` print B lines of context before each match
+* ``-C`` print C lines of context before and after each match
+
 * ``-a`` process binary as if it were text
 * ``-b`` print the offset in bytes
 * ``-c`` print a count of number of matching lines
-* ``-f`` obtain patters from file, one per line
+* ``-f`` obtain patterns from file, one per line
+
 * ``-i`` ignore case
 * ``-n`` print line numbers for matches
 * ``-r`` recursive (also ``-R``)
@@ -67,7 +84,10 @@ Example::
     c
     f
     >
-
+    
+**************
+grep and regex
+**************
 
 The patterns that grep searches for are called regular expressions, or regex for short.  regex is a language defining descriptions of search patterns that are not necessarily exact matches.
 
@@ -161,7 +181,9 @@ Looks like it works.
 
 Some more examples:
 
-**search through files for a string**
+*********************************
+search through files for a string
+*********************************
 
 .. sourcecode:: bash
 
@@ -195,7 +217,9 @@ Another approach is to feed the results of the search to ``awk``
     MyUnix/unix4-grep.rst:>
     > 
 
-**search a directory for filenames containing a pattern**
+********************************
+search a directory for filenames
+********************************
 
 We want *only* the filenames so we use the ``-l`` flag
 
@@ -286,22 +310,4 @@ It seems like it would be worth it to print out the man page for ``find`` or ``g
      > man grep | col -b > grep.txt
      >
 
-Here is how it looks without that:
-
-.. sourcecode:: bash
-
-    GREP(1)                   BSD General Commands Manual                  GREP(1)
-
-    NNAAMMEE
-         ggrreepp, eeggrreepp, ffggrreepp, zzggrreepp, zzeeggrreepp, zzffggrreepp -- file pattern searcher
-
-    SSYYNNOOPPSSIISS
-         ggrreepp [--aabbccddDDEEFFGGHHhhIIiiJJLLllmmnnOOooppqqRRSSssUUVVvvwwxxZZ] [--AA _n_u_m] [--BB _n_u_m] [--CC[_n_u_m]]
-              [--ee _p_a_t_t_e_r_n] [--ff _f_i_l_e] [----bbiinnaarryy--ffiilleess=_v_a_l_u_e] [----ccoolloorr[=_w_h_e_n]]
-              [----ccoolloouurr[=_w_h_e_n]] [----ccoonntteexxtt[=_n_u_m]] [----llaabbeell] [----lliinnee--bbuuffffeerreedd]
-              [----nnuullll] [_p_a_t_t_e_r_n] [_f_i_l_e _._._.]
-
-    DDEESSCCRRIIPPTTIIOONN
-         The ggrreepp utility searches any given input files, selecting lines that
-
-http://www.electrictoolbox.com/article/linux-unix-bsd/save-manpage-plain-text/
+For more details, see :ref:`man<man>`

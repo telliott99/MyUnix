@@ -40,7 +40,7 @@ A second, more interesting example::
     -rw-r--r--@ 1 telliott_admin  staff     0 Feb 22 08:48 ./xargs.txt
     >
 
-Spaces in filenames can be a pain.  Use ``-print0`` with find::
+Spaces in filenames can be a pain.  Use ``-print0`` with ``find`` and ``-0`` with ``ls`` and ``grep`` and so on::
 
     > ls
     find.txt	x y.txt		xargs.txt

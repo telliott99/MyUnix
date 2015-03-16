@@ -18,12 +18,12 @@ It seems like it would be worth it to print out the man page for ``find`` or ``g
 
     To print man pages to a text file:
 
-Example::
+.. sourcecode:: bash
 
      > man grep | col -b > grep.txt
      >
 
-Here is how it looks without that::
+Here is how it looks without the ``col`` command::
 
     GREP(1)                   BSD General Commands Manual                  GREP(1)
 
@@ -41,6 +41,18 @@ Here is how it looks without that::
 
 http://www.electrictoolbox.com/article/linux-unix-bsd/save-manpage-plain-text/
 
+
+    The col utility filters out reverse (and half
+    reverse) line feeds so that the output is in the
+    correct order with only forward and half forward
+    line feeds, and replaces white-space characters
+    with tabs where possible.  This can be useful in
+    processing the output of nroff(1) and tbl(1).
+    
+    -b      Do not output any backspaces, printing
+            only the last character written to each
+            column position.
+    
 
 I always wondered what the numbers meant in references to the manual.  And I found out from my Linux book:
 

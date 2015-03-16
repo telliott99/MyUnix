@@ -4,7 +4,9 @@
 Copying files (mv and cp)
 #########################
 
-**rm**
+********************
+remove files with rm
+********************
 
 Previously we saw the use of the ``touch`` command to make a new file quickly (often useful for testing)::
 
@@ -59,7 +61,9 @@ There is a well-known command that one should never enter, not even as a joke.  
 
 This is famous "advice" occasionally given by more experienced hackers to "newbies", perhaps to teach a life-lesson.  Opinion is divided on whether it is simply malicious, or both malicious and useful.
 
-**wildcard**
+********
+wildcard
+********
 
 The ``*`` symbol is called a "wildcard".  It matches any text.  Suppose I have a directory full of text files (with a ``.txt`` extension) and I want to list just those files.  I might do::
 
@@ -76,7 +80,9 @@ Or if I have sequentially numbered files::
 
 (I use the ellipsis ``..`` to indicate there is more output).
 
-**move and copy**
+*************
+move and copy
+*************
 
 Another useful device to construct test files employs the symbol ``>``, which is a "redirect" that places the results of a command into a text file::
 
@@ -166,7 +172,9 @@ Also, we see that ``wc`` has four possible flags ``-clmw``.  Since there is no n
            3
     >
 
-**cat for concatenate**
+*******************
+cat for concatenate
+*******************
 
 As mentioned above, ``cat`` can be used to display the contents of a file, but it is more versatile, as the name suggests.  A look at the man page will show it has a ``-n`` flag, among others::
 
@@ -220,7 +228,9 @@ The ``>>`` is also called redirection operator.  In fact there are several more:
 
 I will explain about the first and third of these later on.
 
-**more or less**
+*************
+more and less
+*************
 
 I don't actually have ``more`` on my system.  Typing ``man more`` gives me the man page for ``less``
 
@@ -315,7 +325,9 @@ and::
     def
     >
 
-**Editing files**
+*************
+Editing files
+*************
 
 Example::
 

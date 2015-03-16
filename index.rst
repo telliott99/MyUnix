@@ -18,7 +18,6 @@ Contents:
    ubuntu/index
    servers/index
    osx/index
-   basics/index
 
 Indices and tables
 ==================

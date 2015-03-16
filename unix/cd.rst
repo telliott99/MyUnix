@@ -4,7 +4,9 @@
 Navigation (pwd, cd and ls)
 ###########################
 
-**pwd, cd and ls**
+**************
+pwd, cd and ls
+**************
 
 "Learning Unix" is, at least at the beginning, a process of becoming familiar with certain commands issued at the command line.  The primary commands for moving around in the file system are:
 
@@ -85,6 +87,10 @@ I don't know if it's a good thing or not, but I am easily distracted by the outp
 Here, I typed ``find /``, which will list every file on my computer.  A lot of output scrolls by.  I have typed ``..`` to stand in for this text.  When I tire of waiting for the command to finish, I enter CTL-Z, which displays as ``^Z``, and then we see ``Stopped``, and finally the command prompt.
 
 The command prompt tells me the computer awaits my instructions.
+
+*****************
+flags for options
+*****************
 
 Many commands have options.  Even ``pwd`` has options, though they are too advanced for us at the moment.  But ``ls`` is usually run with at least a few options.  I make a new empty text file on my Desktop by using ``touch < filename >`` and then do ``ls``::
 
@@ -201,6 +207,10 @@ Sometimes flags are whole words (or may be either whole words or single letter a
 
     > myprog --flag
 
+***************
+special symbols
+***************
+
 As we said, ``.`` is a shorthand symbol for the current directory, and ``..`` is for the parent of the current directory.  Another such symbol is ``~``, which means the user's home directory.  So, for example::
 
     > pwd
@@ -215,6 +225,10 @@ As we said, ``.`` is a shorthand symbol for the current directory, and ``..`` is
     > pwd
     /Users/telliott_admin
     >
+
+*************
+shell history
+*************
 
 The shell keeps track of the commands you've entered.  One way to navigate this history is to use the up- and down-arrows, which will move you successively backward in time, displaying one command after the prompt, but not executing it.  To run the command, press RETURN.  This is great for repeating a command or even a series of commands.  Like a set of 3 commands::
 
@@ -254,6 +268,10 @@ To run a particular command from your history, type ``!`` followed by the number
       555  history
       556  history
     >
+
+**************
+pushd and popd
+**************
 
 A pair of commands that can help sometimes when navigating around to deeply nested directories is ``pushd`` and ``popd``.  ``pushd <dirname>`` does ``cd <dirname>`` and also stores that command in a "stack" of ``cd`` commands.  ``popd`` reverses this ``cd``, bringing us back to where we where when we did the ``pushd``.
 
