@@ -208,4 +208,29 @@ and I recall that I moved the ``Exams`` subdirectory recently!  I'd forgotten th
 
 Every problem can be solved.  Go forth and conquer.
 
+On repeat (and to summarize), after running the installer, I fixed the permissions on ``/usr/local``
+
+.. sourcecode:: bash
+
+    > sudo chown -R `whoami` /usr/local
+    > sudo chgrp -R admin /usr/local
+    > sudo chmod -R 755 /usr/local
+
+and then I just did
+
+.. sourcecode:: bash
+
+    > mkdir -p ~/Library/texmf/tex/latex
+    > mkdir ~/Library/texmf/tex/latex/local
+    > mv enumitem.sty ~/Library/texmf/tex/latex/local
+    > mv simplemargins.sty ~/Library/texmf/tex/latex/local
+    > texhash ~/Library/texmf/tex/latex/local
+    texhash: Updating /Users/telliott_admin/Library/texmf/tex/latex/local/ls-R... 
+    texhash: Done.
+    > kpsewhich simplemargins.sty
+    /Users/telliott_admin/Library/texmf/tex/latex/local/simplemargins.sty
+    > kpsewhich enumitem.sty
+    /Users/telliott_admin/Library/texmf/tex/latex/local/enumitem.sty
+    >
+
 

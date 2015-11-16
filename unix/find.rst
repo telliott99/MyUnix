@@ -110,11 +110,38 @@ To use the time in minutes, you can substitute the ``-mmin`` flag, or even bette
     ./x.txt
     > 
 
-``atime`` is access time, this filters for files tht have been read, it is not necessary that they have been modified::
+``atime`` is access time, this filters for files that have been read, it is not necessary that they have been modified::
 
     > find ~/Desktop -atime -1m
+    
 
-Or anything modified more recently than some other file::
+I hold my nose and install Flash Player for one website I need that requires it.  Want to know which files it wrote to::
+
+    > sudo find /Library -mtime -10m > flash.txt
+
+``flash.txt``::
+
+    /Library/Application Support/Adobe/Flash Player Install Manager
+    /Library/Application Support/Macromedia/mms.cfg
+    /Library/Caches/com.apple.DiagnosticReporting.Networks.plist
+    /Library/Internet Plug-Ins
+    /Library/Internet Plug-Ins/Flash Player.plugin
+    /Library/Internet Plug-Ins/Flash Player.plugin/Contents
+    ..
+    /Library/Internet Plug-Ins/Flash Player.plugin/Contents/Resources
+    /Library/Internet Plug-Ins/Flash Player.plugin/Contents/Resources/Flash Player.rsrc
+    /Library/Internet Plug-Ins/Flash Player.plugin/Contents/version.plist
+    /Library/LaunchDaemons
+    /Library/PreferencePanes
+    /Library/Receipts/InstallHistory.plist
+
+In ``/Library/LaunchDaemons`` is ``sudo mv com.adobe.fpsaud.plist old`` which asks me to update regularly (since I never leave the plug-in activated I find this irritating).  So::
+
+    > cd /Library/LaunchDaemons
+    > sudo mkdir tmp
+    > sudo mv com.adobe.fpsaud.plist old
+
+Finally, use ``find`` to find any files modified more recently than some other file::
 
     > find MyUnix -newer MyUnix/unix/find.rst -not -path '*/\.*' | head -n2
     MyUnix/unix/grep.rst

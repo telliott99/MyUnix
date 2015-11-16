@@ -1,0 +1,212 @@
+grep -v  # invert
+sort
+
+
+excellent!
+https://danielmiessler.com/study/
+
+
+http://www.theinstructional.com/guides/disk-management-from-the-command-line-part-1
+http://www.theinstructional.com/guides/disk-management-from-the-command-line-part-2
+http://www.theinstructional.com/guides/disk-management-from-the-command-line-part-3
+
+
+flask book
+
+
+
+
+more find examples!
+more grep examples
+
+
+
+
+https://support.apple.com/en-us/HT202796
+OS X on an external volume
+
+
+
+
+shell scripting
+short and sweet
+http://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO.html#toc5
+
+
+amusing:
+ls -l | sed -e "s/[aeio]/u/g"
+
+
+
+operations in the cloud
+
+
+
+
+build something that imports libpng
+
+-I/usr/local/include
+-L/usr/local/lib -llibpng
+
+
+for (key, _) in Dictionary {
+    println(key)
+}
+
+
+
+
+> hexdump hello.txt
+    0000000 48 65 6c 6c 6f 20 77 6f 72 6c 64 21 0d 0a      
+    000000e
+    > tr "\r\n" "\n" < hello.txt > hello.mod.txt
+    > hexdump hello.mod.txt
+    0000000 48 65 6c 6c 6f 20 77 6f 72 6c 64 21 0a 0a      
+    000000e
+    >
+
+scripting the web
+
+
+shell scripts
+http://stackoverflow.com/questions/1570262/shell-get-exit-code-of-background-process
+
+
+
+
+
+can we watch processes as they spawn other processes?
+
+
+see:  top
+http://unix.stackexchange.com/questions/177750/monitor-the-creation-of-new-processes
+
+
+
+http://www.thegeekstuff.com/2011/04/ps-command-examples/
+
+see #4, #6
+
+
+netcat (Kalzumeus)
+
+
+
+
+http://cramer.io/2013/06/27/serving-python-web-applications/
+
+
+
+to do:
+difference between running scripts from within server and outside
+
+
+
+http://vincebuffalo.com/2013/08/08/the-mighty-named-pipe.html
+
+
+
+
+MySQL
+
+
+
+locate x.txt
+
+study grep more
+
+grep -v  # invert
+
+
+
+sort
+
+grep pattern file
+grep pattern directory/filenames*
+or just the directory
+
+> cd Desktop
+> grep "xyz" .
+grep: .: Is a directory
+> grep "xyz" ./*
+grep: ./MyUnix: Is a directory
+grep: ./unix: Is a directory
+> grep -s "xyz" ./*
+> grep -s "pattern" ./*
+./todo.txt:grep pattern file
+./todo.txt:grep pattern directory/filenames*
+
+
+find accepts *
+but must protect from shell's globbing feature??
+
+
+To page through a big file like /usr/ share/ dict/words, use the command less /usr/ share/ dict/words. When running less, you’ll see the contents of the file one screenful at a time. Press the spacebar to go forward in the file and the b key to skip back one screenful. To quit, type q.
+
+
+You can also search for text inside less. For example, to search forward for a word, type /word, and to search backward, use ?word. When you find a match, press n to continue searching.
+
+grep ie /usr/share/dict/words | less
+
+Ward, Brian (2014-11-11). How Linux Works: What Every Superuser Should Know (Kindle Location 892). No Starch Press. Kindle Edition. 
+
+regex
+. matches one arbitrary character
+
+
+the question mark (?), instructs the shell to match exactly one arbitrary character. For example, b? at matches boat and brat. If you don’t want the shell to expand
+
+shell globs
+what quotes do
+
+https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-14-04-lts
+
+
+
+emacs or vim or vi
+
+
+tr
+
+man -k pattern  e.g. man -k sort
+
+find particular section of man page
+
+TL; DR notes
+
+image resizing not working
+
+::sourcecode bash
+
+
+
+
+
+
+
+http://www.st-andrews.ac.uk/ITS/training/unix/unix.html
+
+
+
+http://claymore.rfmh.org/public/computer_resources/unix_commands.html
+
+
+outline the differences between Apache and nginx
+
+
+libapache2-mod-python
+
+What does Apache's mod_cgi.so do?
+http://httpd.apache.org/docs/current/mod/mod_cgi.html
+
+http://www.opensource.apple.com/source/apache/apache-649/apache/src/modules/standard/mod_cgi.c
+
+http://www.linuxjournal.com/article/4622
+
+
+Mod_python is an Apache module that embeds the Python interpreter within the server. With mod_python you can write web-based applications in Python that will run many times faster than traditional CGI and will have access to advanced features such as ability to retain database connections and other data between hits and access to Apache internals. A more detailed description of what mod_python can do is available in this O'Reilly article.
+
+
+http://www.onlamp.com/pub/a/python/2003/10/02/mod_python.html
+
+http://wiki.nginx.org/Configuration

@@ -322,7 +322,7 @@ https://help.github.com/articles/generating-ssh-keys/
 
 .. sourcecode:: bash
 
-    > ssh-keygen -t rsa -C "telliott999@gmail.com"
+    > ssh-keygen -t rsa -C "telliott@hsc.wvu.edu"
 
 * start up ssh-agent:
 
@@ -381,7 +381,7 @@ Just check:
 .. sourcecode:: bash
 
     > ssh-keygen -lf ~/.ssh/id_rsa.pub
-    2048 15:6e:84:e4:3d:7d:30:c7:af:11:f6:a8:35:b2:bb:57  telliott999@gmail.com (RSA)
+    2048 15:6e:84:e4:3d:7d:30:c7:af:11:f6:a8:35:b2:bb:57  telliott@hsc.wvu.edu (RSA)
     >
 
 Explanation of the different methods.
