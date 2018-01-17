@@ -27,19 +27,9 @@ Do it from Firefox:
 
 Search for Dropbox and authorize about 50 sites like ``Facebook``.  
 
-
-
 Instead
 
 https://help.ubuntu.com/community/VirtualBox/SharedFolders
-
-
-
-
-
-
-
-
 
 Get the Terminal running with CTL-OPT-T and drag its icon to the top of the Dock.
 

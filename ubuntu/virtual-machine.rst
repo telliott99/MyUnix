@@ -10,7 +10,7 @@ Virtual Box
 
 Our purpose here is to take a look at Linux.
 
-One way to do that would be to find an old laptop with Windows and wipe it.  But I don't have one.  It is possible to "dual boot" OS X and Linux, but it's a pain, from what I understand.  Another idea is tro try to run Linux on my current laptop, by installing a virtual machine.
+One way to do that would be to find an old laptop with Windows and wipe it.  But I don't have one.  It is possible to "dual boot" OS X and Linux, but it's a pain, from what I understand.  Another idea is to try to run Linux on my current laptop, by installing a virtual machine.
 
 While we do that we will set up a server.  We are not going to serve pages to the web at large, but we will serve them to machines on our local network.
 
